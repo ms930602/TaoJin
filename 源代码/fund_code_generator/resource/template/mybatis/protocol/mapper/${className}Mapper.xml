@@ -190,5 +190,30 @@
 		<include refid="queryFrom" /> t
 		<include refid="whereForLike" />
 	</select>
+
+	<!-- 根据权限 更新记录 -->
+	<update id="updateAuth" parameterType="${basepackage}.entity${modepackage}.${entityName}">
+	UPDATE ${table.sqlName}
+		<set>
+			<#list table.notPkColumns as column>
+			<if test="${column.columnNameLower}!=null">${column.sqlName} = <@mapperEl column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+			</#list>
+		</set>
+		<where>
+		${table.primaryKeyName}  = <@mapperEl '${table.primaryKeyParName}'/>}
+		AND f_create_user_id = #{createUserId,jdbcType=INTEGER}
+		</where>
+	</where>
+	</update>
+
+	<!-- 根据权限按Id批量删除 -->
+	<delete id="batchDeleteAuthById" parameterType="map">
+	DELETE FROM t_ms_opinion WHERE f_id in (
+	<foreach collection="ids" item="item" separator=",">
+		#{item}
+	</foreach>
+	)
+	AND f_create_user_id = #{userId}
+	</delete>
 </mapper>
 

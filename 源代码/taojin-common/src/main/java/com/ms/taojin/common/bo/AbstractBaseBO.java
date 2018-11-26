@@ -1,6 +1,6 @@
 package com.ms.taojin.common.bo;
 
-import java.util.List;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,8 +57,12 @@ public abstract class AbstractBaseBO<T extends BaseEntity> {
 	 */
 	public void createForValidate(T entity) throws CenterException {
 		// 校验字段有效性
+		// 给字符串作为主键的表加上UUID主键
+		UUIDUtils.putIdByEntity(entity);
+		// 从上下文中添加用户信息
+		SessionUserUtils.putSessionUserForCreate(entity);
 		fieldValidate.validateForCreate(entity);
-		create(entity);
+		getMapper().create(entity);
 	}
 
 	/**
@@ -73,6 +77,18 @@ public abstract class AbstractBaseBO<T extends BaseEntity> {
 		return update(entity);
 	}
 
+	/**
+	 * 根据权限修改并校验字段合法性
+	 *
+	 * @param entity
+	 * @throws CenterException
+	 */
+	public int updateAuthForValidate(T entity) throws CenterException {
+		// 校验字段有效性
+		fieldValidate.validateForUpdate(entity);
+		return updateAuth(entity);
+	}
+
 	public void create(T entity) {
 		// 给字符串作为主键的表加上UUID主键
 		UUIDUtils.putIdByEntity(entity);
@@ -85,6 +101,12 @@ public abstract class AbstractBaseBO<T extends BaseEntity> {
 		// 从上下文中添加用户信息
 		SessionUserUtils.putSessionUserForUpdate(entity);
 		return getMapper().update(entity);
+	}
+
+	public int updateAuth(T entity) {
+		// 从上下文中添加用户信息
+		SessionUserUtils.putSessionUserForCreate(entity);
+		return getMapper().updateAuth(entity);
 	}
 
 	public int batchUpdate(List<T> entitys) {
@@ -125,6 +147,15 @@ public abstract class AbstractBaseBO<T extends BaseEntity> {
 
 	public int batchDeleteById(long[] ids) {
 		return getMapper().batchDeleteById(ids);
+	}
+
+	public int batchDeleteAuthById(Long[] ids,Long userId) {
+		if(ids==null || ids.length == 0)return 0;
+		Map map = new HashMap();
+		List<Long> list = Arrays.asList(ids);
+		map.put("ids",list);
+		map.put("userId",userId);
+		return getMapper().batchDeleteAuthById(map);
 	}
 
 	public int batchDeleteById(Long[] ids) {

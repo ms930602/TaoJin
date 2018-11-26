@@ -16,12 +16,10 @@ public class SessionUserUtils {
 	static Set<String> updateNameFieldSet = new HashSet<String>();
 
 	static {
-		createIdFieldSet.add("createdPersonId");
 		createIdFieldSet.add("createUserId");
 	}
 
 	static {
-		createNameFieldSet.add("createdPersonName");
 		createNameFieldSet.add("createUserName");
 	}
 

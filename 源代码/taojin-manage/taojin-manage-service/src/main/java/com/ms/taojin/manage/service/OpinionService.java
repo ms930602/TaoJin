@@ -1,5 +1,7 @@
 package com.ms.taojin.manage.service;
 
+import com.ms.taojin.common.entity.SessionUser;
+import com.ms.taojin.common.service.ThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ import com.ms.taojin.common.vo.ListVo.ListRespVO;
 
 import com.ms.taojin.manage.bo.OpinionBO;
 import com.ms.taojin.manage.entity.OpinionEntity;
+
+import java.util.Date;
 
 /**
  *  业务处理
@@ -31,6 +35,10 @@ public class OpinionService extends BaseService {
 	 * @return
 	 */
 	public ListRespVO list(ListReqVO<OpinionEntity> reqVO) throws CenterException {
+		SessionUser user = ThreadContext.getSessionloginUser();
+		if(reqVO.getWhereCondition()!=null){
+			reqVO.getWhereCondition().setCreateUserId(user.getUserId());
+		}
 		return opinionBo.queryPageAutomatic(reqVO);
 	}
 	
@@ -41,7 +49,11 @@ public class OpinionService extends BaseService {
 	 * @return
 	 */
 	public Object queryById(@Param("id") Long id) throws CenterException {
-		return opinionBo.queryById(id);
+		SessionUser user = ThreadContext.getSessionloginUser();
+		OpinionEntity query = new OpinionEntity();
+		query.setId(id);
+		query.setCreateUserId(user.getUserId());
+		return opinionBo.queryByEntity(query);
 	}
 
 	/**
@@ -51,6 +63,8 @@ public class OpinionService extends BaseService {
 	 * @return
 	 */
 	public Object create(OpinionEntity opinion) throws CenterException {
+		opinion.setCreatetime(new Date());
+		opinion.setHandleType("1");
 		opinionBo.createForValidate(opinion);
 		return opinion;
 	}
@@ -62,7 +76,7 @@ public class OpinionService extends BaseService {
 	 * @return
 	 */
 	public BaseRespVO update(OpinionEntity opinion) throws CenterException {
-		int updateCount = opinionBo.updateForValidate(opinion);
+		int updateCount = opinionBo.updateAuthForValidate(opinion);
 		if(updateCount > 0){
 			return new BaseRespVO();
 		}else{
@@ -78,7 +92,8 @@ public class OpinionService extends BaseService {
 	 * @return
 	 */
 	public BaseRespVO delete(@Param("id") Long[] id) throws CenterException {
-		int deleteCount = opinionBo.batchDeleteById(id);
+		SessionUser user = ThreadContext.getSessionloginUser();
+		int deleteCount = opinionBo.batchDeleteAuthById(id,user.getUserId());
 		if (deleteCount > 0) {
 			return new BaseRespVO();
 		} else {

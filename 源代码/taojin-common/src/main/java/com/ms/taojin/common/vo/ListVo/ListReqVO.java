@@ -60,6 +60,8 @@ public class ListReqVO<T> extends BaseReqVO {
 
 	/** 一整托盘件烟数量 */
 	private Integer cigQuality;
+
+	private Long userId;
 		
 	public Integer getCigQuality() {
 		return cigQuality;
@@ -141,6 +143,14 @@ public class ListReqVO<T> extends BaseReqVO {
 			return null;
 		}
 		return startTime;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public void setStartTime(String startTime) {

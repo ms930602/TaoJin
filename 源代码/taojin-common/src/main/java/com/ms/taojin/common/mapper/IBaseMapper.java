@@ -1,6 +1,7 @@
 package com.ms.taojin.common.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ms.taojin.common.entity.BaseEntity;
 import com.ms.taojin.common.vo.ListVo.ListReqVO;
@@ -35,6 +36,16 @@ public interface IBaseMapper<T extends BaseEntity> {
 	int update(T entity);
 
 	/**
+	 * 根据用户权限 更新记录
+	 * <p>
+	 *
+	 * @param entity
+	 *            实体对象
+	 * @return 更新记录数
+	 */
+	int updateAuth(T entity);
+
+	/**
 	 * 批量更新记录
 	 * <p>
 	 * 
@@ -63,6 +74,8 @@ public interface IBaseMapper<T extends BaseEntity> {
 	 * @return
 	 */
 	int batchDeleteById(long[] ids);
+
+	int batchDeleteAuthById(Map map);
 
 	int batchDeleteById(Long[] ids);
 

@@ -8,7 +8,7 @@ import com.ms.taojin.common.vo.TableName;
 /**
  * 
  * @author 蒙赛
- * @Date 2018-11-26 11:58:14
+ * @Date 2018-11-26 14:55:47
  * @since 1.0
  */
 @TableName("t_ms_opinion")
@@ -33,7 +33,7 @@ public class OpinionEntity extends BaseEntity {
 	private java.util.Date createtime;
 	
 	/** 创建人外键. */
-	private Long createPeo;
+	private Long createUserId;
 	
 	/** 处理状态 1-处理中 2-已处理. */
 	private String handleType;
@@ -46,6 +46,15 @@ public class OpinionEntity extends BaseEntity {
 	
 	/** 奖励内容. */
 	private String reRewardText;
+	
+	/** 创建用户名称. */
+	private String createUserName;
+	
+	/** 最后修改人外键. */
+	private Long lastModifyPersonId;
+	
+	/** 最后修改人姓名. */
+	private String lastModifyPersonName;
 	
 	
 
@@ -130,18 +139,18 @@ public class OpinionEntity extends BaseEntity {
 	
 
     /** set 创建人外键. */
-	public void setCreatePeo(Long createPeo) {
-		this.createPeo = createPeo;
+	public void setCreateUserId(Long createUserId) {
+		this.createUserId = createUserId;
 	}
 	
 	/** get 创建人外键. */
-	public Long getCreatePeo() {
-		return this.createPeo;
+	public Long getCreateUserId() {
+		return this.createUserId;
 	}
 	
 	@JsonIgnore
-	public Long getCreatePeoByLike() {
-		return this.createPeo;
+	public Long getCreateUserIdByLike() {
+		return this.createUserId;
 	}
 	
 
@@ -208,6 +217,54 @@ public class OpinionEntity extends BaseEntity {
 		return "%"+this.reRewardText+"%";
 	}
 	
+
+    /** set 创建用户名称. */
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+	
+	/** get 创建用户名称. */
+	public String getCreateUserName() {
+		return this.createUserName;
+	}
+	
+	@JsonIgnore
+	public String getCreateUserNameByLike() {
+		return "%"+this.createUserName+"%";
+	}
+	
+
+    /** set 最后修改人外键. */
+	public void setLastModifyPersonId(Long lastModifyPersonId) {
+		this.lastModifyPersonId = lastModifyPersonId;
+	}
+	
+	/** get 最后修改人外键. */
+	public Long getLastModifyPersonId() {
+		return this.lastModifyPersonId;
+	}
+	
+	@JsonIgnore
+	public Long getLastModifyPersonIdByLike() {
+		return this.lastModifyPersonId;
+	}
+	
+
+    /** set 最后修改人姓名. */
+	public void setLastModifyPersonName(String lastModifyPersonName) {
+		this.lastModifyPersonName = lastModifyPersonName;
+	}
+	
+	/** get 最后修改人姓名. */
+	public String getLastModifyPersonName() {
+		return this.lastModifyPersonName;
+	}
+	
+	@JsonIgnore
+	public String getLastModifyPersonNameByLike() {
+		return "%"+this.lastModifyPersonName+"%";
+	}
+	
     /** constructor */
 	public OpinionEntity() {
 		super();
@@ -219,23 +276,29 @@ public class OpinionEntity extends BaseEntity {
 	 * @param title			标题
 	 * @param remark			内容
 	 * @param createtime			创建时间
-	 * @param createPeo			创建人外键
+	 * @param createUserId			创建人外键
 	 * @param handleType			处理状态 1-处理中 2-已处理
 	 * @param reText			反馈内容
 	 * @param reTime			反馈时间
 	 * @param reRewardText			奖励内容
+	 * @param createUserName			创建用户名称
+	 * @param lastModifyPersonId			最后修改人外键
+	 * @param lastModifyPersonName			最后修改人姓名
 	 */
-	public OpinionEntity(String type,String title,String remark,java.util.Date createtime,Long createPeo,String handleType,String reText,java.util.Date reTime,String reRewardText){
+	public OpinionEntity(String type,String title,String remark,java.util.Date createtime,Long createUserId,String handleType,String reText,java.util.Date reTime,String reRewardText,String createUserName,Long lastModifyPersonId,String lastModifyPersonName){
 		this();
 		this.type = type;
 		this.title = title;
 		this.remark = remark;
 		this.createtime = createtime;
-		this.createPeo = createPeo;
+		this.createUserId = createUserId;
 		this.handleType = handleType;
 		this.reText = reText;
 		this.reTime = reTime;
 		this.reRewardText = reRewardText;
+		this.createUserName = createUserName;
+		this.lastModifyPersonId = lastModifyPersonId;
+		this.lastModifyPersonName = lastModifyPersonName;
 	}
 	
 	@Override
@@ -246,11 +309,14 @@ public class OpinionEntity extends BaseEntity {
 			.append("Title=").append(getTitle()).append(", ")
 			.append("Remark=").append(getRemark()).append(", ")
 			.append("Createtime=").append(getCreatetime()).append(", ")
-			.append("CreatePeo=").append(getCreatePeo()).append(", ")
+			.append("CreateUserId=").append(getCreateUserId()).append(", ")
 			.append("HandleType=").append(getHandleType()).append(", ")
 			.append("ReText=").append(getReText()).append(", ")
 			.append("ReTime=").append(getReTime()).append(", ")
-			.append("ReRewardText=").append(getReRewardText())
+			.append("ReRewardText=").append(getReRewardText()).append(", ")
+			.append("CreateUserName=").append(getCreateUserName()).append(", ")
+			.append("LastModifyPersonId=").append(getLastModifyPersonId()).append(", ")
+			.append("LastModifyPersonName=").append(getLastModifyPersonName())
 		.append("]").toString();
 	}
 	

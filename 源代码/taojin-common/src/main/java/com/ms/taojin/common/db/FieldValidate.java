@@ -106,7 +106,7 @@ public class FieldValidate {
 	/**
 	 * 新增实体时校验字段非空和超长
 	 * 
-	 * @param entity
+	 * @param entitys
 	 * @return
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
@@ -137,7 +137,7 @@ public class FieldValidate {
 	/**
 	 * 新增实体时校验字段非空和超长
 	 * 
-	 * @param entity
+	 * @param entitys
 	 * @return
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
@@ -225,11 +225,13 @@ public class FieldValidate {
 		}
 
 		if (operType == OPER_TYPE_UPDATE && !hasUpdateField) {
-			throw new CenterValidateException(50, param.value() + "的update语句没有填写set内容");
+			logger.error(param.value() + "的update语句没有填写set内容");
+			throw new CenterValidateException(50, "数据不完整");
 		}
 
 		if (sb.length() > 0) {
-			throw new CenterValidateException(50, sb.toString());
+			logger.error(sb.toString());
+			throw new CenterValidateException(50, "数据不完整!");
 		}
 
 	}

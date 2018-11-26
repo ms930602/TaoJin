@@ -75,7 +75,21 @@ export default [{
                 component: function(resolve) {
                     require(['./views/system/dataCategory.vue'], resolve)
                 }
-            }
+            },
+						
+						
+						{
+								path: '/opinionMain',
+								name: 'opinionMain',
+								meta: {
+										father: '意见反馈',
+										name: '意见反馈',
+								},
+								component: function(resolve) {
+										require(['./views/opinion/opinionMain.vue'], resolve)
+								}
+						},
+						
 
         ]
     }
