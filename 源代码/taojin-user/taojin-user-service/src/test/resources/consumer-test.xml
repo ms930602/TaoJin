@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<dubbo:reference id="userRouteService" interface="com.ms.center.user.api.IUserRouteService" check="false" />
+	<dubbo:reference id="menuItemService" interface="com.ms.center.permission.api.IPermissionSService" check="false" url="dubbo://10.2.15.82:20102" />
+	<dubbo:reference id="sessionHandler" interface="com.ms.center.pre.api.ISessionHandler" check="false" />
+</beans>

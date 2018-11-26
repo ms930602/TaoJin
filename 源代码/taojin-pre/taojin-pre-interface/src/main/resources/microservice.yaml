@@ -1,0 +1,32 @@
+APPLICATION_ID: springmvc
+service_description:
+  name: taojin-pre-interface
+  version: 0.0.1
+  properties:
+    allowCrossApp: false
+cse:
+  service:
+    registry:
+      address: https://cse.cn-north-1.myhuaweicloud.com:443
+      instance:
+        watch: false
+  config:
+    client:
+      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
+  rest:
+    address: 0.0.0.0:80
+  credentials:
+    accessKey: ZLK8VU2ATF689B1BNNFV
+    secretKey: nj8qTxqQWtSh0ObC5J2DcsZoNwZ210VfP7ZdZ7iD
+    akskCustomCipher: default
+    project: cn-north-1
+
+servicecomb:
+  rest:
+    servlet:
+      urlPattern: /rest/*

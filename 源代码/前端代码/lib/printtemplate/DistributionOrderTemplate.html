@@ -1,0 +1,161 @@
+<div id="__stock_bill__" style="display: none">
+    <h3 style="text-align:center">车辆配送单</h3>
+
+    <div>
+        <!-- <P style="float: left;width: 20%"> <span style="font-weight: 600">配送单:</span>
+            <span style="font-weight: 600" id="_stock_driverName_">PS_201805064125</span></P> -->
+        <P style="float: left;width: 20%">
+            <span style="font-weight: 600">配送司机:</span>
+            <span style="font-weight: 600" id="_stock_driverName_">张三</span>
+        </P>
+        <p style="float: left;width: 20%">
+            <span style="font-weight: 600">车牌号:</span>
+            <span style="font-weight: 600" id="_stock_vehicleNo_">川A2500</span>
+        </p>
+        <p style="float: left;width: 30%">
+            <span style="font-weight: 600">联系方式:</span>
+            <span style="font-weight: 600" id="_stock_driverPhone_">13985475864</span>
+        </p>
+        <p style="float: left;width: 30%">
+            <span style="font-weight: 600">打印日期:</span>
+            <span style="font-weight: 600" id="_stock_printDate_">2018-06-05 09:20</span>
+        </p>
+    </div>
+    <div id="__stock_order_tmpl">
+
+    </div>
+</div>
+
+<script type="text/x-jquery-tmpl" id="_tmpl_stock_bill_">
+    <div style="margin-top: 20px;">
+        <table style="border: solid 1px black; border-collapse:collapse; width: 100%;">
+            <thead>
+                <tr>
+
+                    <th style="width: 18%; text-align: center; border: solid 1px black;">订单编号</th>
+                    <th style="width: 10%; text-align: center; border: solid 1px black;">买方名称</th>
+                    <th style="width: 27%; text-align: center; border: solid 1px black;">收货地址</th>
+                    <th style="width: 10%; text-align: center; border: solid 1px black;">总额</th>
+                    <th style="width: 15%; text-align: center; border: solid 1px black;">所属商圈</th>
+                    <th style="width: 20%; text-align: center; border: solid 1px black;">配送时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                    <td style="width: 18%; text-align: center; border: solid 1px black; padding: 2px;">${orderUmber}</td>
+                    <td style="width: 10%; text-align: center; border: solid 1px black; padding: 2px;">${buyerName}</td>
+                    <td style="width: 27%; text-align: center; border: solid 1px black; padding: 2px;">${shippingAdd}</td>
+                    <td style="width: 10%; text-align: center; border: solid 1px black; word-wrap: break-word; word-break: break-all; padding: 2px;">${orderTotal}</td>
+                    <td style="width: 15%; text-align: center; border: solid 1px black; word-wrap: break-word; word-break: break-all; padding: 2px;">${buyerBusinessNo}</td>
+                    <td style="width: 20%; text-align: center; border: solid 1px black; word-wrap: break-word; word-break: break-all; padding: 2px;">${distributionTime}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top: 5px">
+        <div>订单【<span>${orderUmber}</span>】包含商品：</div>
+        <table style="border: solid 1px black; border-collapse:collapse; width: 100%;">
+            <tbody>
+                {{each productlist}}
+                <tr>
+                    <td style="width: 50%; text-align: center; border: solid 1px black; padding: 2px;">
+                        <span style="float:left">${$value.L_productName}</span>
+                        <span style="float: right">${$value.L_quantity}</span>
+                    </td>
+                    <td style="width: 50%; text-align: center; border: solid 1px black; padding: 2px;">
+                        <span style="float:left">${$value.R_productName}</span>
+                        <span style="float: right">${$value.R_quantity}</span>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</script>
+
+<script type="text/javascript" language="javascript">
+    var stockbillId = "__stock_bill__";
+    (function() {
+        //print
+        lodopPrinter.prototype.printStockBill = function(model) {
+            clearData();
+            initData(model);
+            this.utils.print(getStockBillPrintObject(stockbillId));
+        };
+
+        //preview
+        lodopPrinter.prototype.previewStockBill = function(model) {
+            clearData();
+            initData(model);
+            this.utils.preview(getStockBillPrintObject(stockbillId));
+        };
+        Date.prototype.format = function(format) {
+            var o = {
+                "M+": this.getMonth() + 1, //month 
+                "d+": this.getDate(), //day 
+                "h+": this.getHours(), //hour 
+                "m+": this.getMinutes(), //minute 
+                "s+": this.getSeconds(), //second 
+                "q+": Math.floor((this.getMonth() + 3) / 3), //quarter 
+                "S": this.getMilliseconds() //millisecond 
+            }
+
+            if (/(y+)/.test(format)) {
+                format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            }
+
+            for (var k in o) {
+                if (new RegExp("(" + k + ")").test(format)) {
+                    format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" +
+                        o[k]).length));
+                }
+            }
+            return format;
+        }
+
+        function clearData() {
+            $("#_stock_driverName_").text("");
+            $("#_stock_vehicleNo_").text("");
+            $("#_stock_driverPhone_").text("");
+            $("#_stock_printDate_").text("");
+            $("#__stock_order_tmpl").empty();
+            //$("#__stock_qrCode__").attr("src", "");
+        };
+
+        function initData(model) {
+            $("#_stock_driverName_").text(model.maininfo.driverName);
+            $("#_stock_vehicleNo_").text(model.maininfo.vehicleNo);
+            $("#_stock_driverPhone_").text(model.maininfo.driverPhone);
+            $("#_stock_printDate_").text(new Date().format("yyyy-MM-dd"));
+            $("#_tmpl_stock_bill_").tmpl(model.orderinfo).appendTo("#__stock_order_tmpl");
+        }
+
+        function getStockBillPrintObject(id) {
+            if (typeof(getLodop) === "function") {
+                var lodop = getLodop();
+                if (!lodop) {
+
+                    throw "未安装打印控件";
+                }
+                lodop.PRINT_INIT(id);
+
+                lodop.ADD_PRINT_TEXT("1%", "1%", "30%", "10%", "页数：第#页/共&页");
+                lodop.SET_PRINT_STYLEA(0, "FontSize", 10);
+                lodop.SET_PRINT_STYLEA(0, "ItemType", 2);
+                lodop.SET_PRINT_STYLEA(0, "Horient", 0);
+                lodop.SET_PRINT_STYLEA(0, "Vorient", 0);
+                lodop.ADD_PRINT_HTM("3%", "3%", "94%", "94%", document.getElementById(id).innerHTML);
+                lodop.SET_PRINT_STYLEA(0, "FontSize", 13);
+                lodop.SET_PRINT_STYLEA(0, "ItemType", 4);
+                lodop.SET_PRINT_STYLEA(0, "Horient", 3);
+                lodop.SET_PRINT_STYLEA(0, "Vorient", 3);
+                lodop.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
+
+                return lodop;
+            } else {
+                alert("未安装打印控件");
+            }
+        }
+    })();
+</script>

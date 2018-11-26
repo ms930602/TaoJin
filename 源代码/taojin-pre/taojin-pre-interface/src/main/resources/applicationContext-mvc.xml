@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+							http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+							http://www.springframework.org/schema/context 
+							http://www.springframework.org/schema/context/spring-context-4.3.xsd  
+							http://www.springframework.org/schema/aop  
+							http://www.springframework.org/schema/aop/spring-aop-4.3.xsd  
+							http://www.springframework.org/schema/tx  
+							http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+							http://www.springframework.org/schema/mvc 
+							http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+							http://www.springframework.org/schema/cache   
+       					    http://www.springframework.org/schema/cache/spring-cache.xsd
+       					    http://www.springframework.org/schema/util
+        					http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+					<constructor-arg value="UTF-8" />
+					<property name="supportedMediaTypes">
+						<list>
+							<value>application/json;charset=UTF-8</value>
+						</list>
+					</property>
+					<property name="writeAcceptCharset">
+						<value>false</value>
+					</property>
+				</bean>
+				<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+					<property name="objectMapper" ref="customObjectMapper"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<mvc:annotation-driven />
+	<!-- 默认的注解切面的支持 -->
+	<aop:aspectj-autoproxy />
+	<context:annotation-config />
+
+	<!-- 扫描spring注解配置 -->
+	<context:component-scan base-package="com.ms.taojin.*">
+		<context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect" />
+	</context:component-scan>
+
+	<!-- 文件上传配置 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<!-- 1000M -->
+		<property name="maxUploadSize" value="104857600000" />
+	</bean>
+
+	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+
+	<!-- 缓存 属性 -->
+	<bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml" />
+	</bean>
+
+	<!-- 支持缓存注解 -->
+	<cache:annotation-driven cache-manager="cacheManager" />
+
+	<!-- 默认是cacheManager -->
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="cacheManagerFactory" />
+	</bean>
+	
+	<!-- 支持跨域访问  -->
+	<mvc:cors>  
+    <mvc:mapping path="/**"
+        allowed-origins="*"
+        allowed-methods="POST, GET, OPTIONS, DELETE, PUT"
+        allowed-headers="Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+        allow-credentials="true" />
+	</mvc:cors>
+
+	<!-- 权限验证拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/api/**" />
+			<bean class="com.ms.taojin.pre.interceptor.AuthInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+</beans>

@@ -1,0 +1,294 @@
+$mainColor: #39a93e;
+$grayColor: #ebebeb;
+$subColor: #8d9ea7;
+$dangerColor: #f44336;
+$blueColor: #1e88e5; //主色/标题
+$miaobian: #d7dfe3; //描边色 #d1dbe5
+$successColor:#26C6DA;
+$mainContentPadding: .6rem;
+//修改input
+.el-input--small .el-input__inner {
+  height: 38px;
+  line-height: 38px;
+  border-radius: 4px;
+}
+
+.el-input__inner {
+  &:focus {
+    transition: all .30s ease-in-out;
+    border: 1px solid $blueColor;
+  }
+}
+
+//成功的input
+.el-form-item.is-success .el-input__inner,
+.el-form-item.is-success .el-input__inner:focus,
+.el-form-item.is-success .el-textarea__inner,
+.el-form-item.is-success .el-textarea__inner:focus {
+  border-color: $successColor;
+}
+
+//修改翻页
+.el-pager li {
+  color: $blueColor;
+  border: 1px solid $miaobian;
+}
+
+.el-pager li.active {
+  color: white;
+  background: $blueColor;
+}
+
+//修改每页显示条数
+.el-pagination {
+  input {
+    //    color: $blueColor !important;     
+  }
+}
+
+//下拉框选中的时候的颜色
+.el-pagination__total {
+  //  color: $blueColor;
+}
+
+.el-select-dropdown__item.hover {
+  color: $blueColor;
+  background: rgba(30, 136, 229, .1);
+}
+
+.el-select-dropdown__item.selected {
+  color: white;
+  background: $blueColor;
+  font-weight: normal;
+}
+
+.el-select-dropdown__item.selected.hover {
+  color: white;
+  background: $blueColor;
+}
+
+//修改日期框大小
+//时间间隔
+.app-index .page-container .option-box {
+    .el-input{
+        width: 230px;
+    }
+}
+.el-date-editor .el-range-separator {
+  width: 28px;
+}
+.app-index .page-container{
+    .el-input__icon{
+        color: #26c6da ;
+        &:hover{
+            color: #909399;
+        }
+    }
+    .el-select .el-input .is-show-close{
+        color: #26c6da;
+        &:hover{
+            color: #909399;
+        }
+    }
+    .el-input__icon.el-icon-search{
+        &:hover{
+            color: #26c6da;
+        }
+    }
+    .i_search{
+        .el-input__suffix{
+            width: 0;
+        }
+        .el-icon-circle-close{
+            font-size: 14px;
+            position: absolute;
+            right: 4px;
+            top: 0;
+            line-height: 28px;
+            width: 16px;
+            display: none;
+            cursor: pointer; 
+        }
+        &:hover{
+            .el-icon-circle-close{
+                display: block;
+                color: #26c6da;
+                &:hover{
+                    color: #909399;
+                }
+            }
+        }
+    }
+}
+.option-box{
+    .el-date-editor--daterange{
+        width: 230px;
+    }
+    .el-input__icon.el-range__close-icon{
+        position: relative;
+        right: -4px;
+    }
+}
+
+.el-date-editor--date {
+    .el-icon-circle-close{
+//      left: -20px;
+    }
+//  top:-1px;
+}
+
+
+.flex-y-center {
+  h3 {
+    font-size: 20px;
+    color: $blueColor;
+    font-weight: 400;
+  }
+}
+
+//修改按钮
+.el-button {
+  border-radius: 4px;
+}
+
+.panel-box .panel-content .option .el-button {
+  padding: 10px 10px;
+}
+//设置节点类型过长，flex布局
+.app-index .page-container .codeNameF {
+    display: block;
+    height: 100%;
+    clear: both;
+    .name{
+      display: block;
+      float: left;
+    }
+    .flex-x-between{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        .node-name{
+            padding-bottom: 5px;
+        }
+    }
+}
+.panel-box .panel-content .option .el-button--listBtn {
+  background: $blueColor;
+  color: white;
+  .el-icon-plus:before,
+  .el-icon-search:before,
+  .iconfont,
+  .el-icon-check:before {
+    color: white;
+  }
+  &:hover {
+    background: #2f3d4a;
+    .el-icon-plus:before {
+      color: white;
+    }
+    .el-icon-plus:before,
+    .el-icon-search:before,
+    .iconfont,
+    .el-icon-check:before {
+      color: white;
+    }
+  }
+}
+
+.el-table__row .el-button--listBtn {
+  background: $blueColor;
+  color: white;
+  .el-icon-plus:before,
+  .el-icon-search:before,
+  .iconfont,
+  .el-icon-check:before {
+    color: white;
+  }
+  &:hover {
+    background: $blueColor;
+    //      box-shadow: 5px 5px 0px 5px $blueColor;
+    //      box-shadow:0 0 4px 4px rgba(76,157,80,.8),
+    //       2px 2px 2px 2px rgba(76,157,80,.8);
+    .el-icon-plus:before {
+      color: white;
+    }
+    .el-icon-plus:before,
+    .el-icon-search:before,
+    .iconfont,
+    .el-icon-check:before {
+      color: white;
+    }
+  }
+  &:active {
+    background: #007bff;
+  }
+}
+
+.el-button--listBtn {
+  background: $blueColor;
+  color: white;
+  font-size: 14px;
+  padding: 6px 20px;
+  &:hover {
+    background: #2f3d4a;
+    color: white;
+  }
+  &:focus {
+    background: #2f3d4a;
+    color: white;
+  }
+}
+
+.el-input-group__prepend {
+  width: 130px;
+}
+
+//修改下拉框
+.form-inline .el-form-item .el-form-item__content {
+  width: 184px;
+}
+
+.el-breadcrumb__inner {
+  cursor: default;
+}
+
+//弹出框
+.el-dialog__header{
+    padding: 20px;
+    background: $blueColor;
+    .el-dialog__title{
+        color: white;
+    }
+    .el-dialog__close.el-icon.el-icon-close{
+        color: white;
+//      transition: .1s all ease-in-out;
+        &:hover{
+//          transform:rotate(90deg);
+        }
+    }
+}
+.el-tag--jsz {
+  background-color: rgba(144,147,153,.1);
+  border-color: rgba(144,147,153,.2);
+  color: #409EFF;
+}
+.el-tag--dk {
+  background-color: rgba(144,147,153,.2);
+  border-color: rgba(144,147,153,.2);
+  color: #409EFF;
+}
+.el-tag--df { 
+  background-color: rgba(144,147,153,.3);
+  border-color: rgba(144,147,153,.2);
+  color: #009688 ;
+}
+.el-tag--pos {
+  background-color: rgba(144,147,153,.4);
+  border-color: rgba(144,147,153,.2);
+  color:  #ff5722;
+}
+.el-tag--qf {
+  background-color: rgba(144,147,153,.1);
+  border-color: rgba(144,147,153,.2);
+  color:  #9c27b0;
+}

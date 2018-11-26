@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ms.taojin.user.mapper.UserExtendMapper">
+
+	<!-- 结果Map -->
+	<resultMap id="BaseResultMap" type="com.ms.taojin.user.entity.UserEntity">
+		<result property="userId" jdbcType="INTEGER" column="f_user_id" />
+		<result property="loginName" jdbcType="VARCHAR" column="f_login_name" />
+		<result property="password" jdbcType="VARCHAR" column="f_password" />
+		<result property="nickName" jdbcType="VARCHAR" column="f_nick_name" />
+		<result property="mobile" jdbcType="CHAR" column="f_mobile" />
+		<result property="identityCard" jdbcType="CHAR" column="f_identity_card" />
+		<result property="status" jdbcType="TINYINT" column="f_status" />
+		<result property="sysId" jdbcType="VARCHAR" column="f_sys_id" />
+		<result property="typeId" jdbcType="VARCHAR" column="f_type_id" />
+		<result property="typeCode" jdbcType="VARCHAR" column="f_type_code" />
+		<result property="lastLoginTime" jdbcType="TIMESTAMP" column="f_last_login_time" />
+		<result property="loginFaildTimes" jdbcType="INTEGER" column="f_login_faild_times" />
+		<result property="oldPasswords" jdbcType="VARCHAR" column="f_old_passwords" />
+		<result property="editPwdTime" jdbcType="TIMESTAMP" column="f_edit_pwd_time" />
+		<result property="filePath" jdbcType="VARCHAR" column="f_file_path" />
+		<result property="createdPersonId" jdbcType="INTEGER" column="f_created_person_id" />
+		<result property="createdPersonName" jdbcType="VARCHAR" column="f_created_person_name" />
+		<result property="createdDate" jdbcType="TIMESTAMP" column="f_created_date" />
+	</resultMap>
+
+	<!-- 查询列 -->
+	<sql id="BaseColumnList">
+		f_user_id,f_login_name,f_password,f_nick_name,f_mobile,f_identity_card,f_status,f_sys_id,f_type_id,f_type_code,f_last_login_time,f_login_faild_times,f_old_passwords,f_edit_pwd_time,f_file_path,f_created_person_id,f_created_person_name,f_created_date
+	</sql>
+
+
+
+	<!-- 修改密码 -->
+	<update id="updatePassword" parameterType="java.util.Map">
+		UPDATE t_center_user
+		<set>
+			f_password = #{newPassword,jdbcType=VARCHAR}
+		</set>
+		<where>
+			f_user_id = #{userId,jdbcType=DECIMAL}
+			AND
+			f_password = #{oldPassword,jdbcType=VARCHAR}
+		</where>
+	</update>
+
+	<!-- 重置登录失败次数 -->
+	<update id="updateLoginTime">
+		UPDATE t_center_user
+		<set>
+			f_login_faild_times = #{faildTime,jdbcType=DECIMAL}
+		</set>
+		<where>
+			f_user_id = #{userId,jdbcType=DECIMAL}
+		</where>
+	</update>
+
+	<!-- 根据用户ID修改状态 -->
+	<update id="updateStatusByType" parameterType="java.util.List">
+		UPDATE t_center_user
+		<set>
+			f_status = #{status,jdbcType=DECIMAL}
+		</set>
+		<where>
+			f_user_id in (
+			<foreach collection="userIdList" item="userId" separator=",">
+				#{userId}
+			</foreach>
+			)
+		</where>
+	</update>
+
+	<!-- 根据类型和状态查询用户ID -->
+	<select id="queryIdByType" resultType="Long">
+		SELECT f_user_id FROM t_center_user
+		<where>
+			f_user_id != 0
+			<if test="status!=null">AND f_status = #{status,jdbcType=TINYINT}</if>
+			AND f_sys_id = #{sysId,jdbcType=VARCHAR}
+			AND f_type_id = #{typeId,jdbcType=VARCHAR}
+			AND f_type_code = #{typeCode,jdbcType=VARCHAR}
+		</where>
+	</select>
+
+	<!-- 根据类型和状态查询用户 -->
+	<select id="queryListByType" resultMap="BaseResultMap">
+		SELECT
+		<include refid="BaseColumnList" />
+		FROM t_center_user
+		<where>
+			f_user_id != 0
+			<if test="status!=null">AND f_status = #{status,jdbcType=TINYINT}</if>
+			AND f_sys_id = #{sysId,jdbcType=VARCHAR}
+			<if test="typeId!=null">AND f_type_id = #{typeId,jdbcType=VARCHAR}</if>
+			<if test="typeCodeList!=null and !typeCodeList.isEmpty">
+				AND f_type_code in (
+				<foreach collection="typeCodeList" item="typeCode" separator=",">
+					#{typeCode}
+				</foreach>
+				)
+			</if>
+		</where>
+	</select>
+
+	<!-- 根据类型和状态查询用户 -->
+	<select id="queryAllTypeId" resultType="java.lang.String">
+		SELECT DISTINCT f_type_id
+		FROM t_center_user
+	</select>
+
+</mapper>
+

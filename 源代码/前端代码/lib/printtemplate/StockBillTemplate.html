@@ -1,0 +1,142 @@
+﻿<div id="__stock_bill__" style="display: none">
+    <h3 style="text-align:center">备货单</h3>
+
+    <div>
+        <p>
+            <span style="font-weight: 600">订单号:</span>
+            <span id="_stock_ordernum_"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 订单金额：￥
+            <span id="_stock_ordertotal_"></span>
+        </p>
+    </div>
+    <div>
+        <p>采购商:
+            <span id="_stock_buyer_"></span>
+        </p>
+    </div>
+    <div>
+        <p>联系人:
+            <span id="_stock_contacts_"></span>
+        </p>
+    </div>
+    <div>
+        <p>联系电话:
+            <span id="_stock_phonenumber_"></span>
+        </p>
+    </div>
+    <div>
+        <p>地址:
+            <span id="_stock_address_"></span>
+        </p>
+    </div>
+    <div>
+        <p>下单时间:
+            <span id="_stock_orderdate_"></span>
+        </p>
+    </div>
+    <div>
+        <p>配送时间:
+            <span id="_stock_deliverydate_"></span>
+        </p>
+    </div>
+    <div>
+        <table id="_stock_table_" style="border: solid 1px black; border-collapse:collapse; width: 100%;">
+            <thead>
+                <tr>
+                    <th style="width: 7%; text-align: center; border: solid 1px black;">序号</th>
+                    <th style="width: 15%; text-align: center; border: solid 1px black;">商品名</th>
+                    <th style="width: 20%; text-align: center; border: solid 1px black;">规格名</th>
+                    <th style="width: 10%; text-align: center; border: solid 1px black;">下单量</th>
+                    <th style="width: 10%; text-align: center; border: solid 1px black;">单价</th>
+                    <th style="width: 10%; text-align: center; border: solid 1px black;">单位</th>
+                    <th style="width: 8%; text-align: center; border: solid 1px black;">总金额</th>
+                    <th style="width: 20%; text-align: center; border: solid 1px black;">备注</th>
+                </tr>
+            </thead>
+            <tbody id="_stock_tbody_"></tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/x-jquery-tmpl" id="_tmpl_stock_bill_">
+    <tr>
+        <td style="width: 7%; text-align: center; border: solid 1px black; padding: 2px;">${rowNo}</td>
+        <td style="width: 15%; text-align: center; border: solid 1px black; padding: 2px;">${productName}</td>
+        <td style="width: 20%; text-align: center; border: solid 1px black; padding: 2px;">${skuName}</td>
+        <td style="width: 10%; text-align: center; border: solid 1px black; padding: 2px;">${weight}</td>
+        <td style="width: 10%; text-align: center; border: solid 1px black; word-wrap: break-word; word-break: break-all; padding: 2px;">${price}</td>
+        <td style="width: 10%; text-align: center; border: solid 1px black; word-wrap: break-word; word-break: break-all; padding: 2px;">${measuerName}</td>
+        <td style="width: 8%; text-align: center; border: solid 1px black; word-wrap: break-word; word-break: break-all; padding: 2px;">${itemTotal}</td>
+        <td style="width: 20%; text-align: center; border: solid 1px black; word-wrap: break-word; word-break: break-all; padding: 2px;">${comment}</td>
+    </tr>
+</script>
+
+<script type="text/javascript" language="javascript">
+    var stockbillId = "__stock_bill__";
+    (function() {
+        //print
+        lodopPrinter.prototype.printStockBill = function(model) {
+            clearData();
+            initData(model);
+            this.utils.print(getStockBillPrintObject(stockbillId));
+        };
+
+        //preview
+        lodopPrinter.prototype.previewStockBill = function(model) {
+            clearData();
+            initData(model);
+            this.utils.preview(getStockBillPrintObject(stockbillId));
+        };
+
+        function clearData() {
+            $("#_stock_ordernum_").text("");
+            $("#_stock_contacts_").text("");
+            $("#_stock_orderdate_").text("");
+            $("#_stock_buyer_").text("");
+            $("#_stock_deliverydate_").text("");
+            $("#_stock_phonenumber_").text("");
+            $("#_stock_ordertotal_").text("");
+            $("#_stock_address_").text("");
+            $("#_stock_tbody_").empty();
+            //$("#__stock_qrCode__").attr("src", "");
+        };
+
+        function initData(model) {
+            $("#_stock_ordernum_").text(model.orderNumber);
+            $("#_stock_contacts_").text(model.contacts);
+            $("#_stock_orderdate_").text(model.orderDate);
+            $("#_stock_buyer_").text(model.buyerName);
+            $("#_stock_deliverydate_").text(model.deliveryDate);
+            $("#_stock_phonenumber_").text(model.phoneNumber);
+            $("#_stock_ordertotal_").text(model.orderTotal);
+            $("#_stock_address_").text(model.address);
+            $("#_tmpl_stock_bill_").tmpl(model.detaillist).appendTo("#_stock_tbody_");
+        }
+
+        function getStockBillPrintObject(id) {
+            if (typeof(getLodop) === "function") {
+                var lodop = getLodop();
+                if (!lodop) {
+
+                    throw "未安装打印控件";
+                }
+                lodop.PRINT_INIT(id);
+
+                lodop.ADD_PRINT_TEXT("1%", "1%", "30%", "10%", "页数：第#页/共&页");
+                lodop.SET_PRINT_STYLEA(0, "FontSize", 10);
+                lodop.SET_PRINT_STYLEA(0, "ItemType", 2);
+                lodop.SET_PRINT_STYLEA(0, "Horient", 0);
+                lodop.SET_PRINT_STYLEA(0, "Vorient", 0);
+                lodop.ADD_PRINT_HTM("3%", "3%", "94%", "94%", document.getElementById(id).innerHTML);
+                lodop.SET_PRINT_STYLEA(0, "FontSize", 13);
+                lodop.SET_PRINT_STYLEA(0, "ItemType", 4);
+                lodop.SET_PRINT_STYLEA(0, "Horient", 3);
+                lodop.SET_PRINT_STYLEA(0, "Vorient", 3);
+                lodop.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
+
+                return lodop;
+            } else {
+                alert("未安装打印控件");
+            }
+        }
+    })();
+</script>

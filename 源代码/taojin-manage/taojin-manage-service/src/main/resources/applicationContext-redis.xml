@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+							http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+							http://www.springframework.org/schema/context 
+							http://www.springframework.org/schema/context/spring-context-4.3.xsd  
+							http://www.springframework.org/schema/aop  
+							http://www.springframework.org/schema/aop/spring-aop-4.3.xsd  
+							http://www.springframework.org/schema/tx  
+							http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+							http://www.springframework.org/schema/task  
+							http://www.springframework.org/schema/task/spring-task-4.3.xsd
+							http://www.springframework.org/schema/util
+        					http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        					http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring 
+        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
+
+
+	<!-- jedis服务器配置 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="${redis.pool.maxTotal}" />
+		<property name="maxIdle" value="${redis.pool.maxIdle}" />
+	</bean>
+
+	<bean id="jedisConnFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.password}"
+		p:pool-config-ref="jedisPoolConfig" />
+
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnFactory" />
+		<property name="keySerializer" ref="keySerializer" />
+		<property name="enableTransactionSupport" value="false" />
+	</bean>
+
+	<!-- redis 序列化 -->
+	<bean id="keySerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+
+</beans>

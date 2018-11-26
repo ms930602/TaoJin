@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+							http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+							http://www.springframework.org/schema/context 
+							http://www.springframework.org/schema/context/spring-context-4.3.xsd  
+							http://www.springframework.org/schema/aop  
+							http://www.springframework.org/schema/aop/spring-aop-4.3.xsd  
+							http://www.springframework.org/schema/tx  
+							http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+							http://www.springframework.org/schema/mvc 
+							http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+							http://www.springframework.org/schema/task  
+							http://www.springframework.org/schema/task/spring-task-4.3.xsd
+							http://www.springframework.org/schema/util
+        					http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        					http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring 
+        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
+
+	<bean id="myConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:redis.properties</value>
+				<value>classpath:dubbo.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- 交易通道 -->
+	<util:map id="routeServiceMap" map-class="java.util.HashMap">
+		<!-- 用户系统 -->
+		<entry key="user" value-ref="userRouteService" />
+		<!-- 权限系统 -->
+		<entry key="permission" value-ref="rolePermissionRoteService" />
+		<!-- 日志系统 -->
+		<entry key="log" value-ref="userRouteService" />
+		<!-- 基础服务 -->
+		<entry key="comm" value-ref="userRouteService" />
+		<!-- 基础服务 -->
+		<entry key="ware" value-ref="wareManageRouteService" />
+
+	</util:map>
+
+	<!-- 加密接口通道 -->
+	<util:map id="encryptServiceMap" map-class="java.util.HashMap">
+	</util:map>
+
+	<!-- 免权限的接口集合 -->
+	<bean id="overtApiMap" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="location" value="classpath:overtApi.properties" />
+	</bean>
+
+
+	<!-- 共享session -->
+	<bean class="com.ms.taojin.login.CustomRedisHttpSessionConfiguration">
+		<property name="maxInactiveIntervalInSeconds" value="1800" />
+	</bean>
+
+	<bean id="defaultCookieSerializer" class="org.springframework.session.web.http.DefaultCookieSerializer">
+		<property name="cookieName" value="Authorization" />
+		<property name="cookiePath" value="/" />
+	</bean>
+	<bean id="cookieHttpSessionStrategy" class="com.ms.taojin.login.CustomCookieHttpSessionStrategy">
+		<property name="cookieSerializer" ref="defaultCookieSerializer" />
+		<property name="tokenKey" value="token" />
+	</bean>
+
+	<!--redis配置 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="100" />
+		<property name="maxIdle" value="10" />
+	</bean>
+
+	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">
+		<property name="hostName" value="${redis.host}" />
+		<property name="port" value="${redis.port}" />
+		<property name="timeout" value="3000" />
+		<property name="usePool" value="true" />
+		<property name="password" value="${redis.password}" />
+		<property name="poolConfig" ref="jedisPoolConfig" />
+	</bean>
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory" />
+		<property name="keySerializer" ref="keySerializer" />
+		<property name="enableTransactionSupport" value="false" />
+	</bean>
+
+	<bean id="keySerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+
+</beans>

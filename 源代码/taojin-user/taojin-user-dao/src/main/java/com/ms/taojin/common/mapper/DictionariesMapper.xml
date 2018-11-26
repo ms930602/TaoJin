@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ms.taojin.common.mapper.DictionariesMapper">
+
+	<!-- 结果Map -->
+	<resultMap id="BaseResultMap" type="com.ms.taojin.common.entity.DictionariesEntity">
+		<result property="id" jdbcType="INTEGER" column="f_id"/>
+		<result property="type" jdbcType="VARCHAR" column="f_type"/>
+		<result property="key" jdbcType="VARCHAR" column="f_key"/>
+		<result property="value" jdbcType="VARCHAR" column="f_value"/>
+		<result property="extend" jdbcType="VARCHAR" column="f_extend"/>
+		<result property="cteateUserId" jdbcType="VARCHAR" column="f_cteate_user_id"/>
+		<result property="cteateUserName" jdbcType="VARCHAR" column="f_cteate_user_name"/>
+		<result property="createDate" jdbcType="TIMESTAMP" column="f_create_date"/>
+		<result property="updateDate" jdbcType="TIMESTAMP" column="f_update_date"/>
+	</resultMap>
+	
+	<!-- 查询列 -->
+	<sql id="BaseColumnList">
+		f_id,f_type,f_key,f_value,f_extend,f_cteate_user_id,f_cteate_user_name,f_create_date,f_update_date
+	</sql>
+	
+			
+	<!--创建记录 -->
+	<insert id="create" parameterType="com.ms.taojin.common.entity.DictionariesEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_commom_dictionaries
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id!=null">f_id,</if>
+			<if test="type!=null">f_type,</if>
+			<if test="key!=null">f_key,</if>
+			<if test="value!=null">f_value,</if>
+			<if test="extend!=null">f_extend,</if>
+			<if test="cteateUserId!=null">f_cteate_user_id,</if>
+			<if test="cteateUserName!=null">f_cteate_user_name,</if>
+			<if test="createDate!=null">f_create_date,</if>
+			<if test="updateDate!=null">f_update_date</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=INTEGER},</if>
+			<if test="type!=null">#{type,jdbcType=VARCHAR},</if>
+			<if test="key!=null">#{key,jdbcType=VARCHAR},</if>
+			<if test="value!=null">#{value,jdbcType=VARCHAR},</if>
+			<if test="extend!=null">#{extend,jdbcType=VARCHAR},</if>
+			<if test="cteateUserId!=null">#{cteateUserId,jdbcType=VARCHAR},</if>
+			<if test="cteateUserName!=null">#{cteateUserName,jdbcType=VARCHAR},</if>
+			<if test="createDate!=null">#{createDate,jdbcType=TIMESTAMP},</if>
+			<if test="updateDate!=null">#{updateDate,jdbcType=TIMESTAMP}</if>
+		</trim>
+	</insert>
+
+	<!--批量创建记录 -->
+	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_commom_dictionaries
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			f_id,
+			f_type,
+			f_key,
+			f_value,
+			f_extend,
+			f_cteate_user_id,
+			f_cteate_user_name,
+			f_create_date,
+			f_update_date
+		</trim>
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.id,jdbcType=INTEGER},
+			#{item.type,jdbcType=VARCHAR},
+			#{item.key,jdbcType=VARCHAR},
+			#{item.value,jdbcType=VARCHAR},
+			#{item.extend,jdbcType=VARCHAR},
+			#{item.cteateUserId,jdbcType=VARCHAR},
+			#{item.cteateUserName,jdbcType=VARCHAR},
+			#{item.createDate,jdbcType=TIMESTAMP},
+			#{item.updateDate,jdbcType=TIMESTAMP}
+		)
+		</foreach>
+	</insert>
+	
+	<!-- 更新记录 -->
+	<update id="update" parameterType="com.ms.taojin.common.entity.DictionariesEntity">
+		UPDATE t_commom_dictionaries 
+		<set>
+			<if test="type!=null">f_type = #{type,jdbcType=VARCHAR},</if>
+			<if test="key!=null">f_key = #{key,jdbcType=VARCHAR},</if>
+			<if test="value!=null">f_value = #{value,jdbcType=VARCHAR},</if>
+			<if test="extend!=null">f_extend = #{extend,jdbcType=VARCHAR},</if>
+			<if test="cteateUserId!=null">f_cteate_user_id = #{cteateUserId,jdbcType=VARCHAR},</if>
+			<if test="cteateUserName!=null">f_cteate_user_name = #{cteateUserName,jdbcType=VARCHAR},</if>
+			<if test="createDate!=null">f_create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+			<if test="updateDate!=null">f_update_date = #{updateDate,jdbcType=TIMESTAMP}</if>
+		</set>
+		<where> 
+			f_id  = #{id}
+		</where>				
+	</update>
+	
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE t_commom_dictionaries 
+			<set>
+				<if test="item.type!=null">f_type = #{item.type,jdbcType=VARCHAR},</if>
+				<if test="item.key!=null">f_key = #{item.key,jdbcType=VARCHAR},</if>
+				<if test="item.value!=null">f_value = #{item.value,jdbcType=VARCHAR},</if>
+				<if test="item.extend!=null">f_extend = #{item.extend,jdbcType=VARCHAR},</if>
+				<if test="item.cteateUserId!=null">f_cteate_user_id = #{item.cteateUserId,jdbcType=VARCHAR},</if>
+				<if test="item.cteateUserName!=null">f_cteate_user_name = #{item.cteateUserName,jdbcType=VARCHAR},</if>
+				<if test="item.createDate!=null">f_create_date = #{item.createDate,jdbcType=TIMESTAMP},</if>
+				<if test="item.updateDate!=null">f_update_date = #{item.updateDate,jdbcType=TIMESTAMP}</if>
+			</set>
+			<where> 
+				f_id  = #{item.id}
+			</where>	
+		</foreach>
+	</update>	
+	
+	<!-- 按ID查询记录 -->
+	<select id="queryById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		FROM t_commom_dictionaries 
+		WHERE f_id  = #{id}	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM t_commom_dictionaries WHERE f_id  = #{id}
+	</delete>
+
+	<!-- 按Id批量删除 -->
+	<delete id="batchDeleteById" parameterType="Long[]">
+		DELETE FROM t_commom_dictionaries WHERE f_id in (
+		<foreach collection="array" item="item" separator=",">
+			#{item}
+		</foreach>
+		)
+	</delete>
+	
+	
+	<!-- 按对象查询 -->
+	<select id="queryByEntity" parameterType="com.ms.taojin.common.entity.DictionariesEntity" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		FROM t_commom_dictionaries 
+		<where>
+		1=1
+			<if test="id!=null">AND f_id = #{id,jdbcType=INTEGER}</if>
+			<if test="type!=null and type!=''">AND f_type = #{type,jdbcType=VARCHAR}</if>
+			<if test="key!=null and key!=''">AND f_key = #{key,jdbcType=VARCHAR}</if>
+			<if test="value!=null and value!=''">AND f_value = #{value,jdbcType=VARCHAR}</if>
+			<if test="extend!=null and extend!=''">AND f_extend = #{extend,jdbcType=VARCHAR}</if>
+			<if test="cteateUserId!=null and cteateUserId!=''">AND f_cteate_user_id = #{cteateUserId,jdbcType=VARCHAR}</if>
+			<if test="cteateUserName!=null and cteateUserName!=''">AND f_cteate_user_name = #{cteateUserName,jdbcType=VARCHAR}</if>
+			<if test="createDate!=null">AND f_create_date = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate!=null">AND f_update_date = #{updateDate,jdbcType=TIMESTAMP}</if>
+		</where>
+	</select>
+	
+	<sql id="queryFrom">
+		FROM t_commom_dictionaries
+	</sql>
+	<!-- 查询Where语句 -->
+	<sql id="queryWhere">
+		<where>
+			1=1
+			<if test="whereCondition!=null">
+				<if test="whereCondition.id!=null">AND f_id = #{whereCondition.id,jdbcType=INTEGER}</if>
+				<if test="whereCondition.type!=null and whereCondition.type!=''">AND f_type like CONCAT('%',#{whereCondition.type,jdbcType=VARCHAR},'%')</if>
+				<if test="whereCondition.key!=null and whereCondition.key!=''">AND f_key like CONCAT('%',#{whereCondition.key,jdbcType=VARCHAR},'%')</if>
+				<if test="whereCondition.value!=null and whereCondition.value!=''">AND f_value like CONCAT('%',#{whereCondition.value,jdbcType=VARCHAR},'%')</if>
+				<if test="whereCondition.extend!=null and whereCondition.extend!=''">AND f_extend like CONCAT('%',#{whereCondition.extend,jdbcType=VARCHAR},'%')</if>
+				<if test="whereCondition.cteateUserId!=null and whereCondition.cteateUserId!=''">AND f_cteate_user_id like CONCAT('%',#{whereCondition.cteateUserId,jdbcType=VARCHAR},'%')</if>
+				<if test="whereCondition.cteateUserName!=null and whereCondition.cteateUserName!=''">AND f_cteate_user_name like CONCAT('%',#{whereCondition.cteateUserName,jdbcType=VARCHAR},'%')</if>
+				<if test="whereCondition.createDate!=null">AND f_create_date = #{whereCondition.createDate,jdbcType=TIMESTAMP}</if>
+				<if test="whereCondition.updateDate!=null">AND f_update_date = #{whereCondition.updateDate,jdbcType=TIMESTAMP}</if>
+			</if>
+			<if test="startTime!=null and startTime!=''">AND f_create_date &gt;= #{startTime}</if>
+			<if test="endTime!=null and endTime!=''">AND f_create_date &lt;= #{endTime}</if>
+		</where>
+	</sql>
+	
+	<!-- 分页查询 -->
+	<select id="queryByPage" parameterType="com.ms.taojin.common.vo.ListVo.ListReqVO"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="BaseColumnList" />
+		<include refid="queryFrom" />
+		<include refid="queryWhere" />
+		<choose>
+			<when test="orderField==null">
+				ORDER BY f_id DESC
+			</when>
+			<otherwise>
+				ORDER BY ${orderField}
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<!-- 查询记录数 -->
+	<select id="queryCount" resultType="int"
+		parameterType="com.ms.taojin.common.vo.ListVo.ListReqVO">
+		SELECT COUNT(1)
+		<include refid="queryFrom" />
+		<include refid="queryWhere" />
+	</select>
+</mapper>
+

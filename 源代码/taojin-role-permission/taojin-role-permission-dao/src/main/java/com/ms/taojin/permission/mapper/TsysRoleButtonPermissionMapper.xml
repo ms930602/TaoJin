@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ms.taojin.permission.mapper.TsysRoleButtonPermissionMapper">
+
+	<!-- 结果Map -->
+	<resultMap id="BaseResultMap" type="com.ms.taojin.permission.entity.TsysRoleButtonPermissionEntity">
+		<result property="sysId" jdbcType="INTEGER" column="sys_id"/>
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="roleId" jdbcType="INTEGER" column="role_id"/>
+		<result property="buttonId" jdbcType="INTEGER" column="button_id"/>
+		<result property="permission" jdbcType="INTEGER" column="permission"/>
+		<result property="createtime" jdbcType="DATE" column="createtime"/>
+	</resultMap>
+	
+	<!-- 查询列 -->
+	<sql id="BaseColumnList">
+		sys_id,id,role_id,button_id,permission,createtime
+	</sql>
+	
+			
+	<!--创建记录 -->
+	<insert id="create" parameterType="com.ms.taojin.permission.entity.TsysRoleButtonPermissionEntity">
+		INSERT INTO t_sys_role_button_permission
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="sysId!=null">sys_id,</if>
+			<if test="id!=null">id,</if>
+			<if test="roleId!=null">role_id,</if>
+			<if test="buttonId!=null">button_id,</if>
+			<if test="permission!=null">permission,</if>
+			<if test="createtime!=null">createtime</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="sysId!=null">#{sysId,jdbcType=INTEGER},</if>
+			<if test="id!=null">#{id,jdbcType=INTEGER},</if>
+			<if test="roleId!=null">#{roleId,jdbcType=INTEGER},</if>
+			<if test="buttonId!=null">#{buttonId,jdbcType=INTEGER},</if>
+			<if test="permission!=null">#{permission,jdbcType=INTEGER},</if>
+			<if test="createtime!=null">#{createtime,jdbcType=DATE}</if>
+		</trim>
+	</insert>
+	
+	<!--批量创建记录 -->
+	<insert id="batchCreate" parameterType="java.util.List">
+		INSERT INTO t_sys_role_button_permission
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			sys_id,
+			id,
+			role_id,
+			button_id,
+			permission,
+			createtime
+		</trim>
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.sysId,jdbcType=INTEGER},
+			#{item.id,jdbcType=INTEGER},
+			#{item.roleId,jdbcType=INTEGER},
+			#{item.buttonId,jdbcType=INTEGER},
+			#{item.permission,jdbcType=INTEGER},
+			#{item.createtime,jdbcType=DATE}
+		)
+		</foreach>
+	</insert>
+	
+	<!-- 更新记录 -->
+	<update id="update" parameterType="com.ms.taojin.permission.entity.TsysRoleButtonPermissionEntity">
+		UPDATE t_sys_role_button_permission 
+		<set>
+			<if test="sysId!=null">sys_id = #{sysId,jdbcType=INTEGER},</if>
+			<if test="roleId!=null">role_id = #{roleId,jdbcType=INTEGER},</if>
+			<if test="buttonId!=null">button_id = #{buttonId,jdbcType=INTEGER},</if>
+			<if test="permission!=null">permission = #{permission,jdbcType=INTEGER},</if>
+			<if test="createtime!=null">createtime = #{createtime,jdbcType=DATE}</if>
+		</set>
+		<where> 
+			id  = #{id,jdbcType=DECIMAL}
+		</where>			
+	</update>
+	
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open="BEGIN" close=";END;" separator=";">
+			UPDATE t_sys_role_button_permission 
+			<set>
+				<if test="item.sysId!=null">sys_id = #{item.sysId,jdbcType=INTEGER},</if>
+				<if test="item.roleId!=null">role_id = #{item.roleId,jdbcType=INTEGER},</if>
+				<if test="item.buttonId!=null">button_id = #{item.buttonId,jdbcType=INTEGER},</if>
+				<if test="item.permission!=null">permission = #{item.permission,jdbcType=INTEGER},</if>
+				<if test="item.createtime!=null">createtime = #{item.createtime,jdbcType=DATE}</if>
+			</set>
+			<where> 
+				id  = #{item.id,jdbcType=DECIMAL}
+			</where>	
+		</foreach>	
+	</update>	
+	
+	<!-- 按ID查询记录 -->
+	<select id="queryById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		FROM t_sys_role_button_permission 
+		WHERE id  = #{id,jdbcType=DECIMAL}	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM t_sys_role_button_permission WHERE id  = #{id,jdbcType=DECIMAL}
+	</delete>
+	
+	
+	<!-- 按对象查询 -->
+	<select id="queryByTsysRoleButtonPermission" parameterType="com.ms.taojin.permission.entity.TsysRoleButtonPermissionEntity" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		FROM t_sys_role_button_permission 
+		<where>
+		1=1
+			<if test="sysId!=null">AND sys_id = #{sysId,jdbcType=INTEGER}</if>
+			<if test="id!=null">AND id = #{id,jdbcType=INTEGER}</if>
+			<if test="roleId!=null">AND role_id = #{roleId,jdbcType=INTEGER}</if>
+			<if test="buttonId!=null">AND button_id = #{buttonId,jdbcType=INTEGER}</if>
+			<if test="permission!=null">AND permission = #{permission,jdbcType=INTEGER}</if>
+			<if test="createtime!=null">AND createtime = #{createtime,jdbcType=DATE}</if>
+		</where>
+	</select>
+	
+	<!-- 分页部分 -->
+	<sql id="pageSplit">
+		<if test="pageSize > 0">
+			limit ${pageNum} ,${pageSize}
+		</if>
+	</sql>
+	<sql id="queryFrom">
+		FROM t_sys_role_button_permission
+	</sql>
+	<!-- 查询Where语句 -->
+	<sql id="queryWhere">
+		<where>
+			1=1
+			<if test="whereCondition!=null">
+				<if test="whereCondition.sysId!=null">AND sys_id like CONCAT('%',#{whereCondition.sysId,jdbcType=INTEGER},'%')</if>
+				<if test="whereCondition.id!=null">AND id like CONCAT('%',#{whereCondition.id,jdbcType=INTEGER},'%')</if>
+				<if test="whereCondition.roleId!=null">AND role_id like CONCAT('%',#{whereCondition.roleId,jdbcType=INTEGER},'%')</if>
+				<if test="whereCondition.buttonId!=null">AND button_id like CONCAT('%',#{whereCondition.buttonId,jdbcType=INTEGER},'%')</if>
+				<if test="whereCondition.permission!=null">AND permission like CONCAT('%',#{whereCondition.permission,jdbcType=INTEGER},'%')</if>
+				<if test="whereCondition.createtime!=null">AND createtime like CONCAT('%',#{whereCondition.createtime,jdbcType=DATE},'%')</if>
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 分页查询 -->
+	<select id="queryByPage" parameterType="com.ms.taojin.common.vo.ListVo.ListReqVO"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="BaseColumnList" />
+		<include refid="queryFrom" />
+		<include refid="queryWhere" />
+		<choose>
+			<when test="orderField==null">
+				ORDER BY id
+			</when>
+			<otherwise>
+				ORDER BY ${orderField}
+			</otherwise>
+		</choose>
+		<include refid="pageSplit" />
+	</select>
+
+
+	<!-- 查询记录数 -->
+	<select id="queryCount" resultType="int"
+		parameterType="com.ms.taojin.common.vo.ListVo.ListReqVO">
+		SELECT COUNT(1)
+		<include refid="queryFrom" />
+		<include refid="queryWhere" />
+	</select>
+	
+	<select id="queryByRoleId" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		FROM t_sys_role_button_permission 
+		WHERE role_id  = #{0} and sys_id=#{1}
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteByRoleIdAndSysId">
+		DELETE FROM t_sys_role_button_permission WHERE role_id  = #{0}	and sys_id=#{1} 
+	</delete>
+	<!--批量创建记录 -->
+	<insert id="insertList" parameterType="java.util.List">
+	INSERT INTO t_sys_role_button_permission
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			sys_id,
+			id,
+			role_id,
+			button_id,
+			permission,
+			createtime
+		</trim>
+		VALUES
+	<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.sysId,jdbcType=INTEGER},
+			#{item.id,jdbcType=INTEGER},
+			#{item.roleId,jdbcType=INTEGER},
+			#{item.buttonId,jdbcType=INTEGER},
+			#{item.permission,jdbcType=INTEGER},
+			#{item.createtime,jdbcType=DATE}
+		)
+		</foreach>
+</insert>
+</mapper>
+
