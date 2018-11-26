@@ -1,0 +1,16 @@
+代码生成步骤：
+
+(1) 修改配置文件resource/generator.xml
+1.修改生成代码的包路basepackage，如用户服务是com.ms.center.user
+2.修改生成文件的输出路径outRoot，不修改默认为在当前路径的generator-output目录
+3.修改需要移除的表名前缀tableRemovePrefixes，如用户表名为：t_center_user 移除 t_ 后实体命名变为 CenterUser
+4.修改Oracle数据的schema的值jdbc.schema
+5.修改数据库连接信息jdbc.url，jdbc.driver，jdbc.username，jdbc.password
+6.修改代码作者署名 code.author
+
+
+3) 在 com.xgd.fund.generator.GeneratorMain 类中，修改要生成的数据库表名（可以是数组），然后运行 main 方法，成功后，会在配置的输出路径输出相应代码
+
+4) 将生成的代码拷贝覆盖到工程中
+
+(备注)数据库表名必须严格按照规范命名,每个表要求有主键F_ID字段,字段名的前缀是F_

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<!-- 代码作者，改成自己的署名 -->
+	<entry key="code.author">蒙赛</entry>
+
+	<!-- 基础包路径 (一般不需要改，自定义的路径配在下面模块路径中) -->
+	<entry key="basepackage">com.ms.taojin.manage</entry>
+
+	<!-- 模块路径,不填默认在包路径下(前面要加.) -->
+	<entry key="modepackage"></entry>
+
+	<!-- 输出路径 -->
+	<entry key="outRoot">${user.dir}/generator-output</entry>
+
+	<!-- 如果输出路径已经存在,是否覆盖 -->
+	<entry key="gg.isOverride">true</entry>
+
+	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,先匹配到的先替换,示例值: t_,v_ -->
+	<entry key="tableRemovePrefixes">t_ms,t_base,t_mater,t_sys,t_dev,t_ware</entry>
+
+	<!-- 只处理表名前缀,使用逗号进行分隔多个前缀 -->
+	<entry key="filterTablePrefixes"></entry>
+
+	<!-- oracle需要指定jdbc.schema,并且可能要大写，其它数据库忽略此项配置 -->
+	<entry key="jdbc.schema">CENTER</entry>
+	<entry key="jdbc.catalog"></entry>
+
+	<!-- 数据库类型至java类型映射 -->
+	<entry key="java_typemapping.java.sql.Timestamp">java.util.Date</entry>
+	<entry key="java_typemapping.java.sql.Date">java.util.Date</entry>
+	<entry key="java_typemapping.java.sql.Time">java.util.Date</entry>
+	<entry key="java_typemapping.java.lang.Byte">java.lang.Integer</entry>
+	<entry key="java_typemapping.java.lang.Short">java.lang.Integer</entry>
+	<entry key="java_typemapping.java.math.BigDecimal">java.math.BigDecimal</entry>
+	<entry key="java_typemapping.java.sql.Clob">java.lang.String</entry>
+
+	<!-- Mysql -->
+	<entry key="jdbc.url">jdbc:mysql://120.79.139.213:3306/taojin_manage?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
+	<entry key="jdbc.username">root</entry>
+	<entry key="jdbc.password">Ms930602!@#</entry>
+
+
+	<!-- Oracle -->
+	<!-- <entry key="jdbc.url">jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS = (PROTOCOL 
+		= TCP)(HOST = 172.20.2.107) (PORT = 1521))(ADDRESS = (PROTOCOL = TCP)(HOST 
+		= 172.20.2.107) (PORT = 1521))(LOAD_BALANCE=yes)(FAILOVER = ON)(CONNECT_DATA 
+		= (SERVICE_NAME = service_fund)))</entry> <entry key="jdbc.url">jdbc:oracle:thin:@172.20.4.14:1521:oracl</entry> 
+		<entry key="jdbc.driver">oracle.jdbc.driver.OracleDriver</entry> <entry key="jdbc.username">root</entry> 
+		<entry key="jdbc.password">111111</entry> -->
+
+</properties>

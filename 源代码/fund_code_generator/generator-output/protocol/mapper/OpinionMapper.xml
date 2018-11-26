@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ms.taojin.manage.mapper.OpinionMapper">
+
+	<!-- 结果Map -->
+	<resultMap id="BaseResultMap" type="com.ms.taojin.manage.entity.OpinionEntity">
+		<result property="id" jdbcType="INTEGER" column="f_id"/>
+		<result property="type" jdbcType="CHAR" column="f_type"/>
+		<result property="title" jdbcType="VARCHAR" column="f_title"/>
+		<result property="remark" jdbcType="VARCHAR" column="f_remark"/>
+		<result property="createtime" jdbcType="TIMESTAMP" column="f_createtime"/>
+		<result property="createPeo" jdbcType="INTEGER" column="f_create_peo"/>
+		<result property="handleType" jdbcType="CHAR" column="f_handle_type"/>
+		<result property="reText" jdbcType="VARCHAR" column="f_re_text"/>
+		<result property="reTime" jdbcType="TIMESTAMP" column="f_re_time"/>
+		<result property="reRewardText" jdbcType="VARCHAR" column="f_re_reward_text"/>
+	</resultMap>
+	
+	<!-- 查询列 -->
+	<sql id="BaseColumnList">
+		f_id,f_type,f_title,f_remark,f_createtime,f_create_peo,f_handle_type,f_re_text,f_re_time,f_re_reward_text
+	</sql>
+			
+	<!--创建记录 -->
+	<insert id="create" parameterType="com.ms.taojin.manage.entity.OpinionEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_ms_opinion
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="type!=null">f_type,</if>
+			<if test="title!=null">f_title,</if>
+			<if test="remark!=null">f_remark,</if>
+			<if test="createtime!=null">f_createtime,</if>
+			<if test="createPeo!=null">f_create_peo,</if>
+			<if test="handleType!=null">f_handle_type,</if>
+			<if test="reText!=null">f_re_text,</if>
+			<if test="reTime!=null">f_re_time,</if>
+			<if test="reRewardText!=null">f_re_reward_text</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="type!=null">#{type,jdbcType=CHAR},</if>
+			<if test="title!=null">#{title,jdbcType=VARCHAR},</if>
+			<if test="remark!=null">#{remark,jdbcType=VARCHAR},</if>
+			<if test="createtime!=null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="createPeo!=null">#{createPeo,jdbcType=INTEGER},</if>
+			<if test="handleType!=null">#{handleType,jdbcType=CHAR},</if>
+			<if test="reText!=null">#{reText,jdbcType=VARCHAR},</if>
+			<if test="reTime!=null">#{reTime,jdbcType=TIMESTAMP},</if>
+			<if test="reRewardText!=null">#{reRewardText,jdbcType=VARCHAR}</if>
+		</trim>
+	</insert>
+
+	<!--批量创建记录 -->
+	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+		<foreach collection="list" item="item" index="index" separator=";">
+			INSERT INTO t_ms_opinion
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+					<if test="item.type!=null">f_type,</if>
+					<if test="item.title!=null">f_title,</if>
+					<if test="item.remark!=null">f_remark,</if>
+					<if test="item.createtime!=null">f_createtime,</if>
+					<if test="item.createPeo!=null">f_create_peo,</if>
+					<if test="item.handleType!=null">f_handle_type,</if>
+					<if test="item.reText!=null">f_re_text,</if>
+					<if test="item.reTime!=null">f_re_time,</if>
+					<if test="item.reRewardText!=null">f_re_reward_text</if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+					<if test="item.type!=null">#{item.type,jdbcType=CHAR},</if>
+					<if test="item.title!=null">#{item.title,jdbcType=VARCHAR},</if>
+					<if test="item.remark!=null">#{item.remark,jdbcType=VARCHAR},</if>
+					<if test="item.createtime!=null">#{item.createtime,jdbcType=TIMESTAMP},</if>
+					<if test="item.createPeo!=null">#{item.createPeo,jdbcType=INTEGER},</if>
+					<if test="item.handleType!=null">#{item.handleType,jdbcType=CHAR},</if>
+					<if test="item.reText!=null">#{item.reText,jdbcType=VARCHAR},</if>
+					<if test="item.reTime!=null">#{item.reTime,jdbcType=TIMESTAMP},</if>
+					<if test="item.reRewardText!=null">#{item.reRewardText,jdbcType=VARCHAR}</if>
+			</trim>
+		</foreach>
+	</insert>
+	
+	<!-- 更新记录 -->
+	<update id="update" parameterType="com.ms.taojin.manage.entity.OpinionEntity">
+		UPDATE t_ms_opinion 
+		<set>
+			<if test="type!=null">f_type = #{type,jdbcType=CHAR},</if>
+			<if test="title!=null">f_title = #{title,jdbcType=VARCHAR},</if>
+			<if test="remark!=null">f_remark = #{remark,jdbcType=VARCHAR},</if>
+			<if test="createtime!=null">f_createtime = #{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="createPeo!=null">f_create_peo = #{createPeo,jdbcType=INTEGER},</if>
+			<if test="handleType!=null">f_handle_type = #{handleType,jdbcType=CHAR},</if>
+			<if test="reText!=null">f_re_text = #{reText,jdbcType=VARCHAR},</if>
+			<if test="reTime!=null">f_re_time = #{reTime,jdbcType=TIMESTAMP},</if>
+			<if test="reRewardText!=null">f_re_reward_text = #{reRewardText,jdbcType=VARCHAR}</if>
+		</set>
+		<where> 
+			f_id  = #{id}
+		</where>				
+	</update>
+	
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE t_ms_opinion 
+			<set>
+				<if test="item.type!=null">f_type = #{item.type,jdbcType=CHAR},</if>
+				<if test="item.title!=null">f_title = #{item.title,jdbcType=VARCHAR},</if>
+				<if test="item.remark!=null">f_remark = #{item.remark,jdbcType=VARCHAR},</if>
+				<if test="item.createtime!=null">f_createtime = #{item.createtime,jdbcType=TIMESTAMP},</if>
+				<if test="item.createPeo!=null">f_create_peo = #{item.createPeo,jdbcType=INTEGER},</if>
+				<if test="item.handleType!=null">f_handle_type = #{item.handleType,jdbcType=CHAR},</if>
+				<if test="item.reText!=null">f_re_text = #{item.reText,jdbcType=VARCHAR},</if>
+				<if test="item.reTime!=null">f_re_time = #{item.reTime,jdbcType=TIMESTAMP},</if>
+				<if test="item.reRewardText!=null">f_re_reward_text = #{item.reRewardText,jdbcType=VARCHAR}</if>
+			</set>
+			<where> 
+				f_id  = #{item.id}
+			</where>	
+		</foreach>
+	</update>	
+	
+	
+	<!-- 按ID查询记录 -->
+	<select id="queryById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		FROM t_ms_opinion 
+		WHERE f_id  = #{id}	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM t_ms_opinion WHERE f_id  = #{id}
+	</delete>
+
+	<!-- 按Id批量删除 -->
+	<delete id="batchDeleteById" parameterType="Long[]">
+		DELETE FROM t_ms_opinion WHERE f_id in (
+		<foreach collection="array" item="item" separator=",">
+			#{item}
+		</foreach>
+		)
+	</delete>
+	
+	
+	<sql id="where">
+		<where>
+			1=1
+			<if test="id!=null">AND t.f_id = #{id,jdbcType=INTEGER}</if>
+			<if test="type!=null">AND t.f_type = #{type,jdbcType=CHAR}</if>
+			<if test="title!=null and title!=''">AND t.f_title = #{title,jdbcType=VARCHAR}</if>
+			<if test="remark!=null and remark!=''">AND t.f_remark = #{remark,jdbcType=VARCHAR}</if>
+			<if test="createtime!=null">AND t.f_createtime = #{createtime,jdbcType=TIMESTAMP}</if>
+			<if test="createPeo!=null">AND t.f_create_peo = #{createPeo,jdbcType=INTEGER}</if>
+			<if test="handleType!=null">AND t.f_handle_type = #{handleType,jdbcType=CHAR}</if>
+			<if test="reText!=null and reText!=''">AND t.f_re_text = #{reText,jdbcType=VARCHAR}</if>
+			<if test="reTime!=null">AND t.f_re_time = #{reTime,jdbcType=TIMESTAMP}</if>
+			<if test="reRewardText!=null and reRewardText!=''">AND t.f_re_reward_text = #{reRewardText,jdbcType=VARCHAR}</if>
+		</where>
+	</sql>
+	
+	<sql id="queryFrom">
+		FROM t_ms_opinion
+	</sql>
+	<!-- 查询Where语句 -->
+	<sql id="whereForLike">
+		<where>
+			1=1
+			<if test="whereCondition!=null">
+				<if test="whereCondition.id!=null">AND t.f_id = #{whereCondition.id,jdbcType=INTEGER}</if>
+				<if test="whereCondition.type!=null">AND t.f_type = #{whereCondition.type,jdbcType=CHAR}</if>
+				<if test="whereCondition.title!=null and whereCondition.title!=''">AND t.f_title like #{whereCondition.titleByLike,jdbcType=VARCHAR}</if>
+				<if test="whereCondition.remark!=null and whereCondition.remark!=''">AND t.f_remark like #{whereCondition.remarkByLike,jdbcType=VARCHAR}</if>
+				<if test="whereCondition.createtime!=null">AND t.f_createtime = #{whereCondition.createtime,jdbcType=TIMESTAMP}</if>
+				<if test="whereCondition.createPeo!=null">AND t.f_create_peo = #{whereCondition.createPeo,jdbcType=INTEGER}</if>
+				<if test="whereCondition.handleType!=null">AND t.f_handle_type = #{whereCondition.handleType,jdbcType=CHAR}</if>
+				<if test="whereCondition.reText!=null and whereCondition.reText!=''">AND t.f_re_text like #{whereCondition.reTextByLike,jdbcType=VARCHAR}</if>
+				<if test="whereCondition.reTime!=null">AND t.f_re_time = #{whereCondition.reTime,jdbcType=TIMESTAMP}</if>
+				<if test="whereCondition.reRewardText!=null and whereCondition.reRewardText!=''">AND t.f_re_reward_text like #{whereCondition.reRewardTextByLike,jdbcType=VARCHAR}</if>
+			</if>
+			<if test="keyWord!=null and keyWord!=''">
+				AND (
+						t.f_title like #{keyWordByLike,jdbcType=VARCHAR}  OR 
+						t.f_remark like #{keyWordByLike,jdbcType=VARCHAR}  OR 
+						t.f_re_text like #{keyWordByLike,jdbcType=VARCHAR}  OR 
+						t.f_re_reward_text like #{keyWordByLike,jdbcType=VARCHAR} 
+					)
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 按对象查询 -->
+	<select id="queryByEntity" parameterType="com.ms.taojin.manage.entity.OpinionEntity" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		<include refid="queryFrom" /> t
+		<include refid="where" />
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="queryByPage" parameterType="com.ms.taojin.common.vo.ListVo.ListReqVO"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="BaseColumnList" />
+		<include refid="queryFrom" /> t
+		<include refid="whereForLike" />
+		<choose>
+			<when test="orderField==null">
+				ORDER BY f_id DESC
+			</when>
+			<otherwise>
+				ORDER BY ${orderField}
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<!-- 查询记录数 -->
+	<select id="queryCount" resultType="int"
+		parameterType="com.ms.taojin.common.vo.ListVo.ListReqVO">
+		SELECT COUNT(1)  
+		<include refid="queryFrom" /> t
+		<include refid="whereForLike" />
+	</select>
+</mapper>
+

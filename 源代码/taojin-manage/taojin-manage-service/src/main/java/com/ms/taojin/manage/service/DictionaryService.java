@@ -1,7 +1,9 @@
 package com.ms.taojin.manage.service;
 
+import com.ms.taojin.common.entity.SessionUser;
 import com.ms.taojin.common.exception.CenterException;
 import com.ms.taojin.common.service.BaseService;
+import com.ms.taojin.common.service.ThreadContext;
 import com.ms.taojin.common.vo.BaseRespVO;
 import com.ms.taojin.common.vo.ListVo.ListReqVO;
 import com.ms.taojin.common.vo.ListVo.ListRespVO;
@@ -10,6 +12,8 @@ import com.ms.taojin.manage.bo.DictionaryBO;
 import com.ms.taojin.manage.entity.DictionaryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 数据字典 业务处理

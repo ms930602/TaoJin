@@ -1,0 +1,194 @@
+<#include "/include/macro.include"/>
+<#assign className = table.className>   
+<#assign entityName = table.classNameEntity>  
+<#assign classNameFirstLower = table.classNameFirstLower>   
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<#macro mapperEl value>${r"#{"}${value}</#macro>
+<#macro mapperE2 value>${r"#{item."}${value}</#macro>
+<#macro mapperE3 value>${r"${"}${value}}</#macro>
+<#macro mapperE4 value>${r"#"}${value}</#macro>
+<#macro namespace>${basepackage}.entity${modepackage}</#macro>
+
+<mapper namespace="${basepackage}.mapper${modepackage}.${className}Mapper">
+
+	<!-- 结果Map -->
+	<resultMap id="BaseResultMap" type="${basepackage}.entity${modepackage}.${entityName}">
+		<#list table.columns as column>
+		<result property="${column.columnNameLower}" jdbcType="${column.jdbcType}" column="${column.sqlName}"/>
+		</#list>
+	</resultMap>
+	
+	<!-- 查询列 -->
+	<sql id="BaseColumnList">
+		<#list table.columns as _column>${_column.sqlName}<#if _column_has_next>,</#if></#list>
+	</sql>
+			
+	<!--创建记录 -->
+	<insert id="create" parameterType="${basepackage}.entity${modepackage}.${entityName}" useGeneratedKeys="true" keyProperty="${table.primaryKeyParName}">
+		INSERT INTO ${table.sqlName}
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		<#list table.columns as column>
+			<#if !column.autoIncrement>
+			<if test="${column.columnNameLower}!=null">${column.sqlName}<#if column_has_next>,</#if></if>
+			</#if>
+		</#list>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+		<#list table.columns as column>
+			<#if !column.autoIncrement>
+			<if test="${column.columnNameLower}!=null"><@mapperEl column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+			</#if>
+		</#list>		
+		</trim>
+	</insert>
+
+	<!--批量创建记录 -->
+	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="${table.primaryKeyParName}" >
+		<foreach collection="list" item="item" index="index" separator=";">
+			INSERT INTO ${table.sqlName}
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<#list table.columns as column>
+					<#if !column.autoIncrement>
+					<if test="item.${column.columnNameLower}!=null">${column.sqlName}<#if column_has_next>,</#if></if>
+					</#if>
+				</#list>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<#list table.columns as column>
+					<#if !column.autoIncrement>
+					<if test="item.${column.columnNameLower}!=null"><@mapperE2 column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+					</#if>
+				</#list>
+			</trim>
+		</foreach>
+	</insert>
+	
+	<!-- 更新记录 -->
+	<update id="update" parameterType="${basepackage}.entity${modepackage}.${entityName}">
+		UPDATE ${table.sqlName} 
+		<set>
+			<#list table.notPkColumns as column>
+			<if test="${column.columnNameLower}!=null">${column.sqlName} = <@mapperEl column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+			</#list>
+		</set>
+		<where> 
+			${table.primaryKeyName}  = <@mapperEl '${table.primaryKeyParName}'/>}
+		</where>				
+	</update>
+	
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE ${table.sqlName} 
+			<set>
+				<#list table.notPkColumns as column>
+				<if test="item.${column.columnNameLower}!=null">${column.sqlName} = <@mapperE2 column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+				</#list>
+			</set>
+			<where> 
+				${table.primaryKeyName}  = <@mapperEl 'item.${table.primaryKeyParName}'/>}
+			</where>	
+		</foreach>
+	</update>	
+	
+	<#if table.hasPk>
+	
+	<!-- 按ID查询记录 -->
+	<select id="queryById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		FROM ${table.sqlName} 
+		WHERE ${table.primaryKeyName}  = <@mapperEl '${table.primaryKeyParName}'/>}	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM ${table.sqlName} WHERE ${table.primaryKeyName}  = <@mapperEl '${table.primaryKeyParName}'/>}
+	</delete>
+
+	<!-- 按Id批量删除 -->
+	<delete id="batchDeleteById" parameterType="Long[]">
+		DELETE FROM ${table.sqlName} WHERE ${table.primaryKeyName} in (
+		<foreach collection="array" item="item" separator=",">
+			<@mapperEl 'item'/>}
+		</foreach>
+		)
+	</delete>
+	
+	</#if>
+	
+	<sql id="where">
+		<where>
+			1=1
+		<#list table.columns as column>
+			<if test="${column.columnNameLower}!=null<#if column.jdbcType=='VARCHAR'> and ${column.columnNameLower}!=''</#if>">AND t.${column.sqlName} = <@mapperEl column.columnNameLower/>,jdbcType=${column.jdbcType}}</if>
+		</#list>
+		</where>
+	</sql>
+	
+	<sql id="queryFrom">
+		FROM ${table.sqlName}
+	</sql>
+	<!-- 查询Where语句 -->
+	<sql id="whereForLike">
+		<where>
+			1=1
+			<if test="whereCondition!=null">
+			<#list table.columns as column>
+			<#if column.jdbcType=='VARCHAR'>
+				<if test="whereCondition.${column.columnNameLower}!=null and whereCondition.${column.columnNameLower}!=''">AND t.${column.sqlName} like <@mapperEl 'whereCondition.${column.columnNameLower}ByLike'/>,jdbcType=${column.jdbcType}}</if>
+			<#else>
+				<if test="whereCondition.${column.columnNameLower}!=null">AND t.${column.sqlName} = <@mapperEl 'whereCondition.${column.columnNameLower}'/>,jdbcType=${column.jdbcType}}</if>
+			</#if>
+			</#list>
+			</if>
+			<#if table.varcharColumns?size&gt;0>
+			<if test="keyWord!=null and keyWord!=''">
+				AND (
+				<#list table.varcharColumns as column>
+						t.${column.sqlName} like <@mapperEl 'keyWordByLike'/>,jdbcType=${column.jdbcType}} <#if column_has_next> OR </#if>
+				</#list>
+					)
+			</if>
+			</#if>
+			<#if table.createDateColumnName!=''>
+			<if test="startTime!=null and startTime!=''">AND t.${table.createDateColumnName} &gt;= <@mapperEl 'startTime'/>}</if>
+			<if test="endTime!=null and endTime!=''">AND t.${table.createDateColumnName} &lt;= <@mapperEl 'endTime'/>}</if>
+			</#if>
+		</where>
+	</sql>
+	
+	<!-- 按对象查询 -->
+	<select id="queryByEntity" parameterType="${basepackage}.entity${modepackage}.${entityName}" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		<include refid="queryFrom" /> t
+		<include refid="where" />
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="queryByPage" parameterType="com.ms.taojin.common.vo.ListVo.ListReqVO"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="BaseColumnList" />
+		<include refid="queryFrom" /> t
+		<include refid="whereForLike" />
+		<choose>
+			<when test="orderField==null">
+				ORDER BY ${table.primaryKeyName} DESC
+			</when>
+			<otherwise>
+				ORDER BY <@mapperE3 'orderField'/>
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<!-- 查询记录数 -->
+	<select id="queryCount" resultType="int"
+		parameterType="com.ms.taojin.common.vo.ListVo.ListReqVO">
+		SELECT COUNT(1)  
+		<include refid="queryFrom" /> t
+		<include refid="whereForLike" />
+	</select>
+</mapper>
+
