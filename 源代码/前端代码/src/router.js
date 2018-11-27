@@ -76,6 +76,39 @@ export default [{
                     require(['./views/system/dataCategory.vue'], resolve)
                 }
             },
+            {
+                path: '/gameMain',
+                name: 'gameMain',
+                meta: {
+                    father: '系统管理',
+                    name: '游戏管理',
+                },
+                component: function(resolve) {
+                    require(['./views/system/gameMain.vue'], resolve)
+                }
+            },
+            {
+                path: '/gameMain/a',
+                name: 'gameMainA',
+                meta: {
+                    father: '系统管理',
+                    name: '新增游戏',
+                },
+                component: function(resolve) {
+                    require(['./views/system/gameMainAU.vue'], resolve)
+                }
+            },
+            {
+                path: '/gameMain/u',
+                name: 'gameMainR',
+                meta: {
+                    father: '系统管理',
+                    name: '修改游戏',
+                },
+                component: function(resolve) {
+                    require(['./views/system/gameMainAU.vue'], resolve)
+                }
+            },
 						
 						
 						{

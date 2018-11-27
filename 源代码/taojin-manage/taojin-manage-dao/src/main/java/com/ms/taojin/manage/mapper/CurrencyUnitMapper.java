@@ -3,17 +3,17 @@ package com.ms.taojin.manage.mapper;
 
 import com.ms.taojin.common.mapper.IBaseMapper;
 
-import com.ms.taojin.manage.entity.OpinionEntity;
+import com.ms.taojin.manage.entity.CurrencyUnitEntity;
 
 import org.springframework.stereotype.Repository;
 
 /**
- *  Mapper
+ * 游戏货币单位 Mapper
  * @author 蒙赛
- * @Date 2018-11-26 15:03:42
+ * @Date 2018-11-27 14:42:24
  * @since 1.0
  */
 @Repository
-public interface OpinionMapper extends IBaseMapper<OpinionEntity>{
+public interface CurrencyUnitMapper extends IBaseMapper<CurrencyUnitEntity>{
 	
 }

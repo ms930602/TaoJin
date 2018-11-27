@@ -46,7 +46,7 @@ public class ${table.className}Service extends BaseService {
 	 */
 	public Object queryById(@Param("${table.primaryKeyParName}") ${table.pkType} ${table.primaryKeyParName}) throws CenterException {
 		SessionUser user = ThreadContext.getSessionloginUser();
-		${table.pkType} query = new ${table.pkType}();
+		${table.className}Entity query = new ${table.className}Entity();
 		query.setId(${table.primaryKeyParName});
 		query.setCreateUserId(user.getUserId());
 		return ${table.classNameFirstLower}Bo.queryByEntity(query);

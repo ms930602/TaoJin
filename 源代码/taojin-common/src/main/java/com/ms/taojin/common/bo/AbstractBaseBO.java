@@ -106,6 +106,7 @@ public abstract class AbstractBaseBO<T extends BaseEntity> {
 	public int updateAuth(T entity) {
 		// 从上下文中添加用户信息
 		SessionUserUtils.putSessionUserForCreate(entity);
+		SessionUserUtils.putSessionUserForUpdate(entity);
 		return getMapper().updateAuth(entity);
 	}
 

@@ -201,19 +201,18 @@
 		</set>
 		<where>
 		${table.primaryKeyName}  = <@mapperEl '${table.primaryKeyParName}'/>}
-		AND f_create_user_id = #{createUserId,jdbcType=INTEGER}
+		AND f_create_user_id = <@mapperEl 'createUserId'/>}
 		</where>
-	</where>
 	</update>
 
 	<!-- 根据权限按Id批量删除 -->
 	<delete id="batchDeleteAuthById" parameterType="map">
 	DELETE FROM t_ms_opinion WHERE f_id in (
 	<foreach collection="ids" item="item" separator=",">
-		#{item}
+		<@mapperEl 'item'/>}
 	</foreach>
 	)
-	AND f_create_user_id = #{userId}
+	AND f_create_user_id = <@mapperEl 'userId'/>}
 	</delete>
 </mapper>
 
