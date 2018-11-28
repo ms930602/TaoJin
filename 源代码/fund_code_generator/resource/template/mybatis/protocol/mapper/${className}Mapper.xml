@@ -69,7 +69,11 @@
 		UPDATE ${table.sqlName} 
 		<set>
 			<#list table.notPkColumns as column>
-			<if test="${column.columnNameLower}!=null">${column.sqlName} = <@mapperEl column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+				<#if column.columnNameLower!='createtime'
+				&& column.columnNameLower!='createUserId'
+				&& column.columnNameLower!='createUserName'>
+				<if test="${column.columnNameLower}!=null">${column.sqlName} = <@mapperEl column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+				</#if>
 			</#list>
 		</set>
 		<where> 
@@ -83,7 +87,11 @@
 			UPDATE ${table.sqlName} 
 			<set>
 				<#list table.notPkColumns as column>
-				<if test="item.${column.columnNameLower}!=null">${column.sqlName} = <@mapperE2 column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+					<#if column.columnNameLower!='createtime'
+					&& column.columnNameLower!='createUserId'
+					&& column.columnNameLower!='createUserName'>
+					<if test="item.${column.columnNameLower}!=null">${column.sqlName} = <@mapperE2 column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+					</#if>
 				</#list>
 			</set>
 			<where> 
@@ -195,8 +203,13 @@
 	<update id="updateAuth" parameterType="${basepackage}.entity${modepackage}.${entityName}">
 	UPDATE ${table.sqlName}
 		<set>
+
 			<#list table.notPkColumns as column>
-			<if test="${column.columnNameLower}!=null">${column.sqlName} = <@mapperEl column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+				<#if column.columnNameLower!='createtime'
+				&& column.columnNameLower!='createUserId'
+				&& column.columnNameLower!='createUserName'>
+				<if test="${column.columnNameLower}!=null">${column.sqlName} = <@mapperEl column.columnNameLower/>,jdbcType=${column.jdbcType}}<#if column_has_next>,</#if></if>
+				</#if>
 			</#list>
 		</set>
 		<where>
@@ -207,7 +220,7 @@
 
 	<!-- 根据权限按Id批量删除 -->
 	<delete id="batchDeleteAuthById" parameterType="map">
-	DELETE FROM t_ms_opinion WHERE f_id in (
+	DELETE FROM ${table.sqlName} WHERE ${table.primaryKeyName} in (
 	<foreach collection="ids" item="item" separator=",">
 		<@mapperEl 'item'/>}
 	</foreach>

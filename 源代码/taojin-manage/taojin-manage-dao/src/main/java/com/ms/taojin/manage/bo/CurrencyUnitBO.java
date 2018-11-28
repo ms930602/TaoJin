@@ -14,7 +14,7 @@ import com.ms.taojin.manage.mapper.CurrencyUnitMapper;
 /**
  * 游戏货币单位 bo
  * @author 蒙赛
- * @Date 2018-11-27 14:42:24
+ * @Date 2018-11-28 09:30:03
  * @since 1.0
  */
 @Component

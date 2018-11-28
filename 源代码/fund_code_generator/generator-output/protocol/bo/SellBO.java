@@ -7,24 +7,24 @@ import org.springframework.stereotype.Component;
 import com.ms.taojin.common.bo.AbstractBaseBO;
 import com.ms.taojin.common.mapper.IBaseMapper;
 
-import com.ms.taojin.manage.entity.GameEntity;
-import com.ms.taojin.manage.mapper.GameMapper;
+import com.ms.taojin.manage.entity.SellEntity;
+import com.ms.taojin.manage.mapper.SellMapper;
 
 
 /**
- * 游戏 bo
+ * 卖出 bo
  * @author 蒙赛
- * @Date 2018-11-27 15:29:47
+ * @Date 2018-11-28 10:40:38
  * @since 1.0
  */
 @Component
-public class GameBO extends AbstractBaseBO<GameEntity> {
+public class SellBO extends AbstractBaseBO<SellEntity> {
 	
 	@Autowired
-	private GameMapper gameMapper;
+	private SellMapper sellMapper;
 	
 	@Override
-    protected IBaseMapper<GameEntity> getMapper() {
-	    return gameMapper;
+    protected IBaseMapper<SellEntity> getMapper() {
+	    return sellMapper;
     }
 }

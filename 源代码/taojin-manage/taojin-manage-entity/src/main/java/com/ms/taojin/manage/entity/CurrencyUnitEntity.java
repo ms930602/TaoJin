@@ -8,7 +8,7 @@ import com.ms.taojin.common.vo.TableName;
 /**
  * 游戏货币单位
  * @author 蒙赛
- * @Date 2018-11-27 14:42:24
+ * @Date 2018-11-28 09:30:03
  * @since 1.0
  */
 @TableName("t_ms_currency_unit")

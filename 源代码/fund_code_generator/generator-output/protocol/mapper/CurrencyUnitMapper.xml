@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.ms.taojin.manage.mapper.GameMapper">
+<mapper namespace="com.ms.taojin.manage.mapper.CurrencyUnitMapper">
 
 	<!-- 结果Map -->
-	<resultMap id="BaseResultMap" type="com.ms.taojin.manage.entity.GameEntity">
+	<resultMap id="BaseResultMap" type="com.ms.taojin.manage.entity.CurrencyUnitEntity">
 		<result property="id" jdbcType="INTEGER" column="f_id"/>
+		<result property="gameId" jdbcType="INTEGER" column="f_game_id"/>
 		<result property="name" jdbcType="VARCHAR" column="f_name"/>
-		<result property="type" jdbcType="CHAR" column="f_type"/>
-		<result property="columnA" jdbcType="INTEGER" column="f_column_a"/>
-		<result property="columnB" jdbcType="INTEGER" column="f_column_b"/>
-		<result property="columnC" jdbcType="VARCHAR" column="f_column_c"/>
-		<result property="columnD" jdbcType="VARCHAR" column="f_column_d"/>
+		<result property="ratio" jdbcType="DECIMAL" column="f_ratio"/>
+		<result property="group" jdbcType="CHAR" column="f_group"/>
+		<result property="groupName" jdbcType="VARCHAR" column="f_group_name"/>
+		<result property="sort" jdbcType="INTEGER" column="f_sort"/>
 		<result property="createtime" jdbcType="TIMESTAMP" column="f_createtime"/>
 		<result property="createUserId" jdbcType="INTEGER" column="f_create_user_id"/>
 		<result property="createUserName" jdbcType="VARCHAR" column="f_create_user_name"/>
@@ -21,19 +21,20 @@
 	
 	<!-- 查询列 -->
 	<sql id="BaseColumnList">
-		f_id,f_name,f_type,f_column_a,f_column_b,f_column_c,f_column_d,f_createtime,f_create_user_id,f_create_user_name,f_last_modify_person_id,f_last_modify_person_name
+		f_id,f_game_id,f_name,f_ratio,f_group,f_group_name,f_sort,f_createtime,f_create_user_id,f_create_user_name,f_last_modify_person_id,f_last_modify_person_name
 	</sql>
 			
 	<!--创建记录 -->
-	<insert id="create" parameterType="com.ms.taojin.manage.entity.GameEntity" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_ms_game
+	<insert id="create" parameterType="com.ms.taojin.manage.entity.CurrencyUnitEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_ms_currency_unit
 		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id!=null">f_id,</if>
+			<if test="gameId!=null">f_game_id,</if>
 			<if test="name!=null">f_name,</if>
-			<if test="type!=null">f_type,</if>
-			<if test="columnA!=null">f_column_a,</if>
-			<if test="columnB!=null">f_column_b,</if>
-			<if test="columnC!=null">f_column_c,</if>
-			<if test="columnD!=null">f_column_d,</if>
+			<if test="ratio!=null">f_ratio,</if>
+			<if test="group!=null">f_group,</if>
+			<if test="groupName!=null">f_group_name,</if>
+			<if test="sort!=null">f_sort,</if>
 			<if test="createtime!=null">f_createtime,</if>
 			<if test="createUserId!=null">f_create_user_id,</if>
 			<if test="createUserName!=null">f_create_user_name,</if>
@@ -41,12 +42,13 @@
 			<if test="lastModifyPersonName!=null">f_last_modify_person_name</if>
 		</trim>
 		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=INTEGER},</if>
+			<if test="gameId!=null">#{gameId,jdbcType=INTEGER},</if>
 			<if test="name!=null">#{name,jdbcType=VARCHAR},</if>
-			<if test="type!=null">#{type,jdbcType=CHAR},</if>
-			<if test="columnA!=null">#{columnA,jdbcType=INTEGER},</if>
-			<if test="columnB!=null">#{columnB,jdbcType=INTEGER},</if>
-			<if test="columnC!=null">#{columnC,jdbcType=VARCHAR},</if>
-			<if test="columnD!=null">#{columnD,jdbcType=VARCHAR},</if>
+			<if test="ratio!=null">#{ratio,jdbcType=DECIMAL},</if>
+			<if test="group!=null">#{group,jdbcType=CHAR},</if>
+			<if test="groupName!=null">#{groupName,jdbcType=VARCHAR},</if>
+			<if test="sort!=null">#{sort,jdbcType=INTEGER},</if>
 			<if test="createtime!=null">#{createtime,jdbcType=TIMESTAMP},</if>
 			<if test="createUserId!=null">#{createUserId,jdbcType=INTEGER},</if>
 			<if test="createUserName!=null">#{createUserName,jdbcType=VARCHAR},</if>
@@ -58,14 +60,15 @@
 	<!--批量创建记录 -->
 	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
 		<foreach collection="list" item="item" index="index" separator=";">
-			INSERT INTO t_ms_game
+			INSERT INTO t_ms_currency_unit
 			<trim prefix="(" suffix=")" suffixOverrides=",">
+					<if test="item.id!=null">f_id,</if>
+					<if test="item.gameId!=null">f_game_id,</if>
 					<if test="item.name!=null">f_name,</if>
-					<if test="item.type!=null">f_type,</if>
-					<if test="item.columnA!=null">f_column_a,</if>
-					<if test="item.columnB!=null">f_column_b,</if>
-					<if test="item.columnC!=null">f_column_c,</if>
-					<if test="item.columnD!=null">f_column_d,</if>
+					<if test="item.ratio!=null">f_ratio,</if>
+					<if test="item.group!=null">f_group,</if>
+					<if test="item.groupName!=null">f_group_name,</if>
+					<if test="item.sort!=null">f_sort,</if>
 					<if test="item.createtime!=null">f_createtime,</if>
 					<if test="item.createUserId!=null">f_create_user_id,</if>
 					<if test="item.createUserName!=null">f_create_user_name,</if>
@@ -73,12 +76,13 @@
 					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name</if>
 			</trim>
 			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+					<if test="item.id!=null">#{item.id,jdbcType=INTEGER},</if>
+					<if test="item.gameId!=null">#{item.gameId,jdbcType=INTEGER},</if>
 					<if test="item.name!=null">#{item.name,jdbcType=VARCHAR},</if>
-					<if test="item.type!=null">#{item.type,jdbcType=CHAR},</if>
-					<if test="item.columnA!=null">#{item.columnA,jdbcType=INTEGER},</if>
-					<if test="item.columnB!=null">#{item.columnB,jdbcType=INTEGER},</if>
-					<if test="item.columnC!=null">#{item.columnC,jdbcType=VARCHAR},</if>
-					<if test="item.columnD!=null">#{item.columnD,jdbcType=VARCHAR},</if>
+					<if test="item.ratio!=null">#{item.ratio,jdbcType=DECIMAL},</if>
+					<if test="item.group!=null">#{item.group,jdbcType=CHAR},</if>
+					<if test="item.groupName!=null">#{item.groupName,jdbcType=VARCHAR},</if>
+					<if test="item.sort!=null">#{item.sort,jdbcType=INTEGER},</if>
 					<if test="item.createtime!=null">#{item.createtime,jdbcType=TIMESTAMP},</if>
 					<if test="item.createUserId!=null">#{item.createUserId,jdbcType=INTEGER},</if>
 					<if test="item.createUserName!=null">#{item.createUserName,jdbcType=VARCHAR},</if>
@@ -89,20 +93,17 @@
 	</insert>
 	
 	<!-- 更新记录 -->
-	<update id="update" parameterType="com.ms.taojin.manage.entity.GameEntity">
-		UPDATE t_ms_game 
+	<update id="update" parameterType="com.ms.taojin.manage.entity.CurrencyUnitEntity">
+		UPDATE t_ms_currency_unit 
 		<set>
-			<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
-			<if test="type!=null">f_type = #{type,jdbcType=CHAR},</if>
-			<if test="columnA!=null">f_column_a = #{columnA,jdbcType=INTEGER},</if>
-			<if test="columnB!=null">f_column_b = #{columnB,jdbcType=INTEGER},</if>
-			<if test="columnC!=null">f_column_c = #{columnC,jdbcType=VARCHAR},</if>
-			<if test="columnD!=null">f_column_d = #{columnD,jdbcType=VARCHAR},</if>
-			<if test="createtime!=null">f_createtime = #{createtime,jdbcType=TIMESTAMP},</if>
-			<if test="createUserId!=null">f_create_user_id = #{createUserId,jdbcType=INTEGER},</if>
-			<if test="createUserName!=null">f_create_user_name = #{createUserName,jdbcType=VARCHAR},</if>
-			<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
-			<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
+				<if test="gameId!=null">f_game_id = #{gameId,jdbcType=INTEGER},</if>
+				<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
+				<if test="ratio!=null">f_ratio = #{ratio,jdbcType=DECIMAL},</if>
+				<if test="group!=null">f_group = #{group,jdbcType=CHAR},</if>
+				<if test="groupName!=null">f_group_name = #{groupName,jdbcType=VARCHAR},</if>
+				<if test="sort!=null">f_sort = #{sort,jdbcType=INTEGER},</if>
+				<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
+				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
 		</set>
 		<where> 
 			f_id  = #{id}
@@ -112,19 +113,16 @@
 	<!--批量更新记录 -->
 	<update id="batchUpdate" parameterType="java.util.List">
 		<foreach collection="list" item="item" index="index" separator=";">
-			UPDATE t_ms_game 
+			UPDATE t_ms_currency_unit 
 			<set>
-				<if test="item.name!=null">f_name = #{item.name,jdbcType=VARCHAR},</if>
-				<if test="item.type!=null">f_type = #{item.type,jdbcType=CHAR},</if>
-				<if test="item.columnA!=null">f_column_a = #{item.columnA,jdbcType=INTEGER},</if>
-				<if test="item.columnB!=null">f_column_b = #{item.columnB,jdbcType=INTEGER},</if>
-				<if test="item.columnC!=null">f_column_c = #{item.columnC,jdbcType=VARCHAR},</if>
-				<if test="item.columnD!=null">f_column_d = #{item.columnD,jdbcType=VARCHAR},</if>
-				<if test="item.createtime!=null">f_createtime = #{item.createtime,jdbcType=TIMESTAMP},</if>
-				<if test="item.createUserId!=null">f_create_user_id = #{item.createUserId,jdbcType=INTEGER},</if>
-				<if test="item.createUserName!=null">f_create_user_name = #{item.createUserName,jdbcType=VARCHAR},</if>
-				<if test="item.lastModifyPersonId!=null">f_last_modify_person_id = #{item.lastModifyPersonId,jdbcType=INTEGER},</if>
-				<if test="item.lastModifyPersonName!=null">f_last_modify_person_name = #{item.lastModifyPersonName,jdbcType=VARCHAR}</if>
+					<if test="item.gameId!=null">f_game_id = #{item.gameId,jdbcType=INTEGER},</if>
+					<if test="item.name!=null">f_name = #{item.name,jdbcType=VARCHAR},</if>
+					<if test="item.ratio!=null">f_ratio = #{item.ratio,jdbcType=DECIMAL},</if>
+					<if test="item.group!=null">f_group = #{item.group,jdbcType=CHAR},</if>
+					<if test="item.groupName!=null">f_group_name = #{item.groupName,jdbcType=VARCHAR},</if>
+					<if test="item.sort!=null">f_sort = #{item.sort,jdbcType=INTEGER},</if>
+					<if test="item.lastModifyPersonId!=null">f_last_modify_person_id = #{item.lastModifyPersonId,jdbcType=INTEGER},</if>
+					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name = #{item.lastModifyPersonName,jdbcType=VARCHAR}</if>
 			</set>
 			<where> 
 				f_id  = #{item.id}
@@ -136,18 +134,18 @@
 	<!-- 按ID查询记录 -->
 	<select id="queryById" parameterType="long" resultMap="BaseResultMap">
 		SELECT <include refid="BaseColumnList" />
-		FROM t_ms_game 
+		FROM t_ms_currency_unit 
 		WHERE f_id  = #{id}	
 	</select>
 	
 	<!-- 按Id删除 -->
 	<delete id="deleteById" parameterType="long">
-		DELETE FROM t_ms_game WHERE f_id  = #{id}
+		DELETE FROM t_ms_currency_unit WHERE f_id  = #{id}
 	</delete>
 
 	<!-- 按Id批量删除 -->
 	<delete id="batchDeleteById" parameterType="Long[]">
-		DELETE FROM t_ms_game WHERE f_id in (
+		DELETE FROM t_ms_currency_unit WHERE f_id in (
 		<foreach collection="array" item="item" separator=",">
 			#{item}
 		</foreach>
@@ -159,12 +157,12 @@
 		<where>
 			1=1
 			<if test="id!=null">AND t.f_id = #{id,jdbcType=INTEGER}</if>
+			<if test="gameId!=null">AND t.f_game_id = #{gameId,jdbcType=INTEGER}</if>
 			<if test="name!=null and name!=''">AND t.f_name = #{name,jdbcType=VARCHAR}</if>
-			<if test="type!=null">AND t.f_type = #{type,jdbcType=CHAR}</if>
-			<if test="columnA!=null">AND t.f_column_a = #{columnA,jdbcType=INTEGER}</if>
-			<if test="columnB!=null">AND t.f_column_b = #{columnB,jdbcType=INTEGER}</if>
-			<if test="columnC!=null and columnC!=''">AND t.f_column_c = #{columnC,jdbcType=VARCHAR}</if>
-			<if test="columnD!=null and columnD!=''">AND t.f_column_d = #{columnD,jdbcType=VARCHAR}</if>
+			<if test="ratio!=null">AND t.f_ratio = #{ratio,jdbcType=DECIMAL}</if>
+			<if test="group!=null">AND t.f_group = #{group,jdbcType=CHAR}</if>
+			<if test="groupName!=null and groupName!=''">AND t.f_group_name = #{groupName,jdbcType=VARCHAR}</if>
+			<if test="sort!=null">AND t.f_sort = #{sort,jdbcType=INTEGER}</if>
 			<if test="createtime!=null">AND t.f_createtime = #{createtime,jdbcType=TIMESTAMP}</if>
 			<if test="createUserId!=null">AND t.f_create_user_id = #{createUserId,jdbcType=INTEGER}</if>
 			<if test="createUserName!=null and createUserName!=''">AND t.f_create_user_name = #{createUserName,jdbcType=VARCHAR}</if>
@@ -174,7 +172,7 @@
 	</sql>
 	
 	<sql id="queryFrom">
-		FROM t_ms_game
+		FROM t_ms_currency_unit
 	</sql>
 	<!-- 查询Where语句 -->
 	<sql id="whereForLike">
@@ -182,12 +180,12 @@
 			1=1
 			<if test="whereCondition!=null">
 				<if test="whereCondition.id!=null">AND t.f_id = #{whereCondition.id,jdbcType=INTEGER}</if>
+				<if test="whereCondition.gameId!=null">AND t.f_game_id = #{whereCondition.gameId,jdbcType=INTEGER}</if>
 				<if test="whereCondition.name!=null and whereCondition.name!=''">AND t.f_name like #{whereCondition.nameByLike,jdbcType=VARCHAR}</if>
-				<if test="whereCondition.type!=null">AND t.f_type = #{whereCondition.type,jdbcType=CHAR}</if>
-				<if test="whereCondition.columnA!=null">AND t.f_column_a = #{whereCondition.columnA,jdbcType=INTEGER}</if>
-				<if test="whereCondition.columnB!=null">AND t.f_column_b = #{whereCondition.columnB,jdbcType=INTEGER}</if>
-				<if test="whereCondition.columnC!=null and whereCondition.columnC!=''">AND t.f_column_c like #{whereCondition.columnCByLike,jdbcType=VARCHAR}</if>
-				<if test="whereCondition.columnD!=null and whereCondition.columnD!=''">AND t.f_column_d like #{whereCondition.columnDByLike,jdbcType=VARCHAR}</if>
+				<if test="whereCondition.ratio!=null">AND t.f_ratio = #{whereCondition.ratio,jdbcType=DECIMAL}</if>
+				<if test="whereCondition.group!=null">AND t.f_group = #{whereCondition.group,jdbcType=CHAR}</if>
+				<if test="whereCondition.groupName!=null and whereCondition.groupName!=''">AND t.f_group_name like #{whereCondition.groupNameByLike,jdbcType=VARCHAR}</if>
+				<if test="whereCondition.sort!=null">AND t.f_sort = #{whereCondition.sort,jdbcType=INTEGER}</if>
 				<if test="whereCondition.createtime!=null">AND t.f_createtime = #{whereCondition.createtime,jdbcType=TIMESTAMP}</if>
 				<if test="whereCondition.createUserId!=null">AND t.f_create_user_id = #{whereCondition.createUserId,jdbcType=INTEGER}</if>
 				<if test="whereCondition.createUserName!=null and whereCondition.createUserName!=''">AND t.f_create_user_name like #{whereCondition.createUserNameByLike,jdbcType=VARCHAR}</if>
@@ -197,8 +195,7 @@
 			<if test="keyWord!=null and keyWord!=''">
 				AND (
 						t.f_name like #{keyWordByLike,jdbcType=VARCHAR}  OR 
-						t.f_column_c like #{keyWordByLike,jdbcType=VARCHAR}  OR 
-						t.f_column_d like #{keyWordByLike,jdbcType=VARCHAR}  OR 
+						t.f_group_name like #{keyWordByLike,jdbcType=VARCHAR}  OR 
 						t.f_create_user_name like #{keyWordByLike,jdbcType=VARCHAR}  OR 
 						t.f_last_modify_person_name like #{keyWordByLike,jdbcType=VARCHAR} 
 					)
@@ -207,7 +204,7 @@
 	</sql>
 	
 	<!-- 按对象查询 -->
-	<select id="queryByEntity" parameterType="com.ms.taojin.manage.entity.GameEntity" resultMap="BaseResultMap">
+	<select id="queryByEntity" parameterType="com.ms.taojin.manage.entity.CurrencyUnitEntity" resultMap="BaseResultMap">
 		SELECT <include refid="BaseColumnList" />
 		<include refid="queryFrom" /> t
 		<include refid="where" />
@@ -240,20 +237,18 @@
 	</select>
 
 	<!-- 根据权限 更新记录 -->
-	<update id="updateAuth" parameterType="com.ms.taojin.manage.entity.GameEntity">
-	UPDATE t_ms_game
+	<update id="updateAuth" parameterType="com.ms.taojin.manage.entity.CurrencyUnitEntity">
+	UPDATE t_ms_currency_unit
 		<set>
-			<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
-			<if test="type!=null">f_type = #{type,jdbcType=CHAR},</if>
-			<if test="columnA!=null">f_column_a = #{columnA,jdbcType=INTEGER},</if>
-			<if test="columnB!=null">f_column_b = #{columnB,jdbcType=INTEGER},</if>
-			<if test="columnC!=null">f_column_c = #{columnC,jdbcType=VARCHAR},</if>
-			<if test="columnD!=null">f_column_d = #{columnD,jdbcType=VARCHAR},</if>
-			<if test="createtime!=null">f_createtime = #{createtime,jdbcType=TIMESTAMP},</if>
-			<if test="createUserId!=null">f_create_user_id = #{createUserId,jdbcType=INTEGER},</if>
-			<if test="createUserName!=null">f_create_user_name = #{createUserName,jdbcType=VARCHAR},</if>
-			<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
-			<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
+
+				<if test="gameId!=null">f_game_id = #{gameId,jdbcType=INTEGER},</if>
+				<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
+				<if test="ratio!=null">f_ratio = #{ratio,jdbcType=DECIMAL},</if>
+				<if test="group!=null">f_group = #{group,jdbcType=CHAR},</if>
+				<if test="groupName!=null">f_group_name = #{groupName,jdbcType=VARCHAR},</if>
+				<if test="sort!=null">f_sort = #{sort,jdbcType=INTEGER},</if>
+				<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
+				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
 		</set>
 		<where>
 		f_id  = #{id}
@@ -263,7 +258,7 @@
 
 	<!-- 根据权限按Id批量删除 -->
 	<delete id="batchDeleteAuthById" parameterType="map">
-	DELETE FROM t_ms_opinion WHERE f_id in (
+	DELETE FROM t_ms_currency_unit WHERE f_id in (
 	<foreach collection="ids" item="item" separator=",">
 		#{item}
 	</foreach>

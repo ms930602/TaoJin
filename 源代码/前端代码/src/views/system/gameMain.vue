@@ -101,8 +101,8 @@
 					name: ''
 				})
 				this.handleCurrentChange(1)
-			},			
-			dele() {			
+			},
+			dele() {
 	        	if(this.delSelection.length === 0) {
 	        		this.$message({type: 'info', message: '请选择行'});
 	        	}else {

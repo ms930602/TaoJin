@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ms.taojin.manage.mapper.RevenueRatioMapper">
+
+	<!-- 结果Map -->
+	<resultMap id="BaseResultMap" type="com.ms.taojin.manage.entity.RevenueRatioEntity">
+		<result property="id" jdbcType="INTEGER" column="f_id"/>
+		<result property="gameId" jdbcType="INTEGER" column="f_game_id"/>
+		<result property="name" jdbcType="VARCHAR" column="f_name"/>
+		<result property="ratio" jdbcType="DECIMAL" column="f_ratio"/>
+		<result property="createtime" jdbcType="TIMESTAMP" column="f_createtime"/>
+		<result property="createUserId" jdbcType="INTEGER" column="f_create_user_id"/>
+		<result property="createUserName" jdbcType="VARCHAR" column="f_create_user_name"/>
+		<result property="lastModifyPersonId" jdbcType="INTEGER" column="f_last_modify_person_id"/>
+		<result property="lastModifyPersonName" jdbcType="VARCHAR" column="f_last_modify_person_name"/>
+	</resultMap>
+	
+	<!-- 查询列 -->
+	<sql id="BaseColumnList">
+		f_id,f_game_id,f_name,f_ratio,f_createtime,f_create_user_id,f_create_user_name,f_last_modify_person_id,f_last_modify_person_name
+	</sql>
+			
+	<!--创建记录 -->
+	<insert id="create" parameterType="com.ms.taojin.manage.entity.RevenueRatioEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_ms_revenue_ratio
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id!=null">f_id,</if>
+			<if test="gameId!=null">f_game_id,</if>
+			<if test="name!=null">f_name,</if>
+			<if test="ratio!=null">f_ratio,</if>
+			<if test="createtime!=null">f_createtime,</if>
+			<if test="createUserId!=null">f_create_user_id,</if>
+			<if test="createUserName!=null">f_create_user_name,</if>
+			<if test="lastModifyPersonId!=null">f_last_modify_person_id,</if>
+			<if test="lastModifyPersonName!=null">f_last_modify_person_name</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=INTEGER},</if>
+			<if test="gameId!=null">#{gameId,jdbcType=INTEGER},</if>
+			<if test="name!=null">#{name,jdbcType=VARCHAR},</if>
+			<if test="ratio!=null">#{ratio,jdbcType=DECIMAL},</if>
+			<if test="createtime!=null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="createUserId!=null">#{createUserId,jdbcType=INTEGER},</if>
+			<if test="createUserName!=null">#{createUserName,jdbcType=VARCHAR},</if>
+			<if test="lastModifyPersonId!=null">#{lastModifyPersonId,jdbcType=INTEGER},</if>
+			<if test="lastModifyPersonName!=null">#{lastModifyPersonName,jdbcType=VARCHAR}</if>
+		</trim>
+	</insert>
+
+	<!--批量创建记录 -->
+	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+		<foreach collection="list" item="item" index="index" separator=";">
+			INSERT INTO t_ms_revenue_ratio
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+					<if test="item.id!=null">f_id,</if>
+					<if test="item.gameId!=null">f_game_id,</if>
+					<if test="item.name!=null">f_name,</if>
+					<if test="item.ratio!=null">f_ratio,</if>
+					<if test="item.createtime!=null">f_createtime,</if>
+					<if test="item.createUserId!=null">f_create_user_id,</if>
+					<if test="item.createUserName!=null">f_create_user_name,</if>
+					<if test="item.lastModifyPersonId!=null">f_last_modify_person_id,</if>
+					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name</if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+					<if test="item.id!=null">#{item.id,jdbcType=INTEGER},</if>
+					<if test="item.gameId!=null">#{item.gameId,jdbcType=INTEGER},</if>
+					<if test="item.name!=null">#{item.name,jdbcType=VARCHAR},</if>
+					<if test="item.ratio!=null">#{item.ratio,jdbcType=DECIMAL},</if>
+					<if test="item.createtime!=null">#{item.createtime,jdbcType=TIMESTAMP},</if>
+					<if test="item.createUserId!=null">#{item.createUserId,jdbcType=INTEGER},</if>
+					<if test="item.createUserName!=null">#{item.createUserName,jdbcType=VARCHAR},</if>
+					<if test="item.lastModifyPersonId!=null">#{item.lastModifyPersonId,jdbcType=INTEGER},</if>
+					<if test="item.lastModifyPersonName!=null">#{item.lastModifyPersonName,jdbcType=VARCHAR}</if>
+			</trim>
+		</foreach>
+	</insert>
+	
+	<!-- 更新记录 -->
+	<update id="update" parameterType="com.ms.taojin.manage.entity.RevenueRatioEntity">
+		UPDATE t_ms_revenue_ratio 
+		<set>
+				<if test="gameId!=null">f_game_id = #{gameId,jdbcType=INTEGER},</if>
+				<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
+				<if test="ratio!=null">f_ratio = #{ratio,jdbcType=DECIMAL},</if>
+				<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
+				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
+		</set>
+		<where> 
+			f_id  = #{id}
+		</where>				
+	</update>
+	
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE t_ms_revenue_ratio 
+			<set>
+					<if test="item.gameId!=null">f_game_id = #{item.gameId,jdbcType=INTEGER},</if>
+					<if test="item.name!=null">f_name = #{item.name,jdbcType=VARCHAR},</if>
+					<if test="item.ratio!=null">f_ratio = #{item.ratio,jdbcType=DECIMAL},</if>
+					<if test="item.lastModifyPersonId!=null">f_last_modify_person_id = #{item.lastModifyPersonId,jdbcType=INTEGER},</if>
+					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name = #{item.lastModifyPersonName,jdbcType=VARCHAR}</if>
+			</set>
+			<where> 
+				f_id  = #{item.id}
+			</where>	
+		</foreach>
+	</update>	
+	
+	
+	<!-- 按ID查询记录 -->
+	<select id="queryById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		FROM t_ms_revenue_ratio 
+		WHERE f_id  = #{id}	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM t_ms_revenue_ratio WHERE f_id  = #{id}
+	</delete>
+
+	<!-- 按Id批量删除 -->
+	<delete id="batchDeleteById" parameterType="Long[]">
+		DELETE FROM t_ms_revenue_ratio WHERE f_id in (
+		<foreach collection="array" item="item" separator=",">
+			#{item}
+		</foreach>
+		)
+	</delete>
+	
+	
+	<sql id="where">
+		<where>
+			1=1
+			<if test="id!=null">AND t.f_id = #{id,jdbcType=INTEGER}</if>
+			<if test="gameId!=null">AND t.f_game_id = #{gameId,jdbcType=INTEGER}</if>
+			<if test="name!=null and name!=''">AND t.f_name = #{name,jdbcType=VARCHAR}</if>
+			<if test="ratio!=null">AND t.f_ratio = #{ratio,jdbcType=DECIMAL}</if>
+			<if test="createtime!=null">AND t.f_createtime = #{createtime,jdbcType=TIMESTAMP}</if>
+			<if test="createUserId!=null">AND t.f_create_user_id = #{createUserId,jdbcType=INTEGER}</if>
+			<if test="createUserName!=null and createUserName!=''">AND t.f_create_user_name = #{createUserName,jdbcType=VARCHAR}</if>
+			<if test="lastModifyPersonId!=null">AND t.f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER}</if>
+			<if test="lastModifyPersonName!=null and lastModifyPersonName!=''">AND t.f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
+		</where>
+	</sql>
+	
+	<sql id="queryFrom">
+		FROM t_ms_revenue_ratio
+	</sql>
+	<!-- 查询Where语句 -->
+	<sql id="whereForLike">
+		<where>
+			1=1
+			<if test="whereCondition!=null">
+				<if test="whereCondition.id!=null">AND t.f_id = #{whereCondition.id,jdbcType=INTEGER}</if>
+				<if test="whereCondition.gameId!=null">AND t.f_game_id = #{whereCondition.gameId,jdbcType=INTEGER}</if>
+				<if test="whereCondition.name!=null and whereCondition.name!=''">AND t.f_name like #{whereCondition.nameByLike,jdbcType=VARCHAR}</if>
+				<if test="whereCondition.ratio!=null">AND t.f_ratio = #{whereCondition.ratio,jdbcType=DECIMAL}</if>
+				<if test="whereCondition.createtime!=null">AND t.f_createtime = #{whereCondition.createtime,jdbcType=TIMESTAMP}</if>
+				<if test="whereCondition.createUserId!=null">AND t.f_create_user_id = #{whereCondition.createUserId,jdbcType=INTEGER}</if>
+				<if test="whereCondition.createUserName!=null and whereCondition.createUserName!=''">AND t.f_create_user_name like #{whereCondition.createUserNameByLike,jdbcType=VARCHAR}</if>
+				<if test="whereCondition.lastModifyPersonId!=null">AND t.f_last_modify_person_id = #{whereCondition.lastModifyPersonId,jdbcType=INTEGER}</if>
+				<if test="whereCondition.lastModifyPersonName!=null and whereCondition.lastModifyPersonName!=''">AND t.f_last_modify_person_name like #{whereCondition.lastModifyPersonNameByLike,jdbcType=VARCHAR}</if>
+			</if>
+			<if test="keyWord!=null and keyWord!=''">
+				AND (
+						t.f_name like #{keyWordByLike,jdbcType=VARCHAR}  OR 
+						t.f_create_user_name like #{keyWordByLike,jdbcType=VARCHAR}  OR 
+						t.f_last_modify_person_name like #{keyWordByLike,jdbcType=VARCHAR} 
+					)
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 按对象查询 -->
+	<select id="queryByEntity" parameterType="com.ms.taojin.manage.entity.RevenueRatioEntity" resultMap="BaseResultMap">
+		SELECT <include refid="BaseColumnList" />
+		<include refid="queryFrom" /> t
+		<include refid="where" />
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="queryByPage" parameterType="com.ms.taojin.common.vo.ListVo.ListReqVO"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="BaseColumnList" />
+		<include refid="queryFrom" /> t
+		<include refid="whereForLike" />
+		<choose>
+			<when test="orderField==null">
+				ORDER BY f_id DESC
+			</when>
+			<otherwise>
+				ORDER BY ${orderField}
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<!-- 查询记录数 -->
+	<select id="queryCount" resultType="int"
+		parameterType="com.ms.taojin.common.vo.ListVo.ListReqVO">
+		SELECT COUNT(1)  
+		<include refid="queryFrom" /> t
+		<include refid="whereForLike" />
+	</select>
+
+	<!-- 根据权限 更新记录 -->
+	<update id="updateAuth" parameterType="com.ms.taojin.manage.entity.RevenueRatioEntity">
+	UPDATE t_ms_revenue_ratio
+		<set>
+
+				<if test="gameId!=null">f_game_id = #{gameId,jdbcType=INTEGER},</if>
+				<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
+				<if test="ratio!=null">f_ratio = #{ratio,jdbcType=DECIMAL},</if>
+				<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
+				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
+		</set>
+		<where>
+		f_id  = #{id}
+		AND f_create_user_id = #{createUserId}
+		</where>
+	</update>
+
+	<!-- 根据权限按Id批量删除 -->
+	<delete id="batchDeleteAuthById" parameterType="map">
+	DELETE FROM t_ms_revenue_ratio WHERE f_id in (
+	<foreach collection="ids" item="item" separator=",">
+		#{item}
+	</foreach>
+	)
+	AND f_create_user_id = #{userId}
+	</delete>
+</mapper>
+

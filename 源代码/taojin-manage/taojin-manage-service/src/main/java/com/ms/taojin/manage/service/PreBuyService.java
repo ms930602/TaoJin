@@ -12,21 +12,21 @@ import com.ms.taojin.common.vo.Param;
 import com.ms.taojin.common.vo.ListVo.ListReqVO;
 import com.ms.taojin.common.vo.ListVo.ListRespVO;
 
-import com.ms.taojin.manage.bo.GameBO;
-import com.ms.taojin.manage.entity.GameEntity;
+import com.ms.taojin.manage.bo.PreBuyBO;
+import com.ms.taojin.manage.entity.PreBuyEntity;
 
 import java.util.Date;
 
 /**
- * 游戏 业务处理
+ * 预买入 业务处理
  * @author 蒙赛
- * @Date 2018-11-27 15:29:47
+ * @Date 2018-11-28 09:30:11
  * @since 1.0
  */@Service
-public class GameService extends BaseService {
+public class PreBuyService extends BaseService {
 
 	@Autowired
-	private GameBO gameBo;
+	private PreBuyBO preBuyBo;
 
 	/**
 	 * 分页查询列表
@@ -34,12 +34,12 @@ public class GameService extends BaseService {
 	 * @param reqVO
 	 * @return
 	 */
-	public ListRespVO list(ListReqVO<GameEntity> reqVO) throws CenterException {
+	public ListRespVO list(ListReqVO<PreBuyEntity> reqVO) throws CenterException {
 		SessionUser user = ThreadContext.getSessionloginUser();
 		if(reqVO.getWhereCondition()!=null){
 		reqVO.getWhereCondition().setCreateUserId(user.getUserId());
 		}
-		return gameBo.queryPageAutomatic(reqVO);
+		return preBuyBo.queryPageAutomatic(reqVO);
 	}
 	
 	/**
@@ -50,32 +50,32 @@ public class GameService extends BaseService {
 	 */
 	public Object queryById(@Param("id") Long id) throws CenterException {
 		SessionUser user = ThreadContext.getSessionloginUser();
-		Game query = new Game();
+		PreBuyEntity query = new PreBuyEntity();
 		query.setId(id);
 		query.setCreateUserId(user.getUserId());
-		return gameBo.queryByEntity(query);
+		return preBuyBo.queryByEntity(query);
 	}
 
 	/**
 	 * 新增
 	 * 
-	 * @param game
+	 * @param preBuy
 	 * @return
 	 */
-	public Object create(GameEntity game) throws CenterException {
-		game.setCreatetime(new Date());
-		gameBo.createForValidate(game);
-		return game;
+	public Object create(PreBuyEntity preBuy) throws CenterException {
+		preBuy.setCreatetime(new Date());
+		preBuyBo.createForValidate(preBuy);
+		return preBuy;
 	}
 
 	/**
 	 * 修改
 	 * 
-	 * @param game
+	 * @param preBuy
 	 * @return
 	 */
-	public BaseRespVO update(GameEntity game) throws CenterException {
-		int updateCount = gameBo.updateAuthForValidate(game);
+	public BaseRespVO update(PreBuyEntity preBuy) throws CenterException {
+		int updateCount = preBuyBo.updateAuthForValidate(preBuy);
 		if(updateCount > 0){
 			return new BaseRespVO();
 		}else{
@@ -92,7 +92,7 @@ public class GameService extends BaseService {
 	 */
 	public BaseRespVO delete(@Param("id") Long[] id) throws CenterException {
 		SessionUser user = ThreadContext.getSessionloginUser();
-		int deleteCount = gameBo.batchDeleteAuthById(id,user.getUserId());
+		int deleteCount = preBuyBo.batchDeleteAuthById(id,user.getUserId());
 		if (deleteCount > 0) {
 			return new BaseRespVO();
 		} else {

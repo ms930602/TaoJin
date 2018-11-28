@@ -96,17 +96,14 @@
 	<update id="update" parameterType="com.ms.taojin.manage.entity.CurrencyUnitEntity">
 		UPDATE t_ms_currency_unit 
 		<set>
-			<if test="gameId!=null">f_game_id = #{gameId,jdbcType=INTEGER},</if>
-			<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
-			<if test="ratio!=null">f_ratio = #{ratio,jdbcType=DECIMAL},</if>
-			<if test="group!=null">f_group = #{group,jdbcType=CHAR},</if>
-			<if test="groupName!=null">f_group_name = #{groupName,jdbcType=VARCHAR},</if>
-			<if test="sort!=null">f_sort = #{sort,jdbcType=INTEGER},</if>
-			<if test="createtime!=null">f_createtime = #{createtime,jdbcType=TIMESTAMP},</if>
-			<if test="createUserId!=null">f_create_user_id = #{createUserId,jdbcType=INTEGER},</if>
-			<if test="createUserName!=null">f_create_user_name = #{createUserName,jdbcType=VARCHAR},</if>
-			<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
-			<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
+				<if test="gameId!=null">f_game_id = #{gameId,jdbcType=INTEGER},</if>
+				<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
+				<if test="ratio!=null">f_ratio = #{ratio,jdbcType=DECIMAL},</if>
+				<if test="group!=null">f_group = #{group,jdbcType=CHAR},</if>
+				<if test="groupName!=null">f_group_name = #{groupName,jdbcType=VARCHAR},</if>
+				<if test="sort!=null">f_sort = #{sort,jdbcType=INTEGER},</if>
+				<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
+				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
 		</set>
 		<where> 
 			f_id  = #{id}
@@ -118,17 +115,14 @@
 		<foreach collection="list" item="item" index="index" separator=";">
 			UPDATE t_ms_currency_unit 
 			<set>
-				<if test="item.gameId!=null">f_game_id = #{item.gameId,jdbcType=INTEGER},</if>
-				<if test="item.name!=null">f_name = #{item.name,jdbcType=VARCHAR},</if>
-				<if test="item.ratio!=null">f_ratio = #{item.ratio,jdbcType=DECIMAL},</if>
-				<if test="item.group!=null">f_group = #{item.group,jdbcType=CHAR},</if>
-				<if test="item.groupName!=null">f_group_name = #{item.groupName,jdbcType=VARCHAR},</if>
-				<if test="item.sort!=null">f_sort = #{item.sort,jdbcType=INTEGER},</if>
-				<if test="item.createtime!=null">f_createtime = #{item.createtime,jdbcType=TIMESTAMP},</if>
-				<if test="item.createUserId!=null">f_create_user_id = #{item.createUserId,jdbcType=INTEGER},</if>
-				<if test="item.createUserName!=null">f_create_user_name = #{item.createUserName,jdbcType=VARCHAR},</if>
-				<if test="item.lastModifyPersonId!=null">f_last_modify_person_id = #{item.lastModifyPersonId,jdbcType=INTEGER},</if>
-				<if test="item.lastModifyPersonName!=null">f_last_modify_person_name = #{item.lastModifyPersonName,jdbcType=VARCHAR}</if>
+					<if test="item.gameId!=null">f_game_id = #{item.gameId,jdbcType=INTEGER},</if>
+					<if test="item.name!=null">f_name = #{item.name,jdbcType=VARCHAR},</if>
+					<if test="item.ratio!=null">f_ratio = #{item.ratio,jdbcType=DECIMAL},</if>
+					<if test="item.group!=null">f_group = #{item.group,jdbcType=CHAR},</if>
+					<if test="item.groupName!=null">f_group_name = #{item.groupName,jdbcType=VARCHAR},</if>
+					<if test="item.sort!=null">f_sort = #{item.sort,jdbcType=INTEGER},</if>
+					<if test="item.lastModifyPersonId!=null">f_last_modify_person_id = #{item.lastModifyPersonId,jdbcType=INTEGER},</if>
+					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name = #{item.lastModifyPersonName,jdbcType=VARCHAR}</if>
 			</set>
 			<where> 
 				f_id  = #{item.id}
@@ -246,17 +240,15 @@
 	<update id="updateAuth" parameterType="com.ms.taojin.manage.entity.CurrencyUnitEntity">
 	UPDATE t_ms_currency_unit
 		<set>
-			<if test="gameId!=null">f_game_id = #{gameId,jdbcType=INTEGER},</if>
-			<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
-			<if test="ratio!=null">f_ratio = #{ratio,jdbcType=DECIMAL},</if>
-			<if test="group!=null">f_group = #{group,jdbcType=CHAR},</if>
-			<if test="groupName!=null">f_group_name = #{groupName,jdbcType=VARCHAR},</if>
-			<if test="sort!=null">f_sort = #{sort,jdbcType=INTEGER},</if>
-			<if test="createtime!=null">f_createtime = #{createtime,jdbcType=TIMESTAMP},</if>
-			<if test="createUserId!=null">f_create_user_id = #{createUserId,jdbcType=INTEGER},</if>
-			<if test="createUserName!=null">f_create_user_name = #{createUserName,jdbcType=VARCHAR},</if>
-			<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
-			<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
+
+				<if test="gameId!=null">f_game_id = #{gameId,jdbcType=INTEGER},</if>
+				<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
+				<if test="ratio!=null">f_ratio = #{ratio,jdbcType=DECIMAL},</if>
+				<if test="group!=null">f_group = #{group,jdbcType=CHAR},</if>
+				<if test="groupName!=null">f_group_name = #{groupName,jdbcType=VARCHAR},</if>
+				<if test="sort!=null">f_sort = #{sort,jdbcType=INTEGER},</if>
+				<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
+				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
 		</set>
 		<where>
 		f_id  = #{id}
@@ -266,7 +258,7 @@
 
 	<!-- 根据权限按Id批量删除 -->
 	<delete id="batchDeleteAuthById" parameterType="map">
-	DELETE FROM t_ms_opinion WHERE f_id in (
+	DELETE FROM t_ms_currency_unit WHERE f_id in (
 	<foreach collection="ids" item="item" separator=",">
 		#{item}
 	</foreach>

@@ -6,13 +6,13 @@ import com.ms.taojin.common.entity.BaseEntity;
 import com.ms.taojin.common.vo.TableName;
 
 /**
- * 游戏
+ * 
  * @author 蒙赛
- * @Date 2018-11-27 15:29:47
+ * @Date 2018-11-28 10:40:36
  * @since 1.0
  */
-@TableName("t_ms_game")
-public class GameEntity extends BaseEntity {
+@TableName("t_ms_revenue_ratio")
+public class RevenueRatioEntity extends BaseEntity {
 	
 	/** serialVersionUID */
     private static final long serialVersionUID = 1L;
@@ -20,23 +20,14 @@ public class GameEntity extends BaseEntity {
 	/** 主键. */
 	private Long id;
 	
+	/** 游戏主键. */
+	private Long gameId;
+	
 	/** 名称. */
 	private String name;
 	
-	/** 类型. */
-	private String type;
-	
-	/** 扩展字段1. */
-	private Long columnA;
-	
-	/** 扩展字段2. */
-	private Long columnB;
-	
-	/** 扩展字段3. */
-	private String columnC;
-	
-	/** 扩展字段4. */
-	private String columnD;
+	/** 比率. */
+	private java.math.BigDecimal ratio;
 	
 	/** 创建时间. */
 	private java.util.Date createtime;
@@ -71,6 +62,22 @@ public class GameEntity extends BaseEntity {
 	}
 	
 
+    /** set 游戏主键. */
+	public void setGameId(Long gameId) {
+		this.gameId = gameId;
+	}
+	
+	/** get 游戏主键. */
+	public Long getGameId() {
+		return this.gameId;
+	}
+	
+	@JsonIgnore
+	public Long getGameIdByLike() {
+		return this.gameId;
+	}
+	
+
     /** set 名称. */
 	public void setName(String name) {
 		this.name = name;
@@ -87,83 +94,19 @@ public class GameEntity extends BaseEntity {
 	}
 	
 
-    /** set 类型. */
-	public void setType(String type) {
-		this.type = type;
+    /** set 比率. */
+	public void setRatio(java.math.BigDecimal ratio) {
+		this.ratio = ratio;
 	}
 	
-	/** get 类型. */
-	public String getType() {
-		return this.type;
-	}
-	
-	@JsonIgnore
-	public String getTypeByLike() {
-		return this.type;
-	}
-	
-
-    /** set 扩展字段1. */
-	public void setColumnA(Long columnA) {
-		this.columnA = columnA;
-	}
-	
-	/** get 扩展字段1. */
-	public Long getColumnA() {
-		return this.columnA;
+	/** get 比率. */
+	public java.math.BigDecimal getRatio() {
+		return this.ratio;
 	}
 	
 	@JsonIgnore
-	public Long getColumnAByLike() {
-		return this.columnA;
-	}
-	
-
-    /** set 扩展字段2. */
-	public void setColumnB(Long columnB) {
-		this.columnB = columnB;
-	}
-	
-	/** get 扩展字段2. */
-	public Long getColumnB() {
-		return this.columnB;
-	}
-	
-	@JsonIgnore
-	public Long getColumnBByLike() {
-		return this.columnB;
-	}
-	
-
-    /** set 扩展字段3. */
-	public void setColumnC(String columnC) {
-		this.columnC = columnC;
-	}
-	
-	/** get 扩展字段3. */
-	public String getColumnC() {
-		return this.columnC;
-	}
-	
-	@JsonIgnore
-	public String getColumnCByLike() {
-		return "%"+this.columnC+"%";
-	}
-	
-
-    /** set 扩展字段4. */
-	public void setColumnD(String columnD) {
-		this.columnD = columnD;
-	}
-	
-	/** get 扩展字段4. */
-	public String getColumnD() {
-		return this.columnD;
-	}
-	
-	@JsonIgnore
-	public String getColumnDByLike() {
-		return "%"+this.columnD+"%";
+	public java.math.BigDecimal getRatioByLike() {
+		return this.ratio;
 	}
 	
 
@@ -247,32 +190,26 @@ public class GameEntity extends BaseEntity {
 	}
 	
     /** constructor */
-	public GameEntity() {
+	public RevenueRatioEntity() {
 		super();
 	}
 
 	/**
 	 * constructor.<p>
+	 * @param gameId			游戏主键
 	 * @param name			名称
-	 * @param type			类型
-	 * @param columnA			扩展字段1
-	 * @param columnB			扩展字段2
-	 * @param columnC			扩展字段3
-	 * @param columnD			扩展字段4
+	 * @param ratio			比率
 	 * @param createtime			创建时间
 	 * @param createUserId			创建人外键
 	 * @param createUserName			创建人姓名
 	 * @param lastModifyPersonId			最后修改人外键
 	 * @param lastModifyPersonName			最后修改人姓名
 	 */
-	public GameEntity(String name,String type,Long columnA,Long columnB,String columnC,String columnD,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName){
+	public RevenueRatioEntity(Long gameId,String name,java.math.BigDecimal ratio,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName){
 		this();
+		this.gameId = gameId;
 		this.name = name;
-		this.type = type;
-		this.columnA = columnA;
-		this.columnB = columnB;
-		this.columnC = columnC;
-		this.columnD = columnD;
+		this.ratio = ratio;
 		this.createtime = createtime;
 		this.createUserId = createUserId;
 		this.createUserName = createUserName;
@@ -282,14 +219,11 @@ public class GameEntity extends BaseEntity {
 	
 	@Override
 	public String toString() {
-		return new StringBuilder().append("GameEntity[")
+		return new StringBuilder().append("RevenueRatioEntity[")
 			.append("Id=").append(getId()).append(", ")
+			.append("GameId=").append(getGameId()).append(", ")
 			.append("Name=").append(getName()).append(", ")
-			.append("Type=").append(getType()).append(", ")
-			.append("ColumnA=").append(getColumnA()).append(", ")
-			.append("ColumnB=").append(getColumnB()).append(", ")
-			.append("ColumnC=").append(getColumnC()).append(", ")
-			.append("ColumnD=").append(getColumnD()).append(", ")
+			.append("Ratio=").append(getRatio()).append(", ")
 			.append("Createtime=").append(getCreatetime()).append(", ")
 			.append("CreateUserId=").append(getCreateUserId()).append(", ")
 			.append("CreateUserName=").append(getCreateUserName()).append(", ")
@@ -307,11 +241,11 @@ public class GameEntity extends BaseEntity {
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
-		if(obj instanceof GameEntity == false)
+		if(obj instanceof RevenueRatioEntity == false)
 			return false;
 		if(this == obj)
 			return true;
-		GameEntity other = (GameEntity)obj;
+		RevenueRatioEntity other = (RevenueRatioEntity)obj;
 		
 		return this.toString().equals(other.toString());
 	}

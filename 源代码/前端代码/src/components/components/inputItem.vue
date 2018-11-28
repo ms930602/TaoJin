@@ -6,7 +6,7 @@
 		</div>
 		<div slot="suffix" v-if="suffix">
 			<slot name="suffix"></slot>
-		</div>		
+		</div>
 	</el-input>
 </template>
 <script>

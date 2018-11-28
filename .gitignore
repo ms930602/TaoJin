@@ -27,4 +27,3 @@ hs_err_pid*
 target
 node_modules
 dist
-static

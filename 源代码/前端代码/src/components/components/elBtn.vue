@@ -1,5 +1,5 @@
 <template>
-	<el-button class="btnstyle" :type="type" @click="click" :size="size" :plain="plain">{{text}}</el-button>
+	<el-button class="btnstyle" :type="type" @click="click" :size="size" :plain="plain" :loading="loading">{{text}}</el-button>
 </template>
 <script>
 	export default {
@@ -15,6 +15,9 @@
 				default: '',
 			},
 			plain:{
+				default:false
+			},
+			loading:{
 				default:false
 			}
 		},
