@@ -311,7 +311,7 @@ export default {
             return this._ajax({ url: this.rootAPI, name: 'dictionary/list', param: { claCode: name } })
         },
         _dicKey(d) {
-            if (d.aaData.length > 0) {
+            if (d && d.aaData && d.aaData.length > 0) {
                 return d.aaData.map(function(el) {
                     el.key = el.dicCode;
                     el.value = el.dicName;
@@ -321,14 +321,22 @@ export default {
                 return []
             }
         },
+		_dicGameValue(key,dic){
+			var value = ''
+			if(Array.isArray(dic)){
+				for(var i=0;i<dic.length;i++){
+					if(dic[i].id == key)return dic[i].name;
+				}
+			}
+			return '无信息';
+		},
         _dicValue(key, dic) {
-            var value = ''
-            dic.forEach(function(el) {
-                if (key == el.key) {
-                    value = el.value
-                }
-            })
-            return value
+			if(Array.isArray(dic)){
+				for(var i=0;i<dic.length;i++){
+					if(dic[i].key == key)return dic[i].value;
+				}
+			}
+            return '无信息';
         },
         _priceFormat(val) {
             if (typeof val === 'number') {

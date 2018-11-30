@@ -78,7 +78,7 @@ public class DictionaryService extends BaseService {
 		entity.setClaCode(dictionary.getClaCode());
 		entity.setDicCode(dictionary.getDicCode());
 		DictionaryEntity findOne = dictionaryBo.queryByEntity(entity);
-		if(findOne!=null&&findOne.getId()>0) {
+		if(findOne!=null&&findOne.getId()>0&&!findOne.getId().equals(dictionary.getId())) {
 			findOne.setId((long)-1);
 			return new BaseRespVO(1, "相同分类下的字典编码重复"); 
 		}

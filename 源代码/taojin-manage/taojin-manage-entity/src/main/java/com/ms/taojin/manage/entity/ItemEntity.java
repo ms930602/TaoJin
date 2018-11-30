@@ -8,7 +8,7 @@ import com.ms.taojin.common.vo.TableName;
 /**
  * 物品信息
  * @author 蒙赛
- * @Date 2018-11-28 09:30:09
+ * @Date 2018-11-29 10:06:48
  * @since 1.0
  */
 @TableName("t_ms_item")
@@ -20,8 +20,11 @@ public class ItemEntity extends BaseEntity {
 	/** 主键. */
 	private Long id;
 	
+	/** 首字母. */
+	private String firstCode;
+	
 	/** 游戏主键. */
-	private Long 游戏主键;
+	private Long gameId;
 	
 	/** 名称. */
 	private String name;
@@ -65,19 +68,35 @@ public class ItemEntity extends BaseEntity {
 	}
 	
 
-    /** set 游戏主键. */
-	public void set游戏主键(Long 游戏主键) {
-		this.游戏主键 = 游戏主键;
+    /** set 首字母. */
+	public void setFirstCode(String firstCode) {
+		this.firstCode = firstCode;
 	}
 	
-	/** get 游戏主键. */
-	public Long get游戏主键() {
-		return this.游戏主键;
+	/** get 首字母. */
+	public String getFirstCode() {
+		return this.firstCode;
 	}
 	
 	@JsonIgnore
-	public Long get游戏主键ByLike() {
-		return this.游戏主键;
+	public String getFirstCodeByLike() {
+		return this.firstCode;
+	}
+	
+
+    /** set 游戏主键. */
+	public void setGameId(Long gameId) {
+		this.gameId = gameId;
+	}
+	
+	/** get 游戏主键. */
+	public Long getGameId() {
+		return this.gameId;
+	}
+	
+	@JsonIgnore
+	public Long getGameIdByLike() {
+		return this.gameId;
 	}
 	
 
@@ -215,7 +234,8 @@ public class ItemEntity extends BaseEntity {
 
 	/**
 	 * constructor.<p>
-	 * @param 游戏主键			游戏主键
+	 * @param firstCode			首字母
+	 * @param gameId			游戏主键
 	 * @param name			名称
 	 * @param type			类型 1永久 2 时限 3元宝
 	 * @param remark			备注
@@ -225,9 +245,10 @@ public class ItemEntity extends BaseEntity {
 	 * @param lastModifyPersonId			最后修改人外键
 	 * @param lastModifyPersonName			最后修改人姓名
 	 */
-	public ItemEntity(Long 游戏主键,String name,String type,String remark,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName){
+	public ItemEntity(String firstCode,Long gameId,String name,String type,String remark,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName){
 		this();
-		this.游戏主键 = 游戏主键;
+		this.firstCode = firstCode;
+		this.gameId = gameId;
 		this.name = name;
 		this.type = type;
 		this.remark = remark;
@@ -242,7 +263,8 @@ public class ItemEntity extends BaseEntity {
 	public String toString() {
 		return new StringBuilder().append("ItemEntity[")
 			.append("Id=").append(getId()).append(", ")
-			.append("游戏主键=").append(get游戏主键()).append(", ")
+			.append("FirstCode=").append(getFirstCode()).append(", ")
+			.append("GameId=").append(getGameId()).append(", ")
 			.append("Name=").append(getName()).append(", ")
 			.append("Type=").append(getType()).append(", ")
 			.append("Remark=").append(getRemark()).append(", ")

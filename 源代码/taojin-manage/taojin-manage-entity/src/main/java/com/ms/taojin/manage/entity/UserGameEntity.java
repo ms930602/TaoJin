@@ -8,7 +8,7 @@ import com.ms.taojin.common.vo.TableName;
 /**
  * 
  * @author 蒙赛
- * @Date 2018-11-28 09:30:25
+ * @Date 2018-11-29 10:06:45
  * @since 1.0
  */
 @TableName("t_ms_user_game")
@@ -19,6 +19,9 @@ public class UserGameEntity extends BaseEntity {
 	
 	/** 主键. */
 	private Long id;
+	
+	/** 首字母. */
+	private String firstCode;
 	
 	/** 游戏外键. */
 	private Long gameId;
@@ -74,6 +77,22 @@ public class UserGameEntity extends BaseEntity {
 	@JsonIgnore
 	public Long getIdByLike() {
 		return this.id;
+	}
+	
+
+    /** set 首字母. */
+	public void setFirstCode(String firstCode) {
+		this.firstCode = firstCode;
+	}
+	
+	/** get 首字母. */
+	public String getFirstCode() {
+		return this.firstCode;
+	}
+	
+	@JsonIgnore
+	public String getFirstCodeByLike() {
+		return this.firstCode;
 	}
 	
 
@@ -291,6 +310,7 @@ public class UserGameEntity extends BaseEntity {
 
 	/**
 	 * constructor.<p>
+	 * @param firstCode			首字母
 	 * @param gameId			游戏外键
 	 * @param name			名称
 	 * @param type			类型
@@ -305,8 +325,9 @@ public class UserGameEntity extends BaseEntity {
 	 * @param lastModifyPersonId			最后修改人外键
 	 * @param lastModifyPersonName			最后修改人姓名
 	 */
-	public UserGameEntity(Long gameId,String name,String type,Long sort,Long columnA,Long columnB,String columnC,String columnD,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName){
+	public UserGameEntity(String firstCode,Long gameId,String name,String type,Long sort,Long columnA,Long columnB,String columnC,String columnD,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName){
 		this();
+		this.firstCode = firstCode;
 		this.gameId = gameId;
 		this.name = name;
 		this.type = type;
@@ -326,6 +347,7 @@ public class UserGameEntity extends BaseEntity {
 	public String toString() {
 		return new StringBuilder().append("UserGameEntity[")
 			.append("Id=").append(getId()).append(", ")
+			.append("FirstCode=").append(getFirstCode()).append(", ")
 			.append("GameId=").append(getGameId()).append(", ")
 			.append("Name=").append(getName()).append(", ")
 			.append("Type=").append(getType()).append(", ")

@@ -2,8 +2,18 @@
 	<div class="page-category">
     <!-- 查询条件 -->
 		<searchInputItems>
-			<searchInputItem name="游戏名称">
-				<inputItem :value.sync="searchForm.name" @enter="searchTable"></inputItem>
+			<searchInputItem name="账号名称">
+				<inputItem :value.sync="searchForm.loginName" @enter="searchTable"></inputItem>
+			</searchInputItem>
+			<searchInputItem name="是否封印">
+				<selectInput :value.sync="searchForm.status" @selectChange="searchTable" filterable :clearable="true">
+					<el-option
+							v-for="item in statusOption"
+							:key="item.key"
+							:label="item.value"
+							:value="item.key">
+						</el-option>
+				</selectInput>
 			</searchInputItem>
 		</searchInputItems>
 <!-- 操作按钮 -->
@@ -20,58 +30,65 @@
 		<!-- 表格 -->
 		<elemTable :dataList="dataList" :currentPage='pageNum' :pageSize="pageSize" :pageTotal="pageTotal" :loading="dataLoading" @sizeChange="handleSizeChange" @currentChange="handleCurrentChange" @selectionChange="selectionChange">
 			<el-table-column type="selection" width="55"></el-table-column>
-			<el-table-column prop="firstCode" label="首字母" width="60">
+			<el-table-column prop="gameId" label="所属游戏">
 				<template slot-scope="scope">
-					<span>{{scope.row.firstCode}}</span>
+					<span>{{_dicGameValue(scope.row.gameId,gameOption)}}</span>
 				</template>
 			</el-table-column>
-		    <el-table-column prop="name" label="名称">
+		    <el-table-column prop="loginName" label="账号名称">
 		    	<template slot-scope="scope">
-		    		<span>{{scope.row.name}}</span>
+		    		<span>{{scope.row.loginName}}</span>
 		      	</template>
 		    </el-table-column>
-			<el-table-column prop="type" label="类型">
-		    	<template slot-scope="scope">
-		    		<span>{{_dicValue(scope.row.type,gameTypeOption)}}</span>
-		      	</template>
-		    </el-table-column>
-			<el-table-column prop="createtime" label="创建时间">
+			<el-table-column prop="password" label="密码(点击显示)">
 				<template slot-scope="scope">
-					<span>{{scope.row.createtime}}</span>
+					<a href="javascript:void(0)" @click="scope.row.show=!scope.row.show">{{scope.row.show?scope.row.password:'********'}}</a>
 				</template>
 			</el-table-column>
-			<el-table-column prop="createUserName" label="创建人">
+			<el-table-column prop="status" label="是否封印">
 				<template slot-scope="scope">
-					<span>{{scope.row.createUserName}}</span>
+					<span>{{_dicValue(scope.row.status,statusOption)}}</span>
 				</template>
 			</el-table-column>
-			
-			<el-table-column prop="lastModifyPersonName" label="最后修改人">
+			<el-table-column prop="useTime" label="解封时间">
 				<template slot-scope="scope">
-					<span>{{scope.row.lastModifyPersonName}}</span>
+					<span>{{scope.row.useTime}}</span>
+				</template>
+			</el-table-column>
+			<el-table-column prop="useTime" label="备注">
+				<template slot-scope="scope">
+					<span>{{scope.row.remark}}</span>
 				</template>
 			</el-table-column>
 		    <el-table-column label="操作">
 		    	<template slot-scope="scope">
-					<el-button type="text" @click="modalEdit(scope.row)"><i class="el-icon-edit"></i>编辑</el-button>
+		    		<el-button type="text" @click="modalEdit(scope.row)"><i class="el-icon-edit"></i>编辑</el-button>
 					<el-button type="text" @click="delRow(scope.row)" style="color:#a90909"><i class="el-icon-delete"></i>删除</el-button>
 		    	</template>
 		    </el-table-column>
 		</elemTable>
+		<accountNumberModal v-if="modalShow" :modal="modalShow" :baseModalType="modalType" @close="modalClose" :obj="modalObject" @submit="modalSubmit"></accountNumberModal>
     </div>
 </template>
 
 <script>
     import mixin from '../../mixin/mixin.js'
+	import accountNumberModal from './modal/accountNumberModal.vue'
 	import local from '../../local.js'
 	export default {
 		mixins: [mixin],
+		components: {accountNumberModal},
 		data() {
 			return {
-				gameTypeOption:[],
 				searchForm: {
-					name: ''
+					loginName: '',
+					status:'',
 				},
+				gameOption:[],
+				statusOption:[
+					{key:'0',value:'未封印'},
+					{key:'1',value:'已被封印'}
+				],
 				typeOption:[],
 				dataList: [],
 				modalType:'add',
@@ -80,34 +97,44 @@
 			}
 		},
 		mounted() {
-			this._searchDic("GAME_TYPE").then(
-				function(d) {
-					this.gameTypeOption = this._dicKey(d);
-					this.searchTable()
-				}.bind(this)
-			);
+			this.searchTable();
+			this.loadGame();
 		},
 		methods: {
+			loadGame(){
+				this._ajax({url: this.rootAPI, name: 'userGame/list', param: {}}).then((function(d){
+					if(d.state==0){
+						this.gameOption = d.aaData;
+					}else{
+						this.$message({type: 'danger', message: d.msg});
+					}
+				}).bind(this))
+			},
 			modalAdd(){
-				this.$router.push({path:"/sysGameMain/a"});
+				this.modalType = 'add';
+				this.modalObject = {};
+				this.modalShow = true;
 			},
 			modalEdit(row){
-				this.$router.push({path:"/sysGameMain/u",query:{id:row.id}});
+				this.modalType = 'edit';
+				this.modalObject = row;
+				this.modalShow = true;
 			},
 			searchTable() {
 				Object.assign(this.searchForm, {
 					pageNum: this.pageNum, 
 					pageSize: this.pageSize
 				})
-				return this._ajax({url: this.rootAPI, name: 'game/list', param: this.searchForm, loading: 'dataLoading'}).then(this.renderTable)
+				return this._ajax({url: this.rootAPI, name: 'userAccountNumber/list', param: this.searchForm, loading: 'dataLoading'}).then(this.renderTable)
 			},
 			reset() {
 				Object.assign(this.searchForm, {
-					name: ''
+					loginName: '',
+					status:''
 				})
 				this.handleCurrentChange(1)
-			},
-			dele() {
+			},			
+			dele() {			
 	        	if(this.delSelection.length === 0) {
 	        		this.$message({type: 'info', message: '请选择行'});
 	        	}else {
@@ -129,7 +156,7 @@
 			delSubmit(o) {
 				this._comfirm('确定删除？')
         		.then((function() {
-        			return this._ajax({url: this.rootAPI + 'game/delete', param: o, arr:true})
+        			return this._ajax({url: this.rootAPI + 'userAccountNumber/delete', param: o, arr:true})
         		}).bind(this))
         		.then((function(d) {
 					if(d.state === 0)

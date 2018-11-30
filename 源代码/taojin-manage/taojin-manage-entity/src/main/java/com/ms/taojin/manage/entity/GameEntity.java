@@ -8,7 +8,7 @@ import com.ms.taojin.common.vo.TableName;
 /**
  * 游戏
  * @author 蒙赛
- * @Date 2018-11-27 15:29:47
+ * @Date 2018-11-29 10:06:43
  * @since 1.0
  */
 @TableName("t_ms_game")
@@ -19,6 +19,9 @@ public class GameEntity extends BaseEntity {
 	
 	/** 主键. */
 	private Long id;
+	
+	/** 首字母. */
+	private String firstCode;
 	
 	/** 名称. */
 	private String name;
@@ -68,6 +71,22 @@ public class GameEntity extends BaseEntity {
 	@JsonIgnore
 	public Long getIdByLike() {
 		return this.id;
+	}
+	
+
+    /** set 首字母. */
+	public void setFirstCode(String firstCode) {
+		this.firstCode = firstCode;
+	}
+	
+	/** get 首字母. */
+	public String getFirstCode() {
+		return this.firstCode;
+	}
+	
+	@JsonIgnore
+	public String getFirstCodeByLike() {
+		return this.firstCode;
 	}
 	
 
@@ -253,6 +272,7 @@ public class GameEntity extends BaseEntity {
 
 	/**
 	 * constructor.<p>
+	 * @param firstCode			首字母
 	 * @param name			名称
 	 * @param type			类型
 	 * @param columnA			扩展字段1
@@ -265,8 +285,9 @@ public class GameEntity extends BaseEntity {
 	 * @param lastModifyPersonId			最后修改人外键
 	 * @param lastModifyPersonName			最后修改人姓名
 	 */
-	public GameEntity(String name,String type,Long columnA,Long columnB,String columnC,String columnD,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName){
+	public GameEntity(String firstCode,String name,String type,Long columnA,Long columnB,String columnC,String columnD,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName){
 		this();
+		this.firstCode = firstCode;
 		this.name = name;
 		this.type = type;
 		this.columnA = columnA;
@@ -284,6 +305,7 @@ public class GameEntity extends BaseEntity {
 	public String toString() {
 		return new StringBuilder().append("GameEntity[")
 			.append("Id=").append(getId()).append(", ")
+			.append("FirstCode=").append(getFirstCode()).append(", ")
 			.append("Name=").append(getName()).append(", ")
 			.append("Type=").append(getType()).append(", ")
 			.append("ColumnA=").append(getColumnA()).append(", ")

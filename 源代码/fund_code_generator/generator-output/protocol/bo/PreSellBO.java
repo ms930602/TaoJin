@@ -14,7 +14,7 @@ import com.ms.taojin.manage.mapper.PreSellMapper;
 /**
  * 预卖出 bo
  * @author 蒙赛
- * @Date 2018-11-28 10:40:33
+ * @Date 2018-11-30 13:12:49
  * @since 1.0
  */
 @Component

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 /**
  * 预卖出 Mapper
  * @author 蒙赛
- * @Date 2018-11-28 10:40:33
+ * @Date 2018-11-30 13:12:50
  * @since 1.0
  */
 @Repository

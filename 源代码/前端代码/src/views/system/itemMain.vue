@@ -2,8 +2,18 @@
 	<div class="page-category">
     <!-- 查询条件 -->
 		<searchInputItems>
-			<searchInputItem name="游戏名称">
+			<searchInputItem name="物品名称">
 				<inputItem :value.sync="searchForm.name" @enter="searchTable"></inputItem>
+			</searchInputItem>
+			<searchInputItem name="所属游戏">
+				<selectInput :value.sync="searchForm.gameId" @selectChange="searchTable" filterable :clearable="true">
+					<el-option
+							v-for="item in gameOption"
+							:key="item.id"
+							:label="item.firstCode+ ' ' + item.name"
+							:value="item.id">
+						</el-option>
+				</selectInput>
 			</searchInputItem>
 		</searchInputItems>
 <!-- 操作按钮 -->
@@ -25,6 +35,11 @@
 					<span>{{scope.row.firstCode}}</span>
 				</template>
 			</el-table-column>
+			<el-table-column prop="gameId" label="所属游戏">
+				<template slot-scope="scope">
+					<span>{{_dicGameValue(scope.row.gameId,gameOption)}}</span>
+				</template>
+			</el-table-column>
 		    <el-table-column prop="name" label="名称">
 		    	<template slot-scope="scope">
 		    		<span>{{scope.row.name}}</span>
@@ -32,7 +47,7 @@
 		    </el-table-column>
 			<el-table-column prop="type" label="类型">
 		    	<template slot-scope="scope">
-		    		<span>{{_dicValue(scope.row.type,gameTypeOption)}}</span>
+		    		<span>{{_dicValue(scope.row.type,typeOption)}}</span>
 		      	</template>
 		    </el-table-column>
 			<el-table-column prop="createtime" label="创建时间">
@@ -53,25 +68,29 @@
 			</el-table-column>
 		    <el-table-column label="操作">
 		    	<template slot-scope="scope">
-					<el-button type="text" @click="modalEdit(scope.row)"><i class="el-icon-edit"></i>编辑</el-button>
-					<el-button type="text" @click="delRow(scope.row)" style="color:#a90909"><i class="el-icon-delete"></i>删除</el-button>
+						<el-button type="text" @click="modalEdit(scope.row)"><i class="el-icon-edit"></i>编辑</el-button>
+						<el-button type="text" @click="delRow(scope.row)" style="color:#a90909"><i class="el-icon-delete"></i>删除</el-button>
 		    	</template>
 		    </el-table-column>
 		</elemTable>
+		<itemModal v-if="modalShow" :modal="modalShow" :baseModalType="modalType" @close="modalClose" :obj="modalObject" @submit="modalSubmit"></itemModal>
     </div>
 </template>
 
 <script>
     import mixin from '../../mixin/mixin.js'
+	import itemModal from './modal/itemModal.vue'
 	import local from '../../local.js'
 	export default {
 		mixins: [mixin],
+		components: {itemModal},
 		data() {
 			return {
-				gameTypeOption:[],
 				searchForm: {
-					name: ''
+					name: '',
+					gameId:null,
 				},
+				gameOption:[],
 				typeOption:[],
 				dataList: [],
 				modalType:'add',
@@ -80,34 +99,48 @@
 			}
 		},
 		mounted() {
-			this._searchDic("GAME_TYPE").then(
+			this._searchDic("ITEM_TYPE").then(
 				function(d) {
-					this.gameTypeOption = this._dicKey(d);
-					this.searchTable()
+					this.typeOption = this._dicKey(d);
 				}.bind(this)
 			);
+			this.searchTable();
+			this.loadGame();
 		},
 		methods: {
+			loadGame(){
+				 this._ajax({url: this.rootAPI, name: 'game/list', param: {}}).then((function(d){
+					 if(d.state==0){
+						 this.gameOption = d.aaData;
+					 }else{
+						 this.$message({type: 'danger', message: d.msg});
+					 }
+				 }).bind(this))
+			},
 			modalAdd(){
-				this.$router.push({path:"/sysGameMain/a"});
+				this.modalType = 'add';
+				this.modalObject = {};
+				this.modalShow = true;
 			},
 			modalEdit(row){
-				this.$router.push({path:"/sysGameMain/u",query:{id:row.id}});
+				this.modalType = 'edit';
+				this.modalObject = row;
+				this.modalShow = true;
 			},
 			searchTable() {
 				Object.assign(this.searchForm, {
 					pageNum: this.pageNum, 
 					pageSize: this.pageSize
 				})
-				return this._ajax({url: this.rootAPI, name: 'game/list', param: this.searchForm, loading: 'dataLoading'}).then(this.renderTable)
+				return this._ajax({url: this.rootAPI, name: 'item/list', param: this.searchForm, loading: 'dataLoading'}).then(this.renderTable)
 			},
 			reset() {
 				Object.assign(this.searchForm, {
 					name: ''
 				})
 				this.handleCurrentChange(1)
-			},
-			dele() {
+			},			
+			dele() {			
 	        	if(this.delSelection.length === 0) {
 	        		this.$message({type: 'info', message: '请选择行'});
 	        	}else {
@@ -129,7 +162,7 @@
 			delSubmit(o) {
 				this._comfirm('确定删除？')
         		.then((function() {
-        			return this._ajax({url: this.rootAPI + 'game/delete', param: o, arr:true})
+        			return this._ajax({url: this.rootAPI + 'item/delete', param: o, arr:true})
         		}).bind(this))
         		.then((function(d) {
 					if(d.state === 0)

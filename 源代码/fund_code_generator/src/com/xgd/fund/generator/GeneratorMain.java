@@ -27,7 +27,7 @@ public class GeneratorMain {
 		// "resource/template/mybatis");
 		// g.generateByTable(args, "resource/template/mybatis");
 		//,"t_ms_buy","t_ms_item","t_ms_pre_buy","t_ms_pre_sell","t_ms_revenue_ratio","t_ms_sell","t_ms_sell_detail","t_ms_user_game","t_ms_user_account_number"
-		g.generateByTable(new String[] {  "t_ms_currency_unit","t_ms_buy","t_ms_item","t_ms_pre_buy","t_ms_pre_sell","t_ms_revenue_ratio","t_ms_sell","t_ms_sell_detail","t_ms_user_game","t_ms_user_account_number"}, "resource/template/mybatis");
+		g.generateByTable(new String[] {  "t_ms_pre_buy","t_ms_pre_sell","t_ms_buy","t_ms_sell"}, "resource/template/mybatis");
 		
 //		g.generateByTable(new String[] { "t_sto_stockdetail" }, "resource/template/mybatis");
 

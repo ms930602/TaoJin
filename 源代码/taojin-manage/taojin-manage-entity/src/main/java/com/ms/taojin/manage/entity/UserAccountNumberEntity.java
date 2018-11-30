@@ -28,6 +28,8 @@ public class UserAccountNumberEntity extends BaseEntity {
 	
 	/** 账号密码. */
 	private String password;
+
+	private boolean show;
 	
 	/** 0否 1 是. */
 	private String status;
@@ -52,10 +54,16 @@ public class UserAccountNumberEntity extends BaseEntity {
 	
 	/** 最后修改人姓名. */
 	private String lastModifyPersonName;
-	
-	
 
-    /** set 主键. */
+	public boolean isShow() {
+		return show;
+	}
+
+	public void setShow(boolean show) {
+		show = show;
+	}
+
+	/** set 主键. */
 	public void setId(Long id) {
 		this.id = id;
 	}

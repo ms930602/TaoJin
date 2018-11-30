@@ -8,7 +8,7 @@ import com.ms.taojin.common.vo.TableName;
 /**
  * 卖出
  * @author 蒙赛
- * @Date 2018-11-28 09:30:20
+ * @Date 2018-11-30 13:12:55
  * @since 1.0
  */
 @TableName("t_ms_sell")
@@ -52,6 +52,12 @@ public class SellEntity extends BaseEntity {
 	
 	/** 最后修改人姓名. */
 	private String lastModifyPersonName;
+	
+	/** 是否公开. */
+	private String openStatus;
+	
+	/** 状态 0正常. */
+	private String status;
 	
 	
 
@@ -246,6 +252,38 @@ public class SellEntity extends BaseEntity {
 		return "%"+this.lastModifyPersonName+"%";
 	}
 	
+
+    /** set 是否公开. */
+	public void setOpenStatus(String openStatus) {
+		this.openStatus = openStatus;
+	}
+	
+	/** get 是否公开. */
+	public String getOpenStatus() {
+		return this.openStatus;
+	}
+	
+	@JsonIgnore
+	public String getOpenStatusByLike() {
+		return this.openStatus;
+	}
+	
+
+    /** set 状态 0正常. */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	/** get 状态 0正常. */
+	public String getStatus() {
+		return this.status;
+	}
+	
+	@JsonIgnore
+	public String getStatusByLike() {
+		return this.status;
+	}
+	
     /** constructor */
 	public SellEntity() {
 		super();
@@ -264,8 +302,10 @@ public class SellEntity extends BaseEntity {
 	 * @param createUserName			创建人姓名
 	 * @param lastModifyPersonId			最后修改人外键
 	 * @param lastModifyPersonName			最后修改人姓名
+	 * @param openStatus			是否公开
+	 * @param status			状态 0正常
 	 */
-	public SellEntity(Long gameId,Long itemId,java.math.BigDecimal quantity,java.math.BigDecimal price,java.util.Date sellTime,String remark,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName){
+	public SellEntity(Long gameId,Long itemId,java.math.BigDecimal quantity,java.math.BigDecimal price,java.util.Date sellTime,String remark,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName,String openStatus,String status){
 		this();
 		this.gameId = gameId;
 		this.itemId = itemId;
@@ -278,6 +318,8 @@ public class SellEntity extends BaseEntity {
 		this.createUserName = createUserName;
 		this.lastModifyPersonId = lastModifyPersonId;
 		this.lastModifyPersonName = lastModifyPersonName;
+		this.openStatus = openStatus;
+		this.status = status;
 	}
 	
 	@Override
@@ -294,7 +336,9 @@ public class SellEntity extends BaseEntity {
 			.append("CreateUserId=").append(getCreateUserId()).append(", ")
 			.append("CreateUserName=").append(getCreateUserName()).append(", ")
 			.append("LastModifyPersonId=").append(getLastModifyPersonId()).append(", ")
-			.append("LastModifyPersonName=").append(getLastModifyPersonName())
+			.append("LastModifyPersonName=").append(getLastModifyPersonName()).append(", ")
+			.append("OpenStatus=").append(getOpenStatus()).append(", ")
+			.append("Status=").append(getStatus())
 		.append("]").toString();
 	}
 	

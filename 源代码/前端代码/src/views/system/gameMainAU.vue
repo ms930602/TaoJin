@@ -8,6 +8,11 @@
     <el-form class="modal-form" :inline="true" :model="form" :rules="rules" ref="form" label-width="120px">
       <el-row >
 				<el-col :span="6">
+						<el-form-item label="首字母"  prop='firstCode'>
+								<inputItem style="width: 200px;" :maxlength="1" :value.sync="form.firstCode" ></inputItem>
+						</el-form-item>
+				</el-col>
+				<el-col :span="6">
 	          <el-form-item label="游戏名称"  prop='name'>
 								<inputItem style="width: 200px;" :maxlength="100" :value.sync="form.name" ></inputItem>
 		      	</el-form-item>
@@ -183,10 +188,12 @@ export default {
       form:{
       	id:null,
       	name:'',
+				firstCode:'',
       	type:null
       },
       rules: {
-        name: [this._ruleRequired("游戏名称")],
+				firstCode: [this._ruleRequired("首字母"),this._ruleLength(1)],
+        name: [this._ruleRequired("游戏名称"),this._ruleLength(100)],
 				type: [this._ruleRequired("游戏类型")],
       }
     };
@@ -345,7 +352,7 @@ export default {
         }).bind(this))
 		},
 		cancel(){
-			this.$router.push({path:"/gameMain"});
+			this.$router.push({path:"/sysGameMain"});
 		},
     saveGame(){
 				
@@ -354,6 +361,7 @@ export default {
 							  this.gameSubmitBtn = false;
 								let o = {}, method = 'game/update';
 								o = {
+									firstCode:this.form.firstCode,
 									name:this.form.name,
 									type:this.form.type
 								};
@@ -371,10 +379,10 @@ export default {
 													this.form.id = d.aaData.id;
 												}
 											}
-											this.$message({type: 'success', message: '添加成功!'});
+											this.$message({type: 'success', message: '操作成功!'});
 										}
 										else{
-											this.$message({type: 'warning', message: '添加失败:'+ d.msg});
+											this.$message({type: 'warning', message: '操作失败:'+ d.msg});
 										}
 										this.gameSubmitBtn = true;
 								}).bind(this))

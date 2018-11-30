@@ -22,11 +22,12 @@
 		<result property="createUserName" jdbcType="VARCHAR" column="f_create_user_name"/>
 		<result property="lastModifyPersonId" jdbcType="INTEGER" column="f_last_modify_person_id"/>
 		<result property="lastModifyPersonName" jdbcType="VARCHAR" column="f_last_modify_person_name"/>
+		<result property="openStatus" jdbcType="CHAR" column="f_open_status"/>
 	</resultMap>
 	
 	<!-- 查询列 -->
 	<sql id="BaseColumnList">
-		f_id,f_login_name,f_game_id,f_item_id,f_group_no,f_quantity,f_price,f_buy_time,f_time_status,f_exist_time,f_status,f_remark,f_createtime,f_create_user_id,f_create_user_name,f_last_modify_person_id,f_last_modify_person_name
+		f_id,f_login_name,f_game_id,f_item_id,f_group_no,f_quantity,f_price,f_buy_time,f_time_status,f_exist_time,f_status,f_remark,f_createtime,f_create_user_id,f_create_user_name,f_last_modify_person_id,f_last_modify_person_name,f_open_status
 	</sql>
 			
 	<!--创建记录 -->
@@ -49,7 +50,8 @@
 			<if test="createUserId!=null">f_create_user_id,</if>
 			<if test="createUserName!=null">f_create_user_name,</if>
 			<if test="lastModifyPersonId!=null">f_last_modify_person_id,</if>
-			<if test="lastModifyPersonName!=null">f_last_modify_person_name</if>
+			<if test="lastModifyPersonName!=null">f_last_modify_person_name,</if>
+			<if test="openStatus!=null">f_open_status</if>
 		</trim>
 		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=INTEGER},</if>
@@ -68,7 +70,8 @@
 			<if test="createUserId!=null">#{createUserId,jdbcType=INTEGER},</if>
 			<if test="createUserName!=null">#{createUserName,jdbcType=VARCHAR},</if>
 			<if test="lastModifyPersonId!=null">#{lastModifyPersonId,jdbcType=INTEGER},</if>
-			<if test="lastModifyPersonName!=null">#{lastModifyPersonName,jdbcType=VARCHAR}</if>
+			<if test="lastModifyPersonName!=null">#{lastModifyPersonName,jdbcType=VARCHAR},</if>
+			<if test="openStatus!=null">#{openStatus,jdbcType=CHAR}</if>
 		</trim>
 	</insert>
 
@@ -93,7 +96,8 @@
 					<if test="item.createUserId!=null">f_create_user_id,</if>
 					<if test="item.createUserName!=null">f_create_user_name,</if>
 					<if test="item.lastModifyPersonId!=null">f_last_modify_person_id,</if>
-					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name</if>
+					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name,</if>
+					<if test="item.openStatus!=null">f_open_status</if>
 			</trim>
 			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
 					<if test="item.id!=null">#{item.id,jdbcType=INTEGER},</if>
@@ -112,7 +116,8 @@
 					<if test="item.createUserId!=null">#{item.createUserId,jdbcType=INTEGER},</if>
 					<if test="item.createUserName!=null">#{item.createUserName,jdbcType=VARCHAR},</if>
 					<if test="item.lastModifyPersonId!=null">#{item.lastModifyPersonId,jdbcType=INTEGER},</if>
-					<if test="item.lastModifyPersonName!=null">#{item.lastModifyPersonName,jdbcType=VARCHAR}</if>
+					<if test="item.lastModifyPersonName!=null">#{item.lastModifyPersonName,jdbcType=VARCHAR},</if>
+					<if test="item.openStatus!=null">#{item.openStatus,jdbcType=CHAR}</if>
 			</trim>
 		</foreach>
 	</insert>
@@ -133,7 +138,8 @@
 				<if test="status!=null">f_status = #{status,jdbcType=CHAR},</if>
 				<if test="remark!=null">f_remark = #{remark,jdbcType=VARCHAR},</if>
 				<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
-				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
+				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR},</if>
+				<if test="openStatus!=null">f_open_status = #{openStatus,jdbcType=CHAR}</if>
 		</set>
 		<where> 
 			f_id  = #{id}
@@ -157,7 +163,8 @@
 					<if test="item.status!=null">f_status = #{item.status,jdbcType=CHAR},</if>
 					<if test="item.remark!=null">f_remark = #{item.remark,jdbcType=VARCHAR},</if>
 					<if test="item.lastModifyPersonId!=null">f_last_modify_person_id = #{item.lastModifyPersonId,jdbcType=INTEGER},</if>
-					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name = #{item.lastModifyPersonName,jdbcType=VARCHAR}</if>
+					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name = #{item.lastModifyPersonName,jdbcType=VARCHAR},</if>
+					<if test="item.openStatus!=null">f_open_status = #{item.openStatus,jdbcType=CHAR}</if>
 			</set>
 			<where> 
 				f_id  = #{item.id}
@@ -208,6 +215,7 @@
 			<if test="createUserName!=null and createUserName!=''">AND t.f_create_user_name = #{createUserName,jdbcType=VARCHAR}</if>
 			<if test="lastModifyPersonId!=null">AND t.f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER}</if>
 			<if test="lastModifyPersonName!=null and lastModifyPersonName!=''">AND t.f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
+			<if test="openStatus!=null">AND t.f_open_status = #{openStatus,jdbcType=CHAR}</if>
 		</where>
 	</sql>
 	
@@ -236,6 +244,7 @@
 				<if test="whereCondition.createUserName!=null and whereCondition.createUserName!=''">AND t.f_create_user_name like #{whereCondition.createUserNameByLike,jdbcType=VARCHAR}</if>
 				<if test="whereCondition.lastModifyPersonId!=null">AND t.f_last_modify_person_id = #{whereCondition.lastModifyPersonId,jdbcType=INTEGER}</if>
 				<if test="whereCondition.lastModifyPersonName!=null and whereCondition.lastModifyPersonName!=''">AND t.f_last_modify_person_name like #{whereCondition.lastModifyPersonNameByLike,jdbcType=VARCHAR}</if>
+				<if test="whereCondition.openStatus!=null">AND t.f_open_status = #{whereCondition.openStatus,jdbcType=CHAR}</if>
 			</if>
 			<if test="keyWord!=null and keyWord!=''">
 				AND (
@@ -298,7 +307,8 @@
 				<if test="status!=null">f_status = #{status,jdbcType=CHAR},</if>
 				<if test="remark!=null">f_remark = #{remark,jdbcType=VARCHAR},</if>
 				<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
-				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
+				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR},</if>
+				<if test="openStatus!=null">f_open_status = #{openStatus,jdbcType=CHAR}</if>
 		</set>
 		<where>
 		f_id  = #{id}

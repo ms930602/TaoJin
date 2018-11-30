@@ -19,11 +19,12 @@
 		<result property="lastModifyPersonId" jdbcType="INTEGER" column="f_last_modify_person_id"/>
 		<result property="lastModifyPersonName" jdbcType="VARCHAR" column="f_last_modify_person_name"/>
 		<result property="status" jdbcType="CHAR" column="f_status"/>
+		<result property="openStatus" jdbcType="CHAR" column="f_open_status"/>
 	</resultMap>
 	
 	<!-- 查询列 -->
 	<sql id="BaseColumnList">
-		f_id,f_game_id,f_item_id,f_login_name,f_quantity,f_price,f_time,f_remark,f_createtime,f_create_user_id,f_create_user_name,f_last_modify_person_id,f_last_modify_person_name,f_status
+		f_id,f_game_id,f_item_id,f_login_name,f_quantity,f_price,f_time,f_remark,f_createtime,f_create_user_id,f_create_user_name,f_last_modify_person_id,f_last_modify_person_name,f_status,f_open_status
 	</sql>
 			
 	<!--创建记录 -->
@@ -42,7 +43,8 @@
 			<if test="createUserName!=null">f_create_user_name,</if>
 			<if test="lastModifyPersonId!=null">f_last_modify_person_id,</if>
 			<if test="lastModifyPersonName!=null">f_last_modify_person_name,</if>
-			<if test="status!=null">f_status</if>
+			<if test="status!=null">f_status,</if>
+			<if test="openStatus!=null">f_open_status</if>
 		</trim>
 		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
 			<if test="gameId!=null">#{gameId,jdbcType=INTEGER},</if>
@@ -57,7 +59,8 @@
 			<if test="createUserName!=null">#{createUserName,jdbcType=VARCHAR},</if>
 			<if test="lastModifyPersonId!=null">#{lastModifyPersonId,jdbcType=INTEGER},</if>
 			<if test="lastModifyPersonName!=null">#{lastModifyPersonName,jdbcType=VARCHAR},</if>
-			<if test="status!=null">#{status,jdbcType=CHAR}</if>
+			<if test="status!=null">#{status,jdbcType=CHAR},</if>
+			<if test="openStatus!=null">#{openStatus,jdbcType=CHAR}</if>
 		</trim>
 	</insert>
 
@@ -78,7 +81,8 @@
 					<if test="item.createUserName!=null">f_create_user_name,</if>
 					<if test="item.lastModifyPersonId!=null">f_last_modify_person_id,</if>
 					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name,</if>
-					<if test="item.status!=null">f_status</if>
+					<if test="item.status!=null">f_status,</if>
+					<if test="item.openStatus!=null">f_open_status</if>
 			</trim>
 			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
 					<if test="item.gameId!=null">#{item.gameId,jdbcType=INTEGER},</if>
@@ -93,7 +97,8 @@
 					<if test="item.createUserName!=null">#{item.createUserName,jdbcType=VARCHAR},</if>
 					<if test="item.lastModifyPersonId!=null">#{item.lastModifyPersonId,jdbcType=INTEGER},</if>
 					<if test="item.lastModifyPersonName!=null">#{item.lastModifyPersonName,jdbcType=VARCHAR},</if>
-					<if test="item.status!=null">#{item.status,jdbcType=CHAR}</if>
+					<if test="item.status!=null">#{item.status,jdbcType=CHAR},</if>
+					<if test="item.openStatus!=null">#{item.openStatus,jdbcType=CHAR}</if>
 			</trim>
 		</foreach>
 	</insert>
@@ -111,7 +116,8 @@
 				<if test="remark!=null">f_remark = #{remark,jdbcType=VARCHAR},</if>
 				<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
 				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR},</if>
-				<if test="status!=null">f_status = #{status,jdbcType=CHAR}</if>
+				<if test="status!=null">f_status = #{status,jdbcType=CHAR},</if>
+				<if test="openStatus!=null">f_open_status = #{openStatus,jdbcType=CHAR}</if>
 		</set>
 		<where> 
 			f_id  = #{id}
@@ -132,7 +138,8 @@
 					<if test="item.remark!=null">f_remark = #{item.remark,jdbcType=VARCHAR},</if>
 					<if test="item.lastModifyPersonId!=null">f_last_modify_person_id = #{item.lastModifyPersonId,jdbcType=INTEGER},</if>
 					<if test="item.lastModifyPersonName!=null">f_last_modify_person_name = #{item.lastModifyPersonName,jdbcType=VARCHAR},</if>
-					<if test="item.status!=null">f_status = #{item.status,jdbcType=CHAR}</if>
+					<if test="item.status!=null">f_status = #{item.status,jdbcType=CHAR},</if>
+					<if test="item.openStatus!=null">f_open_status = #{item.openStatus,jdbcType=CHAR}</if>
 			</set>
 			<where> 
 				f_id  = #{item.id}
@@ -180,6 +187,7 @@
 			<if test="lastModifyPersonId!=null">AND t.f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER}</if>
 			<if test="lastModifyPersonName!=null and lastModifyPersonName!=''">AND t.f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR}</if>
 			<if test="status!=null">AND t.f_status = #{status,jdbcType=CHAR}</if>
+			<if test="openStatus!=null">AND t.f_open_status = #{openStatus,jdbcType=CHAR}</if>
 		</where>
 	</sql>
 	
@@ -205,6 +213,7 @@
 				<if test="whereCondition.lastModifyPersonId!=null">AND t.f_last_modify_person_id = #{whereCondition.lastModifyPersonId,jdbcType=INTEGER}</if>
 				<if test="whereCondition.lastModifyPersonName!=null and whereCondition.lastModifyPersonName!=''">AND t.f_last_modify_person_name like #{whereCondition.lastModifyPersonNameByLike,jdbcType=VARCHAR}</if>
 				<if test="whereCondition.status!=null">AND t.f_status = #{whereCondition.status,jdbcType=CHAR}</if>
+				<if test="whereCondition.openStatus!=null">AND t.f_open_status = #{whereCondition.openStatus,jdbcType=CHAR}</if>
 			</if>
 			<if test="keyWord!=null and keyWord!=''">
 				AND (
@@ -264,7 +273,8 @@
 				<if test="remark!=null">f_remark = #{remark,jdbcType=VARCHAR},</if>
 				<if test="lastModifyPersonId!=null">f_last_modify_person_id = #{lastModifyPersonId,jdbcType=INTEGER},</if>
 				<if test="lastModifyPersonName!=null">f_last_modify_person_name = #{lastModifyPersonName,jdbcType=VARCHAR},</if>
-				<if test="status!=null">f_status = #{status,jdbcType=CHAR}</if>
+				<if test="status!=null">f_status = #{status,jdbcType=CHAR},</if>
+				<if test="openStatus!=null">f_open_status = #{openStatus,jdbcType=CHAR}</if>
 		</set>
 		<where>
 		f_id  = #{id}

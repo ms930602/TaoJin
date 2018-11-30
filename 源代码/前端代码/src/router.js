@@ -77,8 +77,8 @@ export default [{
                 }
             },
             {
-                path: '/gameMain',
-                name: 'gameMain',
+                path: '/sysGameMain',
+                name: 'sysGameMain',
                 meta: {
                     father: '系统管理',
                     name: '游戏管理',
@@ -88,8 +88,8 @@ export default [{
                 }
             },
             {
-                path: '/gameMain/a',
-                name: 'gameMainA',
+                path: '/sysGameMain/a',
+                name: 'sysGameMainA',
                 meta: {
                     father: '系统管理',
                     name: '新增游戏',
@@ -99,8 +99,8 @@ export default [{
                 }
             },
             {
-                path: '/gameMain/u',
-                name: 'gameMainR',
+                path: '/sysGameMain/u',
+                name: 'sysGameMainU',
                 meta: {
                     father: '系统管理',
                     name: '修改游戏',
@@ -109,7 +109,39 @@ export default [{
                     require(['./views/system/gameMainAU.vue'], resolve)
                 }
             },
-						
+            {
+                path: '/itemMain',
+                name: 'itemMain',
+                meta: {
+                    father: '系统管理',
+                    name: '物品管理',
+                },
+                component: function(resolve) {
+                    require(['./views/system/itemMain.vue'], resolve)
+                }
+            },
+            {
+                path: '/gameMain',
+                name: 'gameMain',
+                meta: {
+                    father: '基本信息',
+                    name: '游戏管理',
+                },
+                component: function(resolve) {
+                    require(['./views/basic/userGameMain.vue'], resolve)
+                }
+            },
+            {
+                path: '/accountMain',
+                name: 'accountMain',
+                meta: {
+                    father: '基本信息',
+                    name: '账号管理',
+                },
+                component: function(resolve) {
+                    require(['./views/basic/accountNumberMain.vue'], resolve)
+                }
+            },
 						
 						{
 								path: '/opinionMain',

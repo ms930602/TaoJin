@@ -160,7 +160,7 @@
 			<if test="gameId!=null">AND t.f_game_id = #{gameId,jdbcType=INTEGER}</if>
 			<if test="loginName!=null and loginName!=''">AND t.f_login_name = #{loginName,jdbcType=VARCHAR}</if>
 			<if test="password!=null and password!=''">AND t.f_password = #{password,jdbcType=VARCHAR}</if>
-			<if test="status!=null">AND t.f_status = #{status,jdbcType=CHAR}</if>
+			<if test="status!=null and status!=''">AND t.f_status = #{status,jdbcType=CHAR}</if>
 			<if test="useTime!=null">AND t.f_use_time = #{useTime,jdbcType=TIMESTAMP}</if>
 			<if test="remark!=null and remark!=''">AND t.f_remark = #{remark,jdbcType=VARCHAR}</if>
 			<if test="createtime!=null">AND t.f_createtime = #{createtime,jdbcType=TIMESTAMP}</if>
@@ -183,7 +183,7 @@
 				<if test="whereCondition.gameId!=null">AND t.f_game_id = #{whereCondition.gameId,jdbcType=INTEGER}</if>
 				<if test="whereCondition.loginName!=null and whereCondition.loginName!=''">AND t.f_login_name like #{whereCondition.loginNameByLike,jdbcType=VARCHAR}</if>
 				<if test="whereCondition.password!=null and whereCondition.password!=''">AND t.f_password like #{whereCondition.passwordByLike,jdbcType=VARCHAR}</if>
-				<if test="whereCondition.status!=null">AND t.f_status = #{whereCondition.status,jdbcType=CHAR}</if>
+				<if test="whereCondition.status!=null and whereCondition.status!=''">AND t.f_status = #{whereCondition.status,jdbcType=CHAR}</if>
 				<if test="whereCondition.useTime!=null">AND t.f_use_time = #{whereCondition.useTime,jdbcType=TIMESTAMP}</if>
 				<if test="whereCondition.remark!=null and whereCondition.remark!=''">AND t.f_remark like #{whereCondition.remarkByLike,jdbcType=VARCHAR}</if>
 				<if test="whereCondition.createtime!=null">AND t.f_createtime = #{whereCondition.createtime,jdbcType=TIMESTAMP}</if>

@@ -6,6 +6,7 @@
 	<!-- 结果Map -->
 	<resultMap id="BaseResultMap" type="com.ms.taojin.manage.entity.UserGameEntity">
 		<result property="id" jdbcType="INTEGER" column="f_id"/>
+		<result property="firstCode" jdbcType="CHAR" column="f_first_code"/>
 		<result property="gameId" jdbcType="INTEGER" column="f_game_id"/>
 		<result property="name" jdbcType="VARCHAR" column="f_name"/>
 		<result property="type" jdbcType="CHAR" column="f_type"/>
@@ -23,7 +24,7 @@
 	
 	<!-- 查询列 -->
 	<sql id="BaseColumnList">
-		f_id,f_game_id,f_name,f_type,f_sort,f_column_a,f_column_b,f_column_c,f_column_d,f_createtime,f_create_user_id,f_create_user_name,f_last_modify_person_id,f_last_modify_person_name
+		f_id,f_first_code,f_game_id,f_name,f_type,f_sort,f_column_a,f_column_b,f_column_c,f_column_d,f_createtime,f_create_user_id,f_create_user_name,f_last_modify_person_id,f_last_modify_person_name
 	</sql>
 			
 	<!--创建记录 -->
@@ -31,6 +32,7 @@
 		INSERT INTO t_ms_user_game
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id!=null">f_id,</if>
+			<if test="firstCode!=null">f_first_code,</if>
 			<if test="gameId!=null">f_game_id,</if>
 			<if test="name!=null">f_name,</if>
 			<if test="type!=null">f_type,</if>
@@ -47,6 +49,7 @@
 		</trim>
 		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=INTEGER},</if>
+			<if test="firstCode!=null">#{firstCode,jdbcType=CHAR},</if>
 			<if test="gameId!=null">#{gameId,jdbcType=INTEGER},</if>
 			<if test="name!=null">#{name,jdbcType=VARCHAR},</if>
 			<if test="type!=null">#{type,jdbcType=CHAR},</if>
@@ -69,6 +72,7 @@
 			INSERT INTO t_ms_user_game
 			<trim prefix="(" suffix=")" suffixOverrides=",">
 					<if test="item.id!=null">f_id,</if>
+					<if test="item.firstCode!=null">f_first_code,</if>
 					<if test="item.gameId!=null">f_game_id,</if>
 					<if test="item.name!=null">f_name,</if>
 					<if test="item.type!=null">f_type,</if>
@@ -85,6 +89,7 @@
 			</trim>
 			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
 					<if test="item.id!=null">#{item.id,jdbcType=INTEGER},</if>
+					<if test="item.firstCode!=null">#{item.firstCode,jdbcType=CHAR},</if>
 					<if test="item.gameId!=null">#{item.gameId,jdbcType=INTEGER},</if>
 					<if test="item.name!=null">#{item.name,jdbcType=VARCHAR},</if>
 					<if test="item.type!=null">#{item.type,jdbcType=CHAR},</if>
@@ -106,6 +111,7 @@
 	<update id="update" parameterType="com.ms.taojin.manage.entity.UserGameEntity">
 		UPDATE t_ms_user_game 
 		<set>
+				<if test="firstCode!=null">f_first_code = #{firstCode,jdbcType=CHAR},</if>
 				<if test="gameId!=null">f_game_id = #{gameId,jdbcType=INTEGER},</if>
 				<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
 				<if test="type!=null">f_type = #{type,jdbcType=CHAR},</if>
@@ -127,6 +133,7 @@
 		<foreach collection="list" item="item" index="index" separator=";">
 			UPDATE t_ms_user_game 
 			<set>
+					<if test="item.firstCode!=null">f_first_code = #{item.firstCode,jdbcType=CHAR},</if>
 					<if test="item.gameId!=null">f_game_id = #{item.gameId,jdbcType=INTEGER},</if>
 					<if test="item.name!=null">f_name = #{item.name,jdbcType=VARCHAR},</if>
 					<if test="item.type!=null">f_type = #{item.type,jdbcType=CHAR},</if>
@@ -171,6 +178,7 @@
 		<where>
 			1=1
 			<if test="id!=null">AND t.f_id = #{id,jdbcType=INTEGER}</if>
+			<if test="firstCode!=null">AND t.f_first_code = #{firstCode,jdbcType=CHAR}</if>
 			<if test="gameId!=null">AND t.f_game_id = #{gameId,jdbcType=INTEGER}</if>
 			<if test="name!=null and name!=''">AND t.f_name = #{name,jdbcType=VARCHAR}</if>
 			<if test="type!=null">AND t.f_type = #{type,jdbcType=CHAR}</if>
@@ -196,6 +204,7 @@
 			1=1
 			<if test="whereCondition!=null">
 				<if test="whereCondition.id!=null">AND t.f_id = #{whereCondition.id,jdbcType=INTEGER}</if>
+				<if test="whereCondition.firstCode!=null">AND t.f_first_code = #{whereCondition.firstCode,jdbcType=CHAR}</if>
 				<if test="whereCondition.gameId!=null">AND t.f_game_id = #{whereCondition.gameId,jdbcType=INTEGER}</if>
 				<if test="whereCondition.name!=null and whereCondition.name!=''">AND t.f_name like #{whereCondition.nameByLike,jdbcType=VARCHAR}</if>
 				<if test="whereCondition.type!=null">AND t.f_type = #{whereCondition.type,jdbcType=CHAR}</if>
@@ -260,6 +269,7 @@
 	UPDATE t_ms_user_game
 		<set>
 
+				<if test="firstCode!=null">f_first_code = #{firstCode,jdbcType=CHAR},</if>
 				<if test="gameId!=null">f_game_id = #{gameId,jdbcType=INTEGER},</if>
 				<if test="name!=null">f_name = #{name,jdbcType=VARCHAR},</if>
 				<if test="type!=null">f_type = #{type,jdbcType=CHAR},</if>

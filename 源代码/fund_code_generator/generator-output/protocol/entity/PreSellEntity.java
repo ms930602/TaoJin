@@ -8,7 +8,7 @@ import com.ms.taojin.common.vo.TableName;
 /**
  * 预卖出
  * @author 蒙赛
- * @Date 2018-11-28 10:40:33
+ * @Date 2018-11-30 13:12:49
  * @since 1.0
  */
 @TableName("t_ms_pre_sell")
@@ -58,6 +58,9 @@ public class PreSellEntity extends BaseEntity {
 	
 	/** 0 正常 1作废. */
 	private String status;
+	
+	/** 是否公开. */
+	private String openStatus;
 	
 	
 
@@ -284,6 +287,22 @@ public class PreSellEntity extends BaseEntity {
 		return this.status;
 	}
 	
+
+    /** set 是否公开. */
+	public void setOpenStatus(String openStatus) {
+		this.openStatus = openStatus;
+	}
+	
+	/** get 是否公开. */
+	public String getOpenStatus() {
+		return this.openStatus;
+	}
+	
+	@JsonIgnore
+	public String getOpenStatusByLike() {
+		return this.openStatus;
+	}
+	
     /** constructor */
 	public PreSellEntity() {
 		super();
@@ -304,8 +323,9 @@ public class PreSellEntity extends BaseEntity {
 	 * @param lastModifyPersonId			最后修改人外键
 	 * @param lastModifyPersonName			最后修改人姓名
 	 * @param status			0 正常 1作废
+	 * @param openStatus			是否公开
 	 */
-	public PreSellEntity(Long gameId,Long itemId,String loginName,java.math.BigDecimal quantity,java.math.BigDecimal price,java.util.Date time,String remark,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName,String status){
+	public PreSellEntity(Long gameId,Long itemId,String loginName,java.math.BigDecimal quantity,java.math.BigDecimal price,java.util.Date time,String remark,java.util.Date createtime,Long createUserId,String createUserName,Long lastModifyPersonId,String lastModifyPersonName,String status,String openStatus){
 		this();
 		this.gameId = gameId;
 		this.itemId = itemId;
@@ -320,6 +340,7 @@ public class PreSellEntity extends BaseEntity {
 		this.lastModifyPersonId = lastModifyPersonId;
 		this.lastModifyPersonName = lastModifyPersonName;
 		this.status = status;
+		this.openStatus = openStatus;
 	}
 	
 	@Override
@@ -338,7 +359,8 @@ public class PreSellEntity extends BaseEntity {
 			.append("CreateUserName=").append(getCreateUserName()).append(", ")
 			.append("LastModifyPersonId=").append(getLastModifyPersonId()).append(", ")
 			.append("LastModifyPersonName=").append(getLastModifyPersonName()).append(", ")
-			.append("Status=").append(getStatus())
+			.append("Status=").append(getStatus()).append(", ")
+			.append("OpenStatus=").append(getOpenStatus())
 		.append("]").toString();
 	}
 	

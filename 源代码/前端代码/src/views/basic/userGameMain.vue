@@ -10,11 +10,21 @@
 		<optionItems>
 			<template slot="left">
 				<el-button-group>
-					<iconBtn iconClass="el-icon-plus" content="新增" @click="modalAdd">新增</iconBtn>
 					<iconBtn iconClass="el-icon-minus" content="删除" @click="dele">删除</iconBtn>
 					<iconBtn iconClass="el-icon-search" content="查询" @click="searchTable">查询</iconBtn>
 					<iconBtn iconClass="el-icon-refresh" content="重置" @click="reset">重置</iconBtn>
 				</el-button-group>
+			</template>
+			<template slot="right">
+				<selectInput :value.sync="temp.addGameId" filterable :clearable="true">
+					<el-option
+							v-for="item in gameOption"
+							:key="item.id"
+							:label="item.firstCode+ ' ' + item.name"
+							:value="item.id">
+						</el-option>
+				</selectInput>
+				<el-button type="primary" size="small" round @click="add()" :loading="isSubmit" style="width: 100px;">添加游戏</el-button>
 			</template>
 		</optionItems>
 		<!-- 表格 -->
@@ -45,15 +55,8 @@
 					<span>{{scope.row.createUserName}}</span>
 				</template>
 			</el-table-column>
-			
-			<el-table-column prop="lastModifyPersonName" label="最后修改人">
-				<template slot-scope="scope">
-					<span>{{scope.row.lastModifyPersonName}}</span>
-				</template>
-			</el-table-column>
-		    <el-table-column label="操作">
+		    <el-table-column label="操作" width="200">
 		    	<template slot-scope="scope">
-					<el-button type="text" @click="modalEdit(scope.row)"><i class="el-icon-edit"></i>编辑</el-button>
 					<el-button type="text" @click="delRow(scope.row)" style="color:#a90909"><i class="el-icon-delete"></i>删除</el-button>
 		    	</template>
 		    </el-table-column>
@@ -68,9 +71,13 @@
 		mixins: [mixin],
 		data() {
 			return {
+				isSubmit:false,
 				gameTypeOption:[],
 				searchForm: {
 					name: ''
+				},
+				temp:{
+					addGameId:'',
 				},
 				typeOption:[],
 				dataList: [],
@@ -80,6 +87,7 @@
 			}
 		},
 		mounted() {
+			this.loadGame();
 			this._searchDic("GAME_TYPE").then(
 				function(d) {
 					this.gameTypeOption = this._dicKey(d);
@@ -88,18 +96,39 @@
 			);
 		},
 		methods: {
-			modalAdd(){
-				this.$router.push({path:"/sysGameMain/a"});
+			add(){
+				if(!this.temp.addGameId || this.temp.addGameId==''){
+					this.$message({type: 'warning', message: "请选择一款游戏。"});
+					return ;
+				}
+				this.isSubmit = true;
+				this._ajax({url: this.rootAPI + 'userGame/create', param: {gameId:this.temp.addGameId}})
+				.then((function(d){
+					if(d.state==0){
+						this.temp.addGameId = '';
+						this.searchTable();
+						this.$message({type: 'success', message: d.msg});
+					}else{
+						this.$message({type: 'danger', message: d.msg});
+					}
+					this.isSubmit = false;
+				}).bind(this))
 			},
-			modalEdit(row){
-				this.$router.push({path:"/sysGameMain/u",query:{id:row.id}});
+			loadGame(){
+				this._ajax({url: this.rootAPI, name: 'game/list', param: {}}).then((function(d){
+					if(d.state==0){
+						this.gameOption = d.aaData;
+					}else{
+						this.$message({type: 'danger', message: d.msg});
+					}
+				}).bind(this))
 			},
 			searchTable() {
 				Object.assign(this.searchForm, {
 					pageNum: this.pageNum, 
 					pageSize: this.pageSize
 				})
-				return this._ajax({url: this.rootAPI, name: 'game/list', param: this.searchForm, loading: 'dataLoading'}).then(this.renderTable)
+				return this._ajax({url: this.rootAPI, name: 'userGame/list', param: this.searchForm, loading: 'dataLoading'}).then(this.renderTable)
 			},
 			reset() {
 				Object.assign(this.searchForm, {
@@ -129,7 +158,7 @@
 			delSubmit(o) {
 				this._comfirm('确定删除？')
         		.then((function() {
-        			return this._ajax({url: this.rootAPI + 'game/delete', param: o, arr:true})
+        			return this._ajax({url: this.rootAPI + 'userGame/delete', param: o, arr:true})
         		}).bind(this))
         		.then((function(d) {
 					if(d.state === 0)
